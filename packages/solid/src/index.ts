@@ -13,7 +13,7 @@ export function styled<
   _options: PatternOptions<Variants>
 ): (
   props: {
-    variants: VariantSelection<Variants>;
+    variants?: VariantSelection<Variants>;
     children?: any;
   } & JSX.IntrinsicElements[TComponent]
 ) => JSX.Element {

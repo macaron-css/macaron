@@ -25,7 +25,7 @@ export function styledComponentsVisitor(
 
       const isImportedFromLib = decl
         .get('callee')
-        .referencesImport('@lib/styled', 'styled');
+        .referencesImport('@comptime-css/solid', 'styled');
 
       if (!isImportedFromLib) {
         return;
