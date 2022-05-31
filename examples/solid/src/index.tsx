@@ -1,10 +1,51 @@
 import { render } from 'solid-js/web';
-import { styled } from '@comptime-css/solid';
+import { styled, StyleVariants } from '@comptime-css/solid';
+import { createStore } from 'solid-js/store';
 
 const Button = styled('button', {
   base: {
-    color: 'red',
+    borderRadius: 6,
+  },
+
+  variants: {
+    color: {
+      neutral: { background: 'whitesmoke' },
+      brand: { background: 'blueviolet' },
+      accent: { background: 'slateblue' },
+    },
+    size: {
+      small: { padding: 12 },
+      medium: { padding: 16 },
+      large: { padding: 24 },
+    },
+    rounded: {
+      true: { borderRadius: 999 },
+    },
+  },
+
+  // Applied when multiple variants are set at once
+  compoundVariants: [
+    {
+      variants: {
+        color: 'neutral',
+        size: 'large',
+      },
+      style: {
+        background: 'ghostwhite',
+      },
+    },
+  ],
+
+  defaultVariants: {
+    color: 'accent',
+    size: 'medium',
   },
 });
 
-render(() => <Button>Works</Button>, document.getElementById('app')!);
+type Variants = StyleVariants<typeof Button>;
+
+function App() {
+  return <Button variants={{ color: 'brand' }}>Click Me</Button>;
+}
+
+render(() => <App />, document.getElementById('app')!);

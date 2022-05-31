@@ -21,3 +21,8 @@ export function styled<
     throw new Error('Not implemented');
   };
 }
+
+export type StyleVariants<T extends (...args: any[]) => any> = Exclude<
+  Parameters<T>[0]['variants'],
+  undefined
+>;

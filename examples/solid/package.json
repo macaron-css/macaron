@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "build": "node build.js",
+    "start": "npx serve ."
+  },
   "dependencies": {
     "@comptime-css/esbuild": "*",
     "@comptime-css/solid": "*",
