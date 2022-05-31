@@ -1,6 +1,5 @@
 import { render } from 'solid-js/web';
 import { styled, StyleVariants } from '@comptime-css/solid';
-import { createStore } from 'solid-js/store';
 
 const Button = styled('button', {
   base: {
