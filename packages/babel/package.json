@@ -1,6 +1,6 @@
 {
   "name": "@comptime-css/babel",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -8,6 +8,7 @@
   "dependencies": {
     "@babel/core": "^7.18.2",
     "@babel/generator": "^7.18.2",
+    "@babel/preset-typescript": "^7.17.12",
     "@emotion/hash": "^0.8.0",
     "@types/babel__core": "^7.1.19"
   }

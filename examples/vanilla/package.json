@@ -1,0 +1,11 @@
+{
+  "name": "vanilla-example",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@comptime-css/esbuild": "*",
+    "comptime-css": "*",
+    "esbuild": "^0.14.42"
+  }
+}
