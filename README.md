@@ -12,7 +12,7 @@
 ### Styled API
 
 ```jsx
-import { styled } from 'comptime-css/styled';
+import { styled } from '@comptime-css/solid';
 
 const StyledButton = styled('button', {
   base: {
@@ -86,7 +86,7 @@ It tags all these extracted files in a namespace and pre evaluates them at build
 For example, the plugin will transpile:
 
 ```js
-import { styled } from 'comptime-css/styled';
+import { styled } from '@comptime-css/solid';
 
 const StyledButton = styled('button', {
   base: {
@@ -109,7 +109,7 @@ To This:
 
 ```js
 import { _StyledButton } from 'extracted_1747103777.css.ts';
-import { $$styled as _$$styled } from 'comptime-css/runtime';
+import { $$styled as _$$styled } from '@comptime-css/solid/runtime';
 
 const StyledButton = _$$styled('button', _StyledButton);
 ```
