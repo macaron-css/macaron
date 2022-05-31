@@ -10,13 +10,12 @@ import path from 'path';
 import regexgen from 'regexgen';
 import { runBabel } from './utils/babel';
 import fs from 'fs';
-import murmurhash from 'murmurhash';
 
 esbuild.build({
   entryPoints: ['src/index.ts'],
   bundle: true,
   outdir: 'dist',
-  platform: 'node',
+  platform: 'neutral',
   absWorkingDir: process.cwd(),
   define: {
     'process.env.NODE_ENV': '"development"',

@@ -7,9 +7,9 @@ import {
   NodePath,
 } from '@babel/core';
 import generate from '@babel/generator';
-import murmurhash from 'murmurhash';
+// import murmurhash from 'murmurhash';
+import hash from '@emotion/hash';
 import { basename } from 'path';
-import path = require('path');
 
 const buildImport = template(
   'import { %%specifier%% as %%alias%% } from %%source%%;'
@@ -142,7 +142,7 @@ export function babelPlugin(opts: {
 
           let cssExtract = generate(program).code;
 
-          let cssFile = `extracted_${murmurhash.v2(cssExtract)}.css.ts`;
+          let cssFile = `extracted_${hash(cssExtract)}.css.ts`;
 
           // TODO: convert multiple imports/exports to one
           for (const name of state.styledNodes) {
