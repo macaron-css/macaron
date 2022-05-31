@@ -69,7 +69,86 @@ Check out [vanilla-extract docs](https://vanilla-extract.style/documentation/sty
 
 ## How it works
 
-The esbuild plugin loads every `ts` and `js` file and runs `comptime-css`'s babel plugin on it, which extracts the styles defined in the currently processes file and extracts them into a virtual file.
+The esbuild plugin loads every `ts` and `js` file and runs `comptime-css`'s babel plugin on it.
+
+The babel plugin looks for variable declarations in your code and checks if they are of comptime-css's API like `styled` or `recipe` etc.
+
+It finds the styles defined in the currently processed file, looks for all their referenced identifiers, gets all their declarations and repeats this cycle until no more are found and constructs a new babel program of these statements.
+
+It then converts that AST to string and generates a virtual file from it and returns the contents of this virtual file along with the metadata.
+
+It also generates unique filename for these css files based on `murmurhash`.
+
 It also adds imports for those extracted styles in the current file.
 
-It tags all these extracted files in a namespace and pre evaluates them at build time.
+It tags all these extracted files in a namespace and pre evaluates them at build time using vanilla-extract
+
+For example, the plugin will transpile:
+
+```js
+import { styled } from 'comptime-css/styled';
+
+const StyledButton = styled('button', {
+  base: {
+    borderRadius: 6,
+  },
+  variants: {
+    color: {
+      neutral: { background: 'whitesmoke' },
+      brand: { background: 'blueviolet' },
+      accent: { background: 'slateblue' },
+    },
+  },
+  defaultVariants: {
+    color: 'accent',
+  },
+});
+```
+
+To This:
+
+```js
+import { _StyledButton } from 'extracted_1747103777.css.ts';
+import { $$styled as _$$styled } from 'comptime-css/runtime';
+
+const StyledButton = _$$styled('button', _StyledButton);
+```
+
+and
+
+```js
+import { createRuntimeFn } from '@vanilla-extract/recipes/createRuntimeFn';
+
+const _StyledButton = createRuntimeFn({
+  defaultClassName: 'extracted_1747103777__1g7h5za0',
+  variantClassNames: {
+    color: {
+      neutral: 'extracted_1747103777_color_neutral__1g7h5za1',
+      brand: 'extracted_1747103777_color_brand__1g7h5za2',
+      accent: 'extracted_1747103777_color_accent__1g7h5za3',
+    },
+  },
+  defaultVariants: {
+    color: 'accent',
+  },
+});
+
+module.exports = { _StyledButton };
+```
+
+The extracted css will look something like this:
+
+```css
+.extracted_1747103777__1g7h5za0 {
+  border-radius: 6px;
+}
+.extracted_1747103777_color_neutral__1g7h5za1 {
+  background: whitesmoke;
+}
+.extracted_1747103777_color_brand__1g7h5za2 {
+  background: blueviolet;
+}
+.extracted_1747103777_color_accent__1g7h5za3 {
+  background: slateblue;
+}
+```
