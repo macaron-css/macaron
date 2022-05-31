@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@lib/*": [
+        "./lib/*"
+      ]
+    },
+    "target": "ESNext",
+    "moduleResolution": "node"
+  },
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}

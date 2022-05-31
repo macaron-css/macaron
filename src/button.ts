@@ -1,10 +1,8 @@
-import { recipe } from '@vanilla-extract/recipes';
-import { theme } from './theme';
+import { styled } from '@lib/styled';
 
-const button = recipe({
+const Button = styled('button', {
   base: {
     borderRadius: 6,
-    color: 'cool',
   },
   variants: {
     color: {
@@ -38,4 +36,4 @@ const button = recipe({
   },
 });
 
-export { button };
+export { Button };

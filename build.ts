@@ -8,8 +8,9 @@ import {
 import esbuild from 'esbuild';
 import path from 'path';
 import regexgen from 'regexgen';
-import { babelPlugin, runBabel } from './utils/babel';
+import { runBabel } from './utils/babel';
 import fs from 'fs';
+import murmurhash from 'murmurhash';
 
 esbuild.build({
   entryPoints: ['src/index.ts'],
@@ -26,23 +27,23 @@ esbuild.build({
       setup(build) {
         let resolvers = new Map<string, string>();
 
-        function set(key: string, value: string) {
-          resolvers.set(key, value);
-        }
+        build.onResolve(
+          // { filter: /^extracted_(.*)\.css\.ts\?from=(.*)$/ },
+          { filter: /^extracted_(.*)\.css\.ts$/ },
+          async args => {
+            if (!resolvers.has(args.path)) return;
 
-        build.onResolve({ filter: /^extracted_(.*)\.css\.ts$/ }, async args => {
-          if (!resolvers.has(args.path)) return;
+            let p = path.join(args.importer, '..', args.path);
 
-          let p = path.join(args.importer, '..', args.path);
-
-          return {
-            namespace: 'extracted-css',
-            path: p,
-            pluginData: {
-              path: args.path,
-            },
-          };
-        });
+            return {
+              namespace: 'extracted-css',
+              path: p,
+              pluginData: {
+                path: args.path,
+              },
+            };
+          }
+        );
 
         build.onLoad(
           { filter: /.*/, namespace: 'extracted-css' },
@@ -52,9 +53,9 @@ esbuild.build({
               contents: resolvers.get(pluginData.path),
               externals: [],
               cwd: build.initialOptions.absWorkingDir,
+              resolverCache: resolvers,
             });
 
-            console.log({ p });
             const contents = await processVanillaFile({
               source,
               filePath: p,
@@ -75,9 +76,8 @@ esbuild.build({
         build.onLoad({ filter: /\.(j|t)sx?$/ }, async args => {
           if (args.path.includes('node_modules')) return;
 
-          console.log('RESOLVING', args.path);
-          // if (args.path.endsWith('.css.ts') || args.path.endsWith('.css.js'))
-          //   return;
+          // gets handled by @vanilla-extract/esbuild-plugin
+          if (args.path.endsWith('.css.ts')) return;
 
           const {
             code,
@@ -85,21 +85,14 @@ esbuild.build({
           } = await runBabel(args.path);
 
           if (!file || !cssExtract) return;
+          // the extracted code and original are the same -> no css extracted
+          if (cssExtract == code) return;
 
-          console.log(
-            resolvers.forEach((v, k) => {
-              if (v === cssExtract) {
-                console.log('SAME ---', args.path, '-', k);
-              }
-            })
-          );
-          set(file, cssExtract);
-
-          console.log('\nCODE --\n', code);
+          resolvers.set(file, cssExtract);
 
           return {
             contents: code,
-            loader: 'ts',
+            loader: args.path.match(/\.(ts|tsx)$/i) ? 'ts' : undefined,
           };
         });
       },
@@ -113,6 +106,7 @@ interface CompileOptions {
   contents: string;
   cwd?: string;
   externals?: Array<string>;
+  resolverCache: Map<string, string>;
 }
 
 async function compile({
@@ -120,94 +114,60 @@ async function compile({
   cwd = process.cwd(),
   externals = [],
   contents,
+  resolverCache,
 }: CompileOptions) {
+  const packageInfo = getPackageInfo(cwd);
+  const source = addFileScope({
+    source: contents,
+    filePath: filePath,
+    rootPath: cwd,
+    packageName: packageInfo.name,
+  });
+
   const result = await esbuild.build({
     stdin: {
-      contents: `module.exports = require(${JSON.stringify(filePath)})`,
+      contents: source,
+      // contents: `module.exports = require(${JSON.stringify(filePath)})`,
       loader: 'ts',
       resolveDir: path.dirname(filePath),
-      sourcefile: 'entry.css.ts',
+      sourcefile: path.basename(filePath),
     },
     metafile: true,
     bundle: true,
-    external: ['@vanilla-extract', ...externals],
+    external: ['@vanilla-extract', 'solid-js', ...externals],
     platform: 'node',
     write: false,
+    absWorkingDir: cwd,
     plugins: [
       {
         name: 'custom-extract-scope',
         setup(build) {
-          let cache = new Set<string>();
+          build.onLoad({ filter: /\.(t|j)sx?$/ }, async args => {
+            const {
+              code,
+              result: [file, cssExtract],
+            } = await runBabel(args.path);
 
-          const packageInfo = getPackageInfo(
-            build.initialOptions.absWorkingDir
-          );
-          build.onResolve({ filter: regexgen([filePath]) }, args => {
-            return {
-              namespace: 's-extracted-css',
-              path: args.path,
-            };
-          });
-          build.onResolve(
-            { filter: /.*/, namespace: 's-extracted-css' },
-            async args => {
-              const resolvedPath = await build.resolve(args.path, {
-                importer: args.importer,
-                resolveDir: args.resolveDir,
-              });
-              if (resolvedPath.external) {
-                return;
-              }
-              // let contents = await fs.promises.readFile(resolvedPath.path);
-
-              if (cache.has(resolvedPath.path)) {
-                return {
-                  namespace: 's-extracted-css',
-                  path: args.path,
-                };
-              }
-
-              const {
-                code,
-                result: [file, content],
-              } = await runBabel(resolvedPath.path);
-
-              if (code === content) {
-                return { path: resolvedPath.path };
-              }
-
-              cache.add(resolvedPath.path);
-
-              return {
-                namespace: 's-extracted-css',
-                path: resolvedPath.path,
-              };
+            if (code === cssExtract) {
+              return;
             }
-          );
 
-          build.onLoad({ namespace: 's-extracted-css', filter: /.*/ }, args => {
-            if (args.path === './theme') {
-              args.path = String.raw`C:\Users\admin\Desktop\vanilla-comptime\src\theme.ts`;
-            }
-            console.log('ADDING FILE SCOPE', args.path);
             const source = addFileScope({
-              source: contents,
+              source: await fs.promises.readFile(args.path, 'utf8'),
               filePath: args.path,
               rootPath: build.initialOptions.absWorkingDir!,
               packageName: packageInfo.name,
             });
-            // console.log('----');
-            // console.log(source);
+
             return {
               contents: source,
               loader: args.path.match(/\.(ts|tsx)$/i) ? 'ts' : undefined,
-              resolveDir: path.dirname(filePath),
+              resolveDir: path.dirname(args.path),
             };
           });
         },
       },
     ],
-    absWorkingDir: cwd,
   });
 
   const { outputFiles, metafile } = result;

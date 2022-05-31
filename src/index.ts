@@ -1,9 +1,3 @@
-import { createTheme } from '@vanilla-extract/css';
-import { recipe } from '@vanilla-extract/recipes';
-import { button } from './button';
-// import { text } from './text';
+import { Button } from './button';
 
-const text = () => 'text';
-
-// document.body.className = theme[0];
-document.body.innerHTML = `<div class="${button()} ${text()}"></div>`;
+console.log(Button);
