@@ -25,7 +25,7 @@ export function styledComponentsVisitor(
 
       const isImportedFromLib = decl
         .get('callee')
-        .referencesImport('@comptime-css/solid', 'styled');
+        .referencesImport('comptime-css-solid', 'styled');
 
       if (!isImportedFromLib) {
         return;
@@ -48,7 +48,7 @@ export function styledComponentsVisitor(
         buildImport({
           specifier: t.identifier('$$styled'),
           alias: styledIdent,
-          source: t.stringLiteral('@comptime-css/solid/runtime'),
+          source: t.stringLiteral('comptime-css-solid/runtime'),
         }),
         buildImport({
           specifier: t.identifier('recipe'),

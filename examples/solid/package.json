@@ -8,8 +8,8 @@
     "start": "npx serve ."
   },
   "dependencies": {
-    "@comptime-css/esbuild": "*",
-    "@comptime-css/solid": "*",
+    "comptime-css-esbuild": "*",
+    "comptime-css-solid": "*",
     "babel-preset-solid": "^1.4.2",
     "comptime-css": "*",
     "esbuild": "^0.14.42",

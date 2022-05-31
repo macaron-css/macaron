@@ -1,4 +1,4 @@
-import { comptimeCssBabelPlugin, PluginOptions } from '@comptime-css/babel';
+import { comptimeCssBabelPlugin, PluginOptions } from 'comptime-css-babel';
 import { transformFileAsync } from '@babel/core';
 
 export async function babelTransform(path: string) {

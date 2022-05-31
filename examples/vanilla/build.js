@@ -1,4 +1,4 @@
-const { comptimeCssPlugins } = require('@comptime-css/esbuild');
+const { comptimeCssPlugins } = require('comptime-css-esbuild');
 const esbuild = require('esbuild');
 
 esbuild.build({

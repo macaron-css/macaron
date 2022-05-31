@@ -1,15 +1,15 @@
 import { join, posix } from 'path';
 import { build as tsup } from 'tsup';
 
-const packages: Array<[string, string, string[]]> = [
-  ['@comptime-css/babel', 'packages/babel', ['src/index.ts']],
-  ['@comptime-css/esbuild', 'packages/esbuild', ['src/index.ts']],
-  ['comptime-css', 'packages/comptime-css', ['src/index.ts']],
-  ['@comptime-css/solid', 'packages/solid', ['src/index.ts', 'src/runtime.ts']],
+const packages: Array<[string, string[]]> = [
+  ['packages/babel', ['src/index.ts']],
+  ['packages/esbuild', ['src/index.ts']],
+  ['packages/comptime-css', ['src/index.ts']],
+  ['packages/solid', ['src/index.ts', 'src/runtime.ts']],
 ];
 
 async function build() {
-  for (const [_name, packageDir, entryPoints] of packages) {
+  for (const [packageDir, entryPoints] of packages) {
     try {
       await tsup({
         entry: entryPoints.map(entryPoint =>
