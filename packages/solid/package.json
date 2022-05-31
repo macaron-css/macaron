@@ -1,0 +1,25 @@
+{
+  "name": "@comptime-css/solid",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./runtime": {
+      "import": "./dist/runtime.mjs",
+      "require": "./dist/runtime.js"
+    }
+  },
+  "devDependencies": {
+    "solid-js": "^1.4.3"
+  },
+  "dependencies": {
+    "@vanilla-extract/recipes": "^0.2.5"
+  }
+}

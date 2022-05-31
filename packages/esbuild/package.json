@@ -1,0 +1,18 @@
+{
+  "name": "@comptime-css/esbuild",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@emotion/hash": "^0.8.0",
+    "@vanilla-extract/css": "^1.7.1",
+    "@vanilla-extract/esbuild-plugin": "^2.0.5",
+    "@vanilla-extract/integration": "^4.0.1",
+    "@vanilla-extract/recipes": "^0.2.5",
+    "esbuild": "^0.14.42",
+    "eval": "^0.1.8",
+    "@comptime-css/babel": "*"
+  }
+}
