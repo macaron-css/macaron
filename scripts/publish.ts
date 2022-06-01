@@ -120,7 +120,7 @@ async function main() {
       'packages',
       packageToDir[dep as keyof typeof packageToDir]
     );
-    execSync(`cd ${packageDir} && npm publish`);
+    execSync('npm publish', { cwd: packageDir });
     console.log(`-> Published ${dep}@${newVersion}`);
   }
 }

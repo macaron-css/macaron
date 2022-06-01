@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "comptime-css-esbuild": "*",
+    "comptime-css-esbuild": "0.1.1",
     "comptime-css": "0.1.2",
     "esbuild": "^0.14.42"
   }
