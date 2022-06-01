@@ -54,7 +54,7 @@ const StyledButton = styled('button', {
 // Use it like a regular solidjs component
 function App() {
   return (
-    <StyledButton color="accent" size="small" rounded={true}>
+    <StyledButton variants={{ color: 'accent', size: 'small', rounded: true }}>
       Click me!
     </StyledButton>
   );
