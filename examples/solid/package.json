@@ -11,7 +11,7 @@
     "comptime-css-esbuild": "*",
     "comptime-css-solid": "*",
     "babel-preset-solid": "^1.4.2",
-    "comptime-css": "*",
+    "comptime-css": "0.1.1",
     "esbuild": "^0.14.42",
     "solid-js": "^1.4.3"
   }

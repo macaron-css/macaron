@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "comptime-css-esbuild": "*",
-    "comptime-css": "*",
+    "comptime-css": "0.1.1",
     "esbuild": "^0.14.42"
   }
 }
