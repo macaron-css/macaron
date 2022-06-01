@@ -9,7 +9,8 @@
     "examples/*"
   ],
   "scripts": {
-    "build": "node -r esbuild-register build.ts"
+    "build": "node -r esbuild-register scripts/build.ts",
+    "pub": "node -r esbuild-register scripts/publish.ts"
   },
   "dependencies": {
     "esbuild": "^0.14.42",
@@ -17,6 +18,8 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.36",
+    "@types/semver": "^7.3.9",
+    "semver": "^7.3.7",
     "tsup": "^6.0.1",
     "typescript": "^4.7.2"
   }
