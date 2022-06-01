@@ -21,5 +21,9 @@
   },
   "dependencies": {
     "@vanilla-extract/recipes": "^0.2.5"
-  }
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
 }

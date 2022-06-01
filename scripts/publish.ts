@@ -63,6 +63,11 @@ async function main() {
   });
   console.log('');
 
+  if (typeof newVersion! === 'undefined') {
+    console.error("Couldn't read updated version");
+    return;
+  }
+
   const packagesToPublish = new Set<string>([packageName]);
 
   console.log('-> Updating packages...');
@@ -99,6 +104,10 @@ async function main() {
 
   await Promise.all(examplesPromises);
 
+  execSync(
+    `git add . && git commit -m "release: ${packageName}@${newVersion}"`
+  );
+
   console.log('-> Publishing packages...');
   for (const dep of packagesToPublish) {
     if (!comptimeCssPackageNames.includes(dep)) {
@@ -111,8 +120,10 @@ async function main() {
       'packages',
       packageToDir[dep as keyof typeof packageToDir]
     );
-    console.log(`cd ${packageDir} && yarn publish`);
-    console.log(`-> Published ${dep}`);
+    execSync(
+      `cd ${packageDir} && npm publish --token ${process.env.NPM_TOKEN}`
+    );
+    console.log(`-> Published ${dep}@${newVersion}`);
   }
 }
 

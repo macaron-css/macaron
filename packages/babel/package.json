@@ -11,5 +11,9 @@
     "@babel/preset-typescript": "^7.17.12",
     "@emotion/hash": "^0.8.0",
     "@types/babel__core": "^7.1.19"
-  }
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
 }
