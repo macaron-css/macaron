@@ -9,6 +9,7 @@ const packages: Array<[string, string[]]> = [
 ];
 
 async function build() {
+  const dts = process.argv[2];
   for (const [packageDir, entryPoints] of packages) {
     try {
       await tsup({
@@ -18,7 +19,7 @@ async function build() {
         ),
         format: ['cjs', 'esm'],
         bundle: true,
-        dts: true,
+        dts: dts !== '--no-dts',
         sourcemap: true,
         outDir: join(packageDir, 'dist'),
         skipNodeModulesBundle: true,

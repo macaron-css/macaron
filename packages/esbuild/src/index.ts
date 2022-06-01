@@ -1,9 +1,9 @@
+import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import { processVanillaFile } from '@vanilla-extract/integration';
 import { Plugin } from 'esbuild';
-import { join, dirname } from 'path';
-import { compile } from './compile';
+import { dirname, join } from 'path';
 import { babelTransform } from './babel';
-import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
+import { compile } from './compile';
 
 /*
   -> load /(t|j)sx?/ 
@@ -21,6 +21,7 @@ export function comptimeCssEsbuildPlugin(): Plugin {
     name: 'comptime-css-esbuild',
     setup(build) {
       let resolvers = new Map<string, string>();
+      let resolverCache = new Map<string, string>();
 
       build.onResolve(
         // { filter: /^extracted_(.*)\.css\.ts\?from=(.*)$/ },
@@ -35,6 +36,7 @@ export function comptimeCssEsbuildPlugin(): Plugin {
             path: resolvedPath,
             pluginData: {
               path: args.path,
+              mainFilePath: args.pluginData.mainFilePath,
             },
           };
         }
@@ -43,13 +45,15 @@ export function comptimeCssEsbuildPlugin(): Plugin {
       build.onLoad(
         { filter: /.*/, namespace: 'extracted-css' },
         async ({ path, pluginData }) => {
+          const resolverContents = resolvers.get(pluginData.path)!;
           const { source, watchFiles } = await compile({
             esbuild: build.esbuild,
             filePath: path,
-            contents: resolvers.get(pluginData.path)!,
+            originalPath: pluginData.mainFilePath!,
+            contents: resolverContents,
             externals: [],
             cwd: build.initialOptions.absWorkingDir,
-            resolverCache: resolvers,
+            resolverCache,
           });
 
           const contents = await processVanillaFile({
@@ -84,11 +88,16 @@ export function comptimeCssEsbuildPlugin(): Plugin {
         // the extracted code and original are the same -> no css extracted
         if (cssExtract == code) return null;
 
+        // console.log('IS THEME ', args.path.endsWith('theme.ts'));
+        // resolverCache.set(args.path, cssExtract);
         resolvers.set(file, cssExtract);
 
         return {
           contents: code!,
           loader: args.path.match(/\.(ts|tsx)$/i) ? 'ts' : undefined,
+          pluginData: {
+            mainFilePath: args.path,
+          },
         };
       });
     },

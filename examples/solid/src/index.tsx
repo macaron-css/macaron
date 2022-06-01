@@ -44,7 +44,11 @@ const Button = styled('button', {
 type Variants = StyleVariants<typeof Button>;
 
 function App() {
-  return <Button variants={{ color: 'brand' }}>Click Me</Button>;
+  return (
+    <div>
+      <Button variants={{ color: 'brand' }}>Click Me</Button>
+    </div>
+  );
 }
 
 render(() => <App />, document.getElementById('app')!);

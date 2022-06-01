@@ -2,7 +2,6 @@ import { addFileScope, getPackageInfo } from '@vanilla-extract/integration';
 import { PluginBuild } from 'esbuild';
 import fs from 'fs';
 import { basename, dirname, join } from 'path';
-import { babelTransform } from './babel';
 
 interface CompileOptions {
   esbuild: PluginBuild['esbuild'];
@@ -11,6 +10,7 @@ interface CompileOptions {
   cwd?: string;
   externals?: Array<string>;
   resolverCache: Map<string, string>;
+  originalPath: string;
 }
 
 export async function compile({
@@ -20,14 +20,23 @@ export async function compile({
   externals = [],
   contents,
   resolverCache,
+  originalPath,
 }: CompileOptions) {
   const packageInfo = getPackageInfo(cwd);
-  const source = addFileScope({
-    source: contents,
-    filePath: filePath,
-    rootPath: cwd,
-    packageName: packageInfo.name,
-  });
+  let source: string;
+
+  if (resolverCache.has(originalPath)) {
+    source = resolverCache.get(originalPath)!;
+  } else {
+    source = addFileScope({
+      source: contents,
+      filePath: originalPath,
+      rootPath: cwd,
+      packageName: packageInfo.name,
+    });
+
+    resolverCache.set(originalPath, source);
+  }
 
   const result = await esbuild.build({
     stdin: {
@@ -54,21 +63,21 @@ export async function compile({
         name: 'custom-extract-scope',
         setup(build) {
           build.onLoad({ filter: /\.(t|j)sx?$/ }, async args => {
-            const {
-              code,
-              result: [file, cssExtract],
-            } = await babelTransform(args.path);
+            let contents = await fs.promises.readFile(args.path, 'utf8');
+            let source: string;
 
-            if (code === cssExtract) {
-              return;
+            if (resolverCache.has(args.path)) {
+              source = resolverCache.get(args.path)!;
+            } else {
+              source = addFileScope({
+                source: contents,
+                filePath: args.path,
+                rootPath: build.initialOptions.absWorkingDir!,
+                packageName: packageInfo.name,
+              });
+
+              resolverCache.set(args.path, source);
             }
-
-            const source = addFileScope({
-              source: await fs.promises.readFile(args.path, 'utf8'),
-              filePath: args.path,
-              rootPath: build.initialOptions.absWorkingDir!,
-              packageName: packageInfo.name,
-            });
 
             return {
               contents: source,
