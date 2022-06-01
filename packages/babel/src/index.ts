@@ -72,6 +72,8 @@ export function comptimeCssBabelPlugin(
             }
           }
 
+          path.scope.crawl();
+
           opts.result = [cssFile, cssExtract];
         },
       },
@@ -155,6 +157,7 @@ export function comptimeCssBabelPlugin(
         }
 
         variablePath.remove();
+        variablePath.scope.crawl();
       },
     },
   };
