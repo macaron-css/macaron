@@ -5,6 +5,11 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mokshit06/comptime-css.git",
+    "directory": "packages/solid"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.mjs",

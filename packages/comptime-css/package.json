@@ -5,6 +5,11 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mokshit06/comptime-css.git",
+    "directory": "packages/comptime-css"
+  },
   "dependencies": {
     "@vanilla-extract/css": "^1.7.1",
     "@vanilla-extract/recipes": "^0.2.5"

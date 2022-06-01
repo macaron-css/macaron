@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mokshit06/comptime-css.git",
+    "directory": "packages/esbuild"
+  },
   "dependencies": {
     "@emotion/hash": "^0.8.0",
     "@vanilla-extract/css": "^1.7.1",
