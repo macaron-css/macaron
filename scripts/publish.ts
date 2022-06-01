@@ -120,9 +120,7 @@ async function main() {
       'packages',
       packageToDir[dep as keyof typeof packageToDir]
     );
-    execSync(
-      `cd ${packageDir} && npm publish --token ${process.env.NPM_TOKEN}`
-    );
+    execSync(`cd ${packageDir} && npm publish`);
     console.log(`-> Published ${dep}@${newVersion}`);
   }
 }
@@ -148,5 +146,5 @@ async function updatePackageJson(
 
   if (jsonStr.trim() === stringified.trim()) return;
 
-  fs.promises.writeFile(packageJsonPath, stringified);
+  await fs.promises.writeFile(packageJsonPath, stringified);
 }
