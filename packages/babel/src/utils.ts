@@ -9,7 +9,7 @@ export const buildComponentStyle = template(`
 const %%className%% = %%recipeImport%%(%%styles%%);
 `);
 export const buildComponent = template(
-  `const %%component%% = %%styledImport%%(%%tag%%, %%className%%);`
+  `const %%component%% = /* @__PURE__ */ %%styledImport%%(%%tag%%, %%className%%);`
 );
 
 export function invariant(cond: boolean, message: string): asserts cond {
