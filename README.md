@@ -1,11 +1,35 @@
 # Comptime CSS
 
 - `vanilla-extract` like-api but allows defining styles in the same file as components.
-- Supports both styled-components API and plain classnames.
+- Supports both styled-components API and plain styling api that returns classes.
 - Stitches-like variants
 - First class typescript support
 - Out of box support for solidjs
 - Only supports esbuild as of now
+
+## To be implemented
+
+- Static extraction of styles in expressions.
+
+  Currently the static extraction requires each style that has to be extracted also have a variable declaration. This way it can remove the declaration and add an import with the same identifier.
+  It currently **wouldn't** work with this:
+
+  ```js
+  import { style } from 'comptime-css';
+
+  let class = `abc ${style({ color: 'red' })}`;
+  ```
+
+  but **would** work with this:
+
+  ```js
+  import { style } from 'comptime-css';
+
+  let red = style({ color: 'red' });
+  let class = `abc ${red}`;
+  ```
+
+- Support for other bundlers like rollup
 
 ## Example
 
@@ -61,9 +85,9 @@ function App() {
 }
 ```
 
-### Classnames API
+### Styling API
 
-The classnames API is the same api is vanilla-extract, but allows styles to be defined in the same file, increasing the authoring experience.
+The styling API is the same api is vanilla-extract, but allows styles to be defined in the same file, increasing the authoring experience.
 
 Check out [vanilla-extract docs](https://vanilla-extract.style/documentation/styling-api/)
 
