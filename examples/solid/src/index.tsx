@@ -46,7 +46,9 @@ type Variants = StyleVariants<typeof Button>;
 function App() {
   return (
     <div>
-      <Button variants={{ color: 'brand' }}>Click Me</Button>
+      <Button color="brand" size="medium">
+        Click Me
+      </Button>
     </div>
   );
 }
