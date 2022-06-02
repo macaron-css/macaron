@@ -7,30 +7,6 @@
 - Out of box support for solidjs
 - Only supports esbuild as of now
 
-## To be implemented
-
-- Static extraction of styles in expressions.
-
-  Currently the static extraction requires each style that has to be extracted also have a variable declaration. This way it can remove the declaration and add an import with the same identifier.
-  It currently **wouldn't** work with this:
-
-  ```js
-  import { style } from 'comptime-css';
-
-  let class = `abc ${style({ color: 'red' })}`;
-  ```
-
-  but **would** work with this:
-
-  ```js
-  import { style } from 'comptime-css';
-
-  let red = style({ color: 'red' });
-  let class = `abc ${red}`;
-  ```
-
-- Support for other bundlers like rollup
-
 ## Example
 
 ### Styled API
@@ -176,3 +152,29 @@ The extracted css will look something like this:
   background: slateblue;
 }
 ```
+
+
+## To be implemented
+
+- Static extraction of styles in expressions.
+
+  Currently the static extraction requires each style that has to be extracted also have a variable declaration. This way it can remove the declaration and add an import with the same identifier.
+  It currently **wouldn't** work with this:
+
+  ```js
+  import { style } from 'comptime-css';
+
+  let class = `abc ${style({ color: 'red' })}`;
+  ```
+
+  but **would** work with this:
+
+  ```js
+  import { style } from 'comptime-css';
+
+  let red = style({ color: 'red' });
+  let class = `abc ${red}`;
+  ```
+
+- Support for other bundlers like rollup
+
