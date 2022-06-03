@@ -1,0 +1,19 @@
+{
+  "name": "vite-example",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vanilla-extract/css": "^1.7.1",
+    "comptime-css": "0.1.2",
+    "comptime-css-vite": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4",
+    "vite": "^2.9.9"
+  }
+}

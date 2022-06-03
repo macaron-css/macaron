@@ -3,6 +3,7 @@ import { build as tsup } from 'tsup';
 
 const packages: Array<[string, string[]]> = [
   ['packages/babel', ['src/index.ts']],
+  ['packages/vite', ['src/index.ts']],
   ['packages/esbuild', ['src/index.ts']],
   ['packages/comptime-css', ['src/index.ts']],
   ['packages/solid', ['src/index.ts', 'src/runtime.ts']],
@@ -10,6 +11,7 @@ const packages: Array<[string, string[]]> = [
 
 async function build() {
   const dts = process.argv[2];
+
   for (const [packageDir, entryPoints] of packages) {
     try {
       await tsup({
@@ -23,6 +25,7 @@ async function build() {
         sourcemap: true,
         outDir: join(packageDir, 'dist'),
         skipNodeModulesBundle: true,
+        watch: true,
       });
     } catch (e) {
       console.error(e);
