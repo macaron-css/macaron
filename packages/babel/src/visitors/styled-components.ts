@@ -64,14 +64,23 @@ export function styledComponentsVisitor(
 
       programPath.unshiftContainer('body', stmts as any);
 
-      const component = buildComponent({
-        component: id.node.name,
-        styledImport: styledIdent,
-        tag: t.cloneNode(tag.node),
+      // const component = buildComponent({
+      //   component: id.node.name,
+      //   styledImport: styledIdent,
+      //   tag: t.cloneNode(tag.node),
+      //   className,
+      // });
+      const callExpression = t.callExpression(styledIdent, [
+        t.cloneNode(tag.node),
         className,
-      });
+      ]);
+      t.addComment(callExpression, 'leading', ' @__PURE__ ');
 
-      variablePath.replaceWith(component as any);
+      const component = t.variableDeclaration('const', [
+        t.variableDeclarator(t.identifier(id.node.name), callExpression),
+      ]);
+
+      variablePath.replaceWith(component);
 
       // recompute the references
       // later used in `referencesImports` to check if imported from vanilla-extract
