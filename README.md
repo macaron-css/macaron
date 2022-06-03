@@ -1,6 +1,7 @@
 # Comptime CSS
 
-- `vanilla-extract` like-api but allows defining styles in the same file as components.
+- Powered by `vanilla-extract`
+- Allows defining styles in the same file as components.
 - Supports both styled-components API and plain styling api that returns classes.
 - Stitches-like variants
 - First class typescript support
