@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.7.1",
-    "comptime-css": "0.1.2",
+    "comptime-css": "0.1.3",
     "comptime-css-vite": "0.1.0"
   },
   "devDependencies": {
