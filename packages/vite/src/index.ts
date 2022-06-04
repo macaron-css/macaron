@@ -16,7 +16,6 @@ const styleUpdateEvent = (fileId: string) =>
 export function comptimeCssVitePlugin(): Plugin {
   let config: ResolvedConfig;
   let server: ViteDevServer;
-  // let postCssConfig: PostCSSConfigResult | null;
   const cssMap = new Map<string, string>();
 
   let virtualExt: string;
@@ -68,11 +67,11 @@ export function comptimeCssVitePlugin(): Plugin {
 
       if (extractedCssFileFilter.test(id)) {
         let normalizedId = id.startsWith('/') ? id.slice(1) : id;
-        let p = idToPluginData.get(normalizedId);
+        let pluginData = idToPluginData.get(normalizedId);
 
         // console.log('LOADING', id, p);
 
-        if (!p) {
+        if (!pluginData) {
           // console.log('NO LOAD', {
           //   normalizedId,
           //   id,
@@ -81,13 +80,14 @@ export function comptimeCssVitePlugin(): Plugin {
           return null;
         }
 
-        const resolverContents = resolvers.get(p.path);
+        const resolverContents = resolvers.get(pluginData.path);
 
         if (!resolverContents) {
           // console.log('NO RESOLVERS', {
           //   resolvers,
           //   p,
           // });
+          return null;
         }
 
         // console.log(`\n\nRESOLVER CONTENTS (${normalizedId}) ----\n`);
@@ -96,7 +96,7 @@ export function comptimeCssVitePlugin(): Plugin {
 
         idToPluginData.set(id, {
           filePath: normalizedId,
-          originalPath: p.mainFilePath,
+          originalPath: pluginData.mainFilePath,
         });
 
         return resolverContents;
@@ -114,7 +114,7 @@ export function comptimeCssVitePlugin(): Plugin {
           return css;
         }
 
-        let d = outdent`
+        return outdent`
         import { injectStyles } from '@vanilla-extract/css/injectStyles';
         
         const inject = (css) => injectStyles({
@@ -126,12 +126,6 @@ export function comptimeCssVitePlugin(): Plugin {
           inject(css);
         });   
         `;
-
-        // console.log('\n\nLOADED ----\n');
-        // console.log(d);
-        // console.log('\n----\n\n');
-
-        return d;
       }
     },
     async transform(code, id, ssrParam) {
@@ -310,16 +304,16 @@ export function comptimeCssVitePlugin(): Plugin {
         // gets handled by @vanilla-extract/vite-plugin
         if (id.endsWith('.css.ts')) return;
 
-        const prevModule = this.getModuleInfo(id);
-
         const {
           code,
           result: [file, cssExtract],
         } = await babelTransform(id);
 
-        if (!file || !cssExtract) return null;
+        if (!file || !cssExtract || !code) return null;
         // the extracted code and original are the same -> no css extracted
         if (cssExtract == code) return null;
+
+        console.log('transforming', id);
 
         if (config.command === 'build') {
           // console.log('WATCHING', id);
@@ -328,25 +322,18 @@ export function comptimeCssVitePlugin(): Plugin {
 
         let resolvedCssPath = normalizePath(join(id, '..', file));
 
+        console.log(resolvers.get(resolvedCssPath));
+        console.log(cssExtract);
         if (
           server &&
-          prevModule?.meta?.currentExtractedId &&
-          prevModule?.meta?.currentExtractedId !== file
+          resolvers.has(resolvedCssPath) &&
+          resolvers.get(resolvedCssPath) !== cssExtract
         ) {
-          let prevId = prevModule?.meta?.currentExtractedId;
-          // console.log({ prevId, id });
           const { moduleGraph } = server;
-          let prevResolvedCssPath = normalizePath(join(id, '..', prevId));
-          const modules = [
-            ...moduleGraph.fileToModulesMap.get(prevResolvedCssPath)!,
-          ];
 
-          if (modules.length === 1) {
-            const module = modules[0];
-            if (module) {
-              moduleGraph.invalidateModule(module);
-              // moduleGraph.invalidateModule(id);
-            }
+          const module = moduleGraph.getModuleById(resolvedCssPath);
+          if (module) {
+            moduleGraph.invalidateModule(module);
           }
         }
 
