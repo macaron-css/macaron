@@ -33,9 +33,9 @@ export function comptimeCssVitePlugin(): Plugin {
     name: 'comptime-css-vite',
     enforce: 'pre',
     buildStart() {
-      // resolvers.clear();
-      // idToPluginData.clear();
-      // resolverCache.clear();
+      resolvers.clear();
+      idToPluginData.clear();
+      resolverCache.clear();
     },
     configureServer(_server) {
       server = _server;
@@ -51,7 +51,7 @@ export function comptimeCssVitePlugin(): Plugin {
         let resolvedPath = normalizePath(join(importer!, '..', normalizedId));
 
         if (!resolvers.has(resolvedPath)) {
-          console.log('NO RESOLVER');
+          // console.log('NO RESOLVER');
           return;
         }
 
@@ -73,22 +73,24 @@ export function comptimeCssVitePlugin(): Plugin {
         let normalizedId = id.startsWith('/') ? id.slice(1) : id;
         let p = idToPluginData.get(normalizedId);
 
+        // console.log('LOADING', id, p);
+
         if (!p) {
-          console.log('NO LOAD', {
-            normalizedId,
-            id,
-            idToPluginData,
-          });
+          // console.log('NO LOAD', {
+          //   normalizedId,
+          //   id,
+          //   idToPluginData,
+          // });
           return null;
         }
 
         const resolverContents = resolvers.get(p.path);
 
         if (!resolverContents) {
-          console.log('NO RESOLVERS', {
-            resolvers,
-            p,
-          });
+          // console.log('NO RESOLVERS', {
+          //   resolvers,
+          //   p,
+          // });
         }
 
         // console.log(`\n\nRESOLVER CONTENTS (${normalizedId}) ----\n`);
@@ -138,7 +140,7 @@ export function comptimeCssVitePlugin(): Plugin {
     async transform(code, id, ssrParam) {
       const moduleInfo = idToPluginData.get(id);
 
-      console.log('TRANSFORMING', id);
+      // console.log('TRANSFORMING', id);
 
       // is returned from extracted_HASH.css.ts
       if (
@@ -166,6 +168,8 @@ export function comptimeCssVitePlugin(): Plugin {
             packageName,
           });
         }
+
+        // console.log({ code, moduleInfo });
 
         const { source, watchFiles } = await compile({
           filePath: moduleInfo.filePath,
@@ -211,7 +215,6 @@ export function comptimeCssVitePlugin(): Plugin {
                   moduleGraph.invalidateModule(module);
                 }
 
-                console.log('SENDING');
                 server.ws.send({
                   type: 'custom',
                   event: styleUpdateEvent(id),
@@ -226,12 +229,12 @@ export function comptimeCssVitePlugin(): Plugin {
           });
 
           // console.log('\n\nPROCESSED ----\n');
-          // console.log(source);
+          // console.log(processedFile);
           // console.log('\n----\n\n');
 
           return processedFile;
         } catch (err) {
-          console.log('CRASH');
+          throw new Error('CRASHED');
           // console.error(err);
         }
       }
@@ -289,7 +292,7 @@ export function comptimeCssVitePlugin(): Plugin {
                 moduleGraph.invalidateModule(module);
               }
 
-              console.log('SENDING');
+              // console.log('SENDING');
               server.ws.send({
                 type: 'custom',
                 event: styleUpdateEvent(id),
@@ -310,6 +313,8 @@ export function comptimeCssVitePlugin(): Plugin {
         // gets handled by @vanilla-extract/vite-plugin
         if (id.endsWith('.css.ts')) return;
 
+        const prevModule = this.getModuleInfo(id);
+
         const {
           code,
           result: [file, cssExtract],
@@ -320,12 +325,40 @@ export function comptimeCssVitePlugin(): Plugin {
         if (cssExtract == code) return null;
 
         if (config.command === 'build') {
-          console.log('WATCHING', id);
+          // console.log('WATCHING', id);
           this.addWatchFile(id);
         }
 
         let resolvedCssPath = normalizePath(join(id, '..', file));
+
+        if (
+          server &&
+          prevModule?.meta?.currentExtractedId &&
+          prevModule?.meta?.currentExtractedId !== file
+        ) {
+          let prevId = prevModule?.meta?.currentExtractedId;
+          // console.log({ prevId, id });
+          const { moduleGraph } = server;
+          let prevResolvedCssPath = normalizePath(join(id, '..', prevId));
+          const modules = [
+            ...moduleGraph.fileToModulesMap.get(prevResolvedCssPath)!,
+          ];
+
+          if (modules.length === 1) {
+            const module = modules[0];
+            if (module) {
+              moduleGraph.invalidateModule(module);
+              // moduleGraph.invalidateModule(id);
+            }
+          }
+        }
+
+        // console.log('\n\nCSS EXTRACT ----\n');
+        // console.log(cssExtract);
+        // console.log('\n----\n\n');
+
         resolvers.set(resolvedCssPath, cssExtract);
+        resolverCache.delete(id);
 
         idToPluginData.set(id, { mainFilePath: id });
         idToPluginData.set(resolvedCssPath, {
@@ -333,15 +366,13 @@ export function comptimeCssVitePlugin(): Plugin {
           path: resolvedCssPath,
         });
 
-        return { code, meta: { mainFilePath: id } };
+        return {
+          code,
+          meta: { mainFilePath: id, currentExtractedId: file },
+        };
       }
 
       return null;
     },
   };
 }
-
-export const comptimeCssVitePlugins = () => [
-  comptimeCssVitePlugin(),
-  // vanillaExtractPlugin(),
-];

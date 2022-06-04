@@ -46,6 +46,17 @@ export function comptimeCssBabelPlugin(
 
           let cssExtract = generate(program).code;
 
+          // TODO
+          // use hash of the generated program instead of cssExtract
+          // cssExtract would be different if css got changed
+          // even though if the js output is the same
+          // This means that in watch mode, there would be multiple extracted_[hash].css.ts
+          // being generated
+          //
+          // we might need to figure out how to get hmr working with same file
+          // but i think module.invalidateModule should work with it
+
+          // let cssFile = `extracted_${hash(generate(path.node).code)}.css.ts`;
           let cssFile = `extracted_${hash(cssExtract)}.css.ts`;
 
           // TODO: convert multiple imports/exports to one
