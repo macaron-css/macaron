@@ -88,6 +88,7 @@ It tags all these extracted files in a namespace and pre evaluates them at build
 For example, the plugin will transpile:
 
 ```js
+// main.ts
 import { styled } from 'comptime-css-solid';
 
 const StyledButton = styled('button', {
@@ -110,6 +111,7 @@ const StyledButton = styled('button', {
 To This:
 
 ```js
+// main.ts
 import { _StyledButton } from 'extracted_1747103777.css.ts';
 import { $$styled as _$$styled } from 'comptime-css-solid/runtime';
 
@@ -119,6 +121,33 @@ const StyledButton = _$$styled('button', _StyledButton);
 and
 
 ```js
+// extracted_1747103777.css.ts
+import { recipe as _recipe } from 'comptime-css';
+
+const _StyledButton = _recipe({
+  base: {
+    borderRadius: 6,
+  },
+  variants: {
+    color: {
+      neutral: { background: 'whitesmoke' },
+      brand: { background: 'blueviolet' },
+      accent: { background: 'slateblue' },
+    },
+  },
+  defaultVariants: {
+    color: 'accent',
+  },
+});
+
+module.exports = { _StyledButton };
+```
+
+Which gets further compiled to:
+
+```js
+// extracted_1747103777.css.ts
+import 'extracted_1747103777.vanilla.css';
 import { createRuntimeFn } from '@vanilla-extract/recipes/createRuntimeFn';
 
 const _StyledButton = createRuntimeFn({
@@ -141,6 +170,7 @@ module.exports = { _StyledButton };
 The extracted css will look something like this:
 
 ```css
+/* extracted_1747103777.vanilla.css */
 .extracted_1747103777__1g7h5za0 {
   border-radius: 6px;
 }
