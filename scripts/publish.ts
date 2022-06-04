@@ -8,16 +8,20 @@ const exec = promisify(_exec);
 
 const comptimeCssPackageNames = [
   'comptime-css',
+  'comptime-css-integration',
   'comptime-css-esbuild',
   'comptime-css-babel',
   'comptime-css-solid',
+  'comptime-css-vite',
 ];
 
 const packageToDir = {
   'comptime-css': 'comptime-css',
+  'comptime-css-integration': 'integration',
   'comptime-css-esbuild': 'esbuild',
   'comptime-css-babel': 'babel',
   'comptime-css-solid': 'solid',
+  'comptime-css-vite': 'vite',
 };
 
 const levels = ['minor', 'patch'];
