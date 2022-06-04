@@ -90,6 +90,7 @@ export function comptimeCssEsbuildPlugin(): Plugin {
         // console.log('IS THEME ', args.path.endsWith('theme.ts'));
         // resolverCache.set(args.path, cssExtract);
         resolvers.set(file, cssExtract);
+        resolverCache.delete(args.path);
 
         return {
           contents: code!,
