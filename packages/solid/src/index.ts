@@ -3,7 +3,7 @@ import {
   VariantGroups,
   VariantSelection,
 } from '@vanilla-extract/recipes/dist/declarations/src/types';
-import { JSX, Component } from 'solid-js';
+import { JSX, Component, ParentComponent } from 'solid-js';
 
 type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[TComponent]
@@ -12,9 +12,7 @@ type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
 export function styled<TProps, Variants extends VariantGroups>(
   component: Component<TProps>,
   options: PatternOptions<Variants>
-): (
-  props: TProps & VariantSelection<Variants> & { children?: any }
-) => JSX.Element;
+): ParentComponent<TProps & VariantSelection<Variants>>;
 
 export function styled<
   TProps,
@@ -23,10 +21,7 @@ export function styled<
 >(
   component: TComponent,
   options: PatternOptions<Variants>
-): (
-  props: IntrinsicProps<TComponent> &
-    VariantSelection<Variants> & { children?: any }
-) => JSX.Element;
+): ParentComponent<IntrinsicProps<TComponent> & VariantSelection<Variants>>;
 
 export function styled(
   component: any,
