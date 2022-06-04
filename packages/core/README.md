@@ -1,7 +1,5 @@
 # macaron
 
-> comptime-css is now called **macaron**!
-
 macaron is a zero-runtime and type-safe CSS-in-JS library made with performance in mind
 
 - Powered by **vanilla-extract**
