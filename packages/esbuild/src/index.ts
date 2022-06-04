@@ -64,7 +64,10 @@ export function comptimeCssEsbuildPlugin(): Plugin {
           });
 
           return {
-            contents,
+            contents: contents.replace(
+              /("@vanilla-extract\/recipes\/createRuntimeFn"|'@vanilla-extract\/recipes\/createRuntimeFn')/g,
+              '"comptime-css/create-runtime-fn"'
+            ),
             loader: 'js',
             // watchFiles,
             resolveDir: dirname(path),

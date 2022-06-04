@@ -6,7 +6,7 @@ const packages: Array<[string, string[]]> = [
   ['packages/integration', ['src/index.ts']],
   ['packages/vite', ['src/index.ts']],
   ['packages/esbuild', ['src/index.ts']],
-  ['packages/comptime-css', ['src/index.ts']],
+  ['packages/comptime-css', ['src/index.ts', 'src/create-runtime-fn.ts']],
   ['packages/solid', ['src/index.ts', 'src/runtime.ts']],
 ];
 

@@ -186,8 +186,8 @@ export function comptimeCssVitePlugin(): Plugin {
           }
         }
 
-        try {
-          let processedFile = await processVanillaFile({
+        return replaceCreateRuntimeFnWithComptime(
+          await processVanillaFile({
             source,
             filePath: moduleInfo.filePath,
             identOption:
@@ -217,17 +217,8 @@ export function comptimeCssVitePlugin(): Plugin {
 
               return `import "${id}";`;
             },
-          });
-
-          // console.log('\n\nPROCESSED ----\n');
-          // console.log(processedFile);
-          // console.log('\n----\n\n');
-
-          return processedFile;
-        } catch (err) {
-          throw new Error('CRASHED');
-          // console.error(err);
-        }
+          })
+        );
       }
 
       if (cssFileFilter.test(id)) {
@@ -264,38 +255,39 @@ export function comptimeCssVitePlugin(): Plugin {
           }
         }
 
-        return processVanillaFile({
-          source,
-          filePath: validId,
-          identOption:
-            undefined ?? (config.mode === 'production' ? 'short' : 'debug'),
-          serializeVirtualCssPath: async ({ fileScope, source }) => {
-            const id = `${fileScope.filePath}${virtualExt}`;
+        return replaceCreateRuntimeFnWithComptime(
+          await processVanillaFile({
+            source,
+            filePath: validId,
+            identOption:
+              undefined ?? (config.mode === 'production' ? 'short' : 'debug'),
+            serializeVirtualCssPath: async ({ fileScope, source }) => {
+              const id = `${fileScope.filePath}${virtualExt}`;
 
-            let cssSource = source;
+              let cssSource = source;
 
-            if (server && cssMap.has(id) && cssMap.get(id) !== source) {
-              const { moduleGraph } = server;
-              const moduleId = normalizePath(join(config.root, id));
-              const module = moduleGraph.getModuleById(moduleId);
+              if (server && cssMap.has(id) && cssMap.get(id) !== source) {
+                const { moduleGraph } = server;
+                const moduleId = normalizePath(join(config.root, id));
+                const module = moduleGraph.getModuleById(moduleId);
 
-              if (module) {
-                moduleGraph.invalidateModule(module);
+                if (module) {
+                  moduleGraph.invalidateModule(module);
+                }
+
+                server.ws.send({
+                  type: 'custom',
+                  event: styleUpdateEvent(id),
+                  data: cssSource,
+                });
               }
 
-              // console.log('SENDING');
-              server.ws.send({
-                type: 'custom',
-                event: styleUpdateEvent(id),
-                data: cssSource,
-              });
-            }
+              cssMap.set(id, cssSource);
 
-            cssMap.set(id, cssSource);
-
-            return `import "${id}";`;
-          },
-        });
+              return `import "${id}";`;
+            },
+          })
+        );
       }
 
       if (/(j|t)sx?(\?used)?$/.test(id) && !id.endsWith('.vanilla.js')) {
@@ -359,4 +351,11 @@ export function comptimeCssVitePlugin(): Plugin {
       return null;
     },
   };
+}
+
+function replaceCreateRuntimeFnWithComptime(source: string) {
+  return source.replace(
+    /("@vanilla-extract\/recipes\/createRuntimeFn"|'@vanilla-extract\/recipes\/createRuntimeFn')/g,
+    '"comptime-css/create-runtime-fn"'
+  );
 }
