@@ -2,8 +2,7 @@ import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import { processVanillaFile } from '@vanilla-extract/integration';
 import { Plugin } from 'esbuild';
 import { dirname, join } from 'path';
-import { babelTransform } from './babel';
-import { compile } from './compile';
+import { babelTransform, compile } from 'comptime-css-integration';
 
 /*
   -> load /(t|j)sx?/ 

@@ -1,16 +1,13 @@
 import {
   addFileScope,
+  compile as vCompile,
   cssFileFilter,
   processVanillaFile,
-  compile as vCompile,
 } from '@vanilla-extract/integration';
-import { join, normalize } from 'path';
-import { normalizePath, Plugin, ResolvedConfig, ViteDevServer } from 'vite';
-import {} from 'vite';
-import { babelTransform } from './babel';
-import { compile } from './compile';
+import { babelTransform, compile } from 'comptime-css-integration';
 import outdent from 'outdent';
-import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+import { join } from 'path';
+import { normalizePath, Plugin, ResolvedConfig, ViteDevServer } from 'vite';
 
 const extractedCssFileFilter = /extracted_(.*)\.css\.ts(\?used)?$/;
 const styleUpdateEvent = (fileId: string) =>

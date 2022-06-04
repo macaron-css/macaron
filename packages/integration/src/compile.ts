@@ -1,10 +1,11 @@
 import { addFileScope, getPackageInfo } from '@vanilla-extract/integration';
 import { PluginBuild } from 'esbuild';
 import fs from 'fs';
+import defaultEsbuild from 'esbuild';
 import { basename, dirname, join } from 'path';
 
 interface CompileOptions {
-  esbuild: PluginBuild['esbuild'];
+  esbuild?: PluginBuild['esbuild'];
   filePath: string;
   contents: string;
   cwd?: string;
@@ -14,7 +15,7 @@ interface CompileOptions {
 }
 
 export async function compile({
-  esbuild,
+  esbuild = defaultEsbuild,
   filePath,
   cwd = process.cwd(),
   externals = [],

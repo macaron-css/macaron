@@ -3,6 +3,7 @@ import { build as tsup } from 'tsup';
 
 const packages: Array<[string, string[]]> = [
   ['packages/babel', ['src/index.ts']],
+  ['packages/integration', ['src/index.ts']],
   ['packages/vite', ['src/index.ts']],
   ['packages/esbuild', ['src/index.ts']],
   ['packages/comptime-css', ['src/index.ts']],
@@ -10,7 +11,8 @@ const packages: Array<[string, string[]]> = [
 ];
 
 async function build() {
-  const dts = process.argv[2];
+  const withDts = !process.argv.includes('--no-dts');
+  const watch = process.argv.includes('--watch');
 
   for (const [packageDir, entryPoints] of packages) {
     try {
@@ -21,11 +23,11 @@ async function build() {
         ),
         format: ['cjs', 'esm'],
         bundle: true,
-        dts: dts !== '--no-dts',
+        dts: withDts,
         sourcemap: true,
         outDir: join(packageDir, 'dist'),
         skipNodeModulesBundle: true,
-        watch: true,
+        watch,
       });
     } catch (e) {
       console.error(e);
