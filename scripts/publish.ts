@@ -6,22 +6,22 @@ import { promisify } from 'util';
 
 const exec = promisify(_exec);
 
-const comptimeCssPackageNames = [
-  'comptime-css',
-  'comptime-css-integration',
-  'comptime-css-esbuild',
-  'comptime-css-babel',
-  'comptime-css-solid',
-  'comptime-css-vite',
+const macaronPackageNames = [
+  '@macaron-css/core',
+  '@macaron-css/integration',
+  '@macaron-css/esbuild',
+  '@macaron-css/babel',
+  '@macaron-css/solid',
+  '@macaron-css/vite',
 ];
 
 const packageToDir = {
-  'comptime-css': 'comptime-css',
-  'comptime-css-integration': 'integration',
-  'comptime-css-esbuild': 'esbuild',
-  'comptime-css-babel': 'babel',
-  'comptime-css-solid': 'solid',
-  'comptime-css-vite': 'vite',
+  '@macaron-css/core': 'core',
+  '@macaron-css/integration': 'integration',
+  '@macaron-css/esbuild': 'esbuild',
+  '@macaron-css/babel': 'babel',
+  '@macaron-css/solid': 'solid',
+  '@macaron-css/vite': 'vite',
 };
 
 const levels = ['minor', 'patch'];
@@ -41,7 +41,7 @@ async function main() {
 
   if (
     !packageName ||
-    !comptimeCssPackageNames.includes(packageName) ||
+    !macaronPackageNames.includes(packageName) ||
     !isValidLevel(level)
   ) {
     console.error(`Incorrect package: ${packageName}`);
@@ -114,7 +114,7 @@ async function main() {
 
   console.log('-> Publishing packages...');
   for (const dep of packagesToPublish) {
-    if (!comptimeCssPackageNames.includes(dep)) {
+    if (!macaronPackageNames.includes(dep)) {
       console.error(`Incorrect dependency: ${dep}`);
       process.exit(1);
     }

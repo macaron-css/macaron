@@ -8,11 +8,11 @@ import { styledComponentsVisitor } from './visitors/styled-components';
 export { PluginOptions };
 
 // TODO: target VariableDeclarator instead of VariableDeclaration
-export function comptimeCssBabelPlugin(
+export function macaronBabelPlugin(
   opts: PluginOptions
 ): PluginObj<PluginState> {
   return {
-    name: 'comptime-css-babel',
+    name: 'macaron-css-babel',
     visitor: {
       Program: {
         enter(path, state) {
@@ -122,7 +122,7 @@ export function comptimeCssBabelPlugin(
 
         if (
           !extractionAPIs.some(api =>
-            decl.get('callee').referencesImport('comptime-css', api)
+            decl.get('callee').referencesImport('@macaron-css/core', api)
           )
         ) {
           return;

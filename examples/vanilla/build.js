@@ -1,9 +1,9 @@
-const { comptimeCssPlugins } = require('comptime-css-esbuild');
+const { macaronEsbuildPlugins } = require('@macaron-css/esbuild');
 const esbuild = require('esbuild');
 
 esbuild.build({
   entryPoints: ['src/index.ts'],
-  plugins: [...comptimeCssPlugins()],
+  plugins: [...macaronEsbuildPlugins()],
   outdir: 'dist',
   format: 'esm',
   bundle: true,

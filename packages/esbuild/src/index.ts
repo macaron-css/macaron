@@ -2,7 +2,7 @@ import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import { processVanillaFile } from '@vanilla-extract/integration';
 import { Plugin } from 'esbuild';
 import { dirname, join } from 'path';
-import { babelTransform, compile } from 'comptime-css-integration';
+import { babelTransform, compile } from '@macaron-css/integration';
 
 /*
   -> load /(t|j)sx?/ 
@@ -15,9 +15,9 @@ import { babelTransform, compile } from 'comptime-css-integration';
     -> process the file with vanilla-extract
     -> resolve with js loader
 */
-export function comptimeCssEsbuildPlugin(): Plugin {
+export function macaronEsbuildPlugin(): Plugin {
   return {
-    name: 'comptime-css-esbuild',
+    name: 'macaron-css-esbuild',
     setup(build) {
       let resolvers = new Map<string, string>();
       let resolverCache = new Map<string, string>();
@@ -66,7 +66,7 @@ export function comptimeCssEsbuildPlugin(): Plugin {
           return {
             contents: contents.replace(
               /("@vanilla-extract\/recipes\/createRuntimeFn"|'@vanilla-extract\/recipes\/createRuntimeFn')/g,
-              '"comptime-css/create-runtime-fn"'
+              '"@macaron-css/core/create-runtime-fn"'
             ),
             loader: 'js',
             // watchFiles,
@@ -104,7 +104,7 @@ export function comptimeCssEsbuildPlugin(): Plugin {
   };
 }
 
-export const comptimeCssPlugins = () => [
-  comptimeCssEsbuildPlugin(),
+export const macaronEsbuildPlugins = () => [
+  macaronEsbuildPlugin(),
   vanillaExtractPlugin(),
 ];

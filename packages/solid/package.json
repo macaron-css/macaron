@@ -1,5 +1,5 @@
 {
-  "name": "comptime-css-solid",
+  "name": "@macaron-css/solid",
   "version": "0.1.1",
   "license": "MIT",
   "main": "dist/index.js",
@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mokshit06/comptime-css.git",
+    "url": "https://github.com/mokshit06/macaron.git",
     "directory": "packages/solid"
   },
   "exports": {

@@ -1,5 +1,5 @@
 import { render } from 'solid-js/web';
-import { styled, StyleVariants } from 'comptime-css-solid';
+import { styled, StyleVariants } from '@macaron-css/solid';
 
 const Button = styled('button', {
   base: {

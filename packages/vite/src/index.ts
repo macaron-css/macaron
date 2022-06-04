@@ -4,7 +4,7 @@ import {
   cssFileFilter,
   processVanillaFile,
 } from '@vanilla-extract/integration';
-import { babelTransform, compile } from 'comptime-css-integration';
+import { babelTransform, compile } from '@macaron-css/integration';
 import outdent from 'outdent';
 import { join } from 'path';
 import { normalizePath, Plugin, ResolvedConfig, ViteDevServer } from 'vite';
@@ -13,7 +13,7 @@ const extractedCssFileFilter = /extracted_(.*)\.css\.ts(\?used)?$/;
 const styleUpdateEvent = (fileId: string) =>
   `vanilla-extract-style-update:${fileId}`;
 
-export function comptimeCssVitePlugin(): Plugin {
+export function macaronVitePlugin(): Plugin {
   let config: ResolvedConfig;
   let server: ViteDevServer;
   const cssMap = new Map<string, string>();
@@ -26,7 +26,7 @@ export function comptimeCssVitePlugin(): Plugin {
   let idToPluginData = new Map<string, Record<string, string>>();
 
   return {
-    name: 'comptime-css-vite',
+    name: 'macaron-css-vite',
     enforce: 'pre',
     buildStart() {
       resolvers.clear();
@@ -186,7 +186,7 @@ export function comptimeCssVitePlugin(): Plugin {
           }
         }
 
-        return replaceCreateRuntimeFnWithComptime(
+        return replaceCreateRuntimeFnWithMacaron(
           await processVanillaFile({
             source,
             filePath: moduleInfo.filePath,
@@ -255,7 +255,7 @@ export function comptimeCssVitePlugin(): Plugin {
           }
         }
 
-        return replaceCreateRuntimeFnWithComptime(
+        return replaceCreateRuntimeFnWithMacaron(
           await processVanillaFile({
             source,
             filePath: validId,
@@ -344,9 +344,9 @@ export function comptimeCssVitePlugin(): Plugin {
   };
 }
 
-function replaceCreateRuntimeFnWithComptime(source: string) {
+function replaceCreateRuntimeFnWithMacaron(source: string) {
   return source.replace(
     /("@vanilla-extract\/recipes\/createRuntimeFn"|'@vanilla-extract\/recipes\/createRuntimeFn')/g,
-    '"comptime-css/create-runtime-fn"'
+    '"@macaron-css/core/create-runtime-fn"'
   );
 }

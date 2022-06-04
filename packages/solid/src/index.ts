@@ -29,7 +29,7 @@ export function styled(
 ): (props: any) => JSX.Element {
   return function StyledComponent(props) {
     throw new Error(
-      'This function should be stripped out at runtime. This error usually occurs if there is something wrong with the build configuration. If you think that the configuration is fine, then open an issue here `https://github.com/mokshit06/comptime-css/issues`'
+      'This function should be stripped out at runtime. This error usually occurs if there is something wrong with the build configuration. If you think that the configuration is fine, then open an issue here `https://github.com/mokshit06/macaron/issues`'
     );
   };
 }

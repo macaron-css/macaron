@@ -52,8 +52,8 @@ export async function compile({
     external: [
       '@vanilla-extract',
       'solid-js',
-      'comptime-css',
-      '@comptime-css',
+      '@macaron-css',
+      // '@comptime-css',
       ...externals,
     ],
     platform: 'node',
