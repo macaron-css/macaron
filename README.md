@@ -1,12 +1,13 @@
 # Comptime CSS
 
 - Powered by `vanilla-extract`
-- Allows defining styles in the same file as components.
+- Allows defining styles in the same file as components
+- Zero runtime builds
 - Supports both styled-components API and plain styling api that returns classes.
 - Stitches-like variants
 - First class typescript support
 - Out of box support for solidjs
-- Only supports esbuild as of now
+- Supports esbuild and vite
 
 ## Example
 
@@ -70,7 +71,7 @@ Check out [vanilla-extract docs](https://vanilla-extract.style/documentation/sty
 
 ## How it works
 
-The esbuild plugin loads every `ts` and `js` file and runs `comptime-css`'s babel plugin on it.
+The esbuild/vite plugin loads every `ts` and `js` file and runs `comptime-css`'s babel plugin on it.
 
 The babel plugin looks for variable declarations in your code and checks if they are of comptime-css's API like `styled` or `recipe` etc.
 
@@ -154,7 +155,6 @@ The extracted css will look something like this:
 }
 ```
 
-
 ## To be implemented
 
 - Static extraction of styles in expressions.
@@ -176,6 +176,3 @@ The extracted css will look something like this:
   let red = style({ color: 'red' });
   let class = `abc ${red}`;
   ```
-
-- Support for other bundlers like rollup
-
