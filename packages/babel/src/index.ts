@@ -22,7 +22,7 @@ export function comptimeCssBabelPlugin(
           path.traverse(styledComponentsVisitor(path), state);
         },
         exit(path, state) {
-          let ast = buildModuleExport({
+          const ast = buildModuleExport({
             nodes: t.objectExpression(
               state.styledNodes.map(node =>
                 t.objectProperty(
@@ -32,7 +32,6 @@ export function comptimeCssBabelPlugin(
               )
             ),
           });
-
           const program = t.program(
             [...(state.dependentNodes as any), ast].map(path => {
               if (!('parent' in path)) return path;
@@ -43,11 +42,10 @@ export function comptimeCssBabelPlugin(
               }
             })
           );
+          const cssExtract = generate(program).code;
+          const generatedCode = generate(path.node).code;
 
-          let cssExtract = generate(program).code;
-
-          // let cssFile = `extracted_${hash(generate(path.node).code)}.css.ts`;
-          let cssFile = `extracted_${hash(generate(path.node).code)}.css.ts`;
+          const cssFile = `extracted_${hash(generatedCode)}.css.ts`;
 
           // TODO: convert multiple imports/exports to one
           for (const name of state.styledNodes) {
@@ -56,15 +54,9 @@ export function comptimeCssBabelPlugin(
               buildImport({
                 specifier: t.identifier(name.ident),
                 alias: t.identifier(name.ident),
-                // source: t.stringLiteral(
-                //   `${cssFile}?from=${Buffer.from(opts.path, 'utf8').toString(
-                //     'base64'
-                //   )}`
-                // ),
                 source: t.stringLiteral(cssFile),
               })
             );
-
             if (name.shouldExport) {
               path.pushContainer(
                 'body',
@@ -73,7 +65,12 @@ export function comptimeCssBabelPlugin(
             }
           }
 
-          path.scope.crawl();
+          // this is commented out because
+          // it was causing issue with other babel plugins
+          // like babel-preset-solid
+          // which depends on scope state to add tmpl nodes
+
+          // path.scope.crawl();
 
           opts.result = [cssFile, cssExtract];
         },
@@ -122,7 +119,6 @@ export function comptimeCssBabelPlugin(
           // @vanilla-extract/recipes
           'recipe',
         ];
-        // const recipeAPIs = ['recipe'];
 
         if (
           !extractionAPIs.some(api =>

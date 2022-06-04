@@ -301,46 +301,37 @@ export function comptimeCssVitePlugin(): Plugin {
           result: [file, cssExtract],
         } = await babelTransform(id);
 
-        if (!file || !cssExtract || !code) return null;
         // the extracted code and original are the same -> no css extracted
-        if (cssExtract == code) return null;
-
-        console.log('transforming', id);
-
-        if (config.command === 'build') {
-          // console.log('WATCHING', id);
-          this.addWatchFile(id);
-        }
-
-        let resolvedCssPath = normalizePath(join(id, '..', file));
-
-        console.log(resolvers.get(resolvedCssPath));
-        console.log(cssExtract);
-        if (
-          server &&
-          resolvers.has(resolvedCssPath) &&
-          resolvers.get(resolvedCssPath) !== cssExtract
-        ) {
-          const { moduleGraph } = server;
-
-          const module = moduleGraph.getModuleById(resolvedCssPath);
-          if (module) {
-            moduleGraph.invalidateModule(module);
+        if (file && cssExtract && cssExtract !== code) {
+          if (config.command === 'build') {
+            // console.log('WATCHING', id);
+            this.addWatchFile(id);
           }
+
+          let resolvedCssPath = normalizePath(join(id, '..', file));
+
+          if (
+            server &&
+            resolvers.has(resolvedCssPath) &&
+            resolvers.get(resolvedCssPath) !== cssExtract
+          ) {
+            const { moduleGraph } = server;
+
+            const module = moduleGraph.getModuleById(resolvedCssPath);
+            if (module) {
+              moduleGraph.invalidateModule(module);
+            }
+          }
+
+          resolvers.set(resolvedCssPath, cssExtract);
+          resolverCache.delete(id);
+
+          idToPluginData.set(id, { mainFilePath: id });
+          idToPluginData.set(resolvedCssPath, {
+            mainFilePath: id,
+            path: resolvedCssPath,
+          });
         }
-
-        // console.log('\n\nCSS EXTRACT ----\n');
-        // console.log(cssExtract);
-        // console.log('\n----\n\n');
-
-        resolvers.set(resolvedCssPath, cssExtract);
-        resolverCache.delete(id);
-
-        idToPluginData.set(id, { mainFilePath: id });
-        idToPluginData.set(resolvedCssPath, {
-          mainFilePath: id,
-          path: resolvedCssPath,
-        });
 
         return {
           code,

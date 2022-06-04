@@ -86,18 +86,15 @@ export function comptimeCssEsbuildPlugin(): Plugin {
           result: [file, cssExtract],
         } = await babelTransform(args.path);
 
-        if (!file || !cssExtract) return null;
         // the extracted code and original are the same -> no css extracted
-        if (cssExtract == code) return null;
-
-        // console.log('IS THEME ', args.path.endsWith('theme.ts'));
-        // resolverCache.set(args.path, cssExtract);
-        resolvers.set(file, cssExtract);
-        resolverCache.delete(args.path);
+        if (file && cssExtract && cssExtract !== code) {
+          resolvers.set(file, cssExtract);
+          resolverCache.delete(args.path);
+        }
 
         return {
           contents: code!,
-          loader: args.path.match(/\.(ts|tsx)$/i) ? 'ts' : undefined,
+          loader: args.path.match(/\.(ts|tsx)$/i) ? 'ts' : 'js',
           pluginData: {
             mainFilePath: args.path,
           },
