@@ -8,6 +8,8 @@ import {
   invariant,
 } from '../utils';
 
+// TODO: move from styled-components visitor to vanilla-extract plugin
+// this would make this easier and less prone to errors
 export function styledComponentsVisitor(
   programPath: NodePath<Program>
 ): Visitor<PluginState> {
