@@ -4,7 +4,7 @@ import { transformFileAsync } from '@babel/core';
 export async function babelTransform(path: string) {
   const options: PluginOptions = { result: ['', ''], path };
   const result = await transformFileAsync(path, {
-    plugins: [macaronBabelPlugin(options)],
+    plugins: [[macaronBabelPlugin(options), options]],
     presets: ['@babel/preset-typescript'],
     sourceMaps: 'inline',
   });

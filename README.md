@@ -73,6 +73,12 @@ The styling API is the same api is vanilla-extract, but allows styles to be defi
 
 Check out [vanilla-extract docs](https://vanilla-extract.style/documentation/styling-api/)
 
+## Limitations
+
+- The style declarations should preferably be at the top level and not inside a function.
+- All the properties passed to them should be evaluatable at build time and should not use any of the browser specific APIs (`window`, `document`)
+- Each style declaration should be it's own variable declaration
+
 ## How it works
 
 The esbuild/vite plugin loads every `ts` and `js` file and runs `@macaron-css/babel` plugin on it.
