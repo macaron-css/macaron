@@ -8,7 +8,7 @@ macaron is a zero-runtime and type-safe CSS-in-JS library made with performance 
 - Supports both styled-components API and plain styling api that returns classes.
 - Stitches-like variants
 - First class typescript support
-- Out of box support for solidjs
+- Out of box support for react and solidjs
 - Supports esbuild and vite (with hmr)
 
 ## Example
