@@ -7,6 +7,7 @@ const packages: Array<[string, string[]]> = [
   ['packages/vite', ['src/index.ts']],
   ['packages/esbuild', ['src/index.ts']],
   ['packages/core', ['src/index.ts', 'src/create-runtime-fn.ts']],
+  ['packages/react', ['src/index.ts', 'src/runtime.ts']],
   ['packages/solid', ['src/index.ts', 'src/runtime.ts']],
 ];
 
