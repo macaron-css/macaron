@@ -83,7 +83,7 @@ test('hoists array member', () => {
   expect(code).toMatchSnapshot();
 });
 
-test.skip('extracts style function', () => {
+test('extracts style function', () => {
   const { result, code } = babelTransform(`
     import { style } from '@macaron-css/core';
     
@@ -200,7 +200,7 @@ test('array pattern hoisting', () => {
   expect(code).toMatchSnapshot();
 });
 
-test.only('same binding in multiple declarations', () => {
+test('same binding in multiple declarations', () => {
   const { result, code } = babelTransform(`
     import { style } from '@macaron-css/core';
 

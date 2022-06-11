@@ -33,6 +33,11 @@ export function transformCallExpression(
       );
     }
 
+    let styleToPush: Exclude<
+      ProgramScope['macaronData']['nodes'][number],
+      { type: 'binding' }
+    >;
+
     if (ident.isArrayPattern()) {
       for (const elementPath of ident.get('elements')) {
         if (elementPath.isIdentifier()) {
@@ -55,13 +60,14 @@ export function transformCallExpression(
           // that multiple declarations get written to in the virtual file
           // but it shouldn't matter much since they get tree shaked by the bundler
           // and new identifiers are created for each, so it shouldn't cause violations
-          programParent.macaronData.styles.push({
+          styleToPush = {
+            type: 'style',
             shouldReExport,
-            declaration: t.exportNamedDeclaration(
+            export: t.exportNamedDeclaration(
               t.variableDeclaration('var', [t.cloneNode(variablePath.node)])
             ),
             name: programUniqueIdent.name,
-          });
+          };
 
           variablePath.scope.rename(
             programUniqueIdent.name,
@@ -82,13 +88,14 @@ export function transformCallExpression(
         programParent.macaronData.cssFile
       );
 
-      programParent.macaronData.styles.push({
+      styleToPush = {
+        type: 'style',
         shouldReExport,
-        declaration: t.exportNamedDeclaration(
+        export: t.exportNamedDeclaration(
           t.variableDeclaration('var', [t.cloneNode(variablePath.node)])
         ),
         name: programUniqueIdent.name,
-      });
+      };
 
       variablePath.scope.rename(programUniqueIdent.name, importedIdent.name);
     }
@@ -98,15 +105,72 @@ export function transformCallExpression(
       Binding
     >;
 
+    let shouldPush = false;
+    let alreadyPushed = false;
+    const pushStyle = () => {
+      if (shouldPush && !alreadyPushed) {
+        programParent.macaronData.nodes.push(styleToPush);
+        alreadyPushed = true;
+      }
+
+      shouldPush = true;
+      // pushedStyle = true;
+    };
+
     for (const bindingName in allBindings) {
       const binding = allBindings[bindingName];
       if (binding && bindingName) {
-        _callState.dependentNodes.add({
-          loc: variablePath.node.loc,
-          node: findRootBinding(binding.path),
-        });
+        const bindingNode = findRootBinding(binding.path);
+        const bindingLoc = bindingNode.loc;
+        const callLoc = callPath.node.loc;
+
+        const pushBinding = () => {
+          if (
+            programParent.macaronData.bindings.includes(binding.path) ||
+            !binding.referenced
+          )
+            return;
+
+          programParent.macaronData.nodes.push({
+            type: 'binding',
+            node: t.cloneNode(bindingNode),
+          });
+          programParent.macaronData.bindings.push(binding.path);
+        };
+
+        if (programParent.macaronData.bindings.includes(binding.path)) {
+          pushStyle();
+
+          continue;
+        }
+
+        if (bindingLoc == null || callLoc == null) {
+          pushBinding();
+          pushStyle();
+
+          continue;
+        }
+
+        if (
+          bindingLoc.end.line < callLoc.start.line ||
+          (bindingLoc.start.line < callLoc.start.line &&
+            bindingLoc.end.line > callLoc.end.line) ||
+          (bindingLoc.start.line === callLoc.start.line &&
+            bindingLoc.start.column < callLoc.start.column)
+        ) {
+          shouldPush = false;
+          pushBinding();
+          pushStyle();
+        } else {
+          shouldPush = true;
+          pushBinding();
+          pushStyle();
+        }
       }
     }
+
+    shouldPush = true;
+    pushStyle();
 
     variablePath.remove();
 
@@ -136,18 +200,23 @@ export function transformCallExpression(
     Binding
   >;
 
-  let pushedStyle = false;
+  // let pushedStyle = false;
+  let shouldPush = false;
+  let alreadyPushed = false;
   const pushStyle = () => {
-    programParent.macaronData.nodes.push({
-      type: 'style',
-      export: declaration,
-      name: ident.name,
-      shouldReExport: false,
-    });
-    pushedStyle = true;
-  };
-  const maybePushStyle = () => {
-    if (!pushedStyle) pushStyle();
+    if (shouldPush && !alreadyPushed) {
+      programParent.macaronData.nodes.push({
+        type: 'style',
+        export: declaration,
+        name: ident.name,
+        shouldReExport: false,
+      });
+
+      alreadyPushed = true;
+    }
+
+    shouldPush = true;
+    // pushedStyle = true;
   };
 
   for (const bindingName in allBindings) {
@@ -158,7 +227,8 @@ export function transformCallExpression(
       const callLoc = callPath.node.loc;
 
       const pushBinding = () => {
-        console.log('PUSHING BINDING');
+        if (programParent.macaronData.bindings.includes(binding.path)) return;
+
         programParent.macaronData.nodes.push({
           type: 'binding',
           node: t.cloneNode(bindingNode),
@@ -167,15 +237,14 @@ export function transformCallExpression(
       };
 
       if (programParent.macaronData.bindings.includes(binding.path)) {
-        console.log('exists');
-        maybePushStyle();
+        pushStyle();
 
         continue;
       }
 
       if (bindingLoc == null || callLoc == null) {
         pushBinding();
-        maybePushStyle();
+        pushStyle();
 
         continue;
       }
@@ -187,14 +256,19 @@ export function transformCallExpression(
         (bindingLoc.start.line === callLoc.start.line &&
           bindingLoc.start.column < callLoc.start.column)
       ) {
+        shouldPush = false;
         pushBinding();
-        maybePushStyle();
+        pushStyle();
       } else {
+        shouldPush = true;
         pushBinding();
-        maybePushStyle();
+        pushStyle();
       }
     }
   }
+
+  shouldPush = true;
+  pushStyle();
 
   callPath.replaceWith(importedIdent);
 }
