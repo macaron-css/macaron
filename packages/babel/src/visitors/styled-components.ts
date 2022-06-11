@@ -25,11 +25,19 @@ export function styledComponentsVisitor(
       if (!decl.isCallExpression()) return;
       if (!id.isIdentifier()) return;
 
-      const isImportedFromLib = decl
+      const isSolidAdapter = decl
         .get('callee')
         .referencesImport('@macaron-css/solid', 'styled');
+      const isReactAdapter = decl
+        .get('callee')
+        .referencesImport('@macaron-css/react', 'styled');
 
-      if (!isImportedFromLib) {
+      const isImportedFromAdapter = isSolidAdapter || isReactAdapter;
+      const runtimeImport = isSolidAdapter
+        ? '@macaron-css/solid/runtime'
+        : '@macaron-css/react/runtime';
+
+      if (!isImportedFromAdapter) {
         return;
       }
 
@@ -50,7 +58,7 @@ export function styledComponentsVisitor(
         buildImport({
           specifier: t.identifier('$$styled'),
           alias: styledIdent,
-          source: t.stringLiteral('@macaron-css/solid/runtime'),
+          source: t.stringLiteral(runtimeImport),
         }),
         buildImport({
           specifier: t.identifier('recipe'),
