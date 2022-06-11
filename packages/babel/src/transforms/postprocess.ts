@@ -18,13 +18,13 @@ export default function postprocess(
 
   const stmts: t.Statement[] = [];
 
-  for (const style of scope.macaronData.styles) {
-    stmts.push(style.declaration);
+  // for (const style of scope.macaronData.styles) {
+  //   stmts.push(style.declaration);
 
-    if (style.shouldReExport) {
-      // TODO reexport
-    }
-  }
+  //   if (style.shouldReExport) {
+  //     // TODO reexport
+  //   }
+  // }
 
   // this is commented out because
   // it was causing issue with other babel plugins
@@ -33,30 +33,24 @@ export default function postprocess(
 
   // path.scope.crawl();
 
-  // const ast = buildModuleExport({
-  //   nodes: t.objectExpression(
-  //     scope.macaronData.styles.map(style => {
-  //       return t.objectProperty(
-  //         t.identifier(style.declaration.declarations[0].id.name),
-  //         t.identifier(style.name)
-  //       );
-  //     })
-  //   ),
-  // });
+  // const dependentNodes = Array.from(state.dependentNodes).map(
+  //   binding => binding.node
+  // ) as t.Statement[];
 
   const program = t.program(
-    [...(state.dependentNodes as any)].map(path => {
-      if (!('parent' in path)) return path;
-      if (path.parent.type === 'Program') {
-        return path.node as any;
-      } else {
-        return path.parent as any;
-      }
-    })
+    scope.macaronData.nodes.map(node =>
+      node.type === 'style' ? node.export : node.node
+    ) as t.Statement[]
   );
-  for (const stmt of stmts) {
-    program.body.unshift(stmt);
-  }
+
+  // state.dependentNodes.forEach(node => {
+  //   stmts;
+  //   console.log(node.loc, node.node.loc);
+  // });
+
+  // for (const stmt of stmts) {
+  //   program.body.push(stmt);
+  // }
   const cssExtract = generate(program).code;
 
   state.opts.result = [cssFile, cssExtract];

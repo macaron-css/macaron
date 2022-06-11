@@ -33,16 +33,6 @@ export function transformCallExpression(
       );
     }
 
-    const allBindings = variablePath.scope.getAllBindings() as Record<
-      string,
-      Binding
-    >;
-
-    for (const bindingName in allBindings) {
-      const binding = allBindings[bindingName];
-      // binding.
-    }
-
     if (ident.isArrayPattern()) {
       for (const elementPath of ident.get('elements')) {
         if (elementPath.isIdentifier()) {
@@ -103,6 +93,21 @@ export function transformCallExpression(
       variablePath.scope.rename(programUniqueIdent.name, importedIdent.name);
     }
 
+    const allBindings = variablePath.scope.getAllBindings() as Record<
+      string,
+      Binding
+    >;
+
+    for (const bindingName in allBindings) {
+      const binding = allBindings[bindingName];
+      if (binding && bindingName) {
+        _callState.dependentNodes.add({
+          loc: variablePath.node.loc,
+          node: findRootBinding(binding.path),
+        });
+      }
+    }
+
     variablePath.remove();
 
     return;
@@ -126,10 +131,81 @@ export function transformCallExpression(
     ])
   );
 
-  programParent.macaronData.styles.push({
-    shouldReExport: false,
-    declaration,
-    name: ident.name,
-  });
+  const allBindings = callPath.scope.getAllBindings() as Record<
+    string,
+    Binding
+  >;
+
+  let pushedStyle = false;
+  const pushStyle = () => {
+    programParent.macaronData.nodes.push({
+      type: 'style',
+      export: declaration,
+      name: ident.name,
+      shouldReExport: false,
+    });
+    pushedStyle = true;
+  };
+  const maybePushStyle = () => {
+    if (!pushedStyle) pushStyle();
+  };
+
+  for (const bindingName in allBindings) {
+    const binding = allBindings[bindingName];
+    if (binding && bindingName) {
+      const bindingNode = findRootBinding(binding.path);
+      const bindingLoc = bindingNode.loc;
+      const callLoc = callPath.node.loc;
+
+      const pushBinding = () => {
+        console.log('PUSHING BINDING');
+        programParent.macaronData.nodes.push({
+          type: 'binding',
+          node: t.cloneNode(bindingNode),
+        });
+        programParent.macaronData.bindings.push(binding.path);
+      };
+
+      if (programParent.macaronData.bindings.includes(binding.path)) {
+        console.log('exists');
+        maybePushStyle();
+
+        continue;
+      }
+
+      if (bindingLoc == null || callLoc == null) {
+        pushBinding();
+        maybePushStyle();
+
+        continue;
+      }
+
+      if (
+        bindingLoc.end.line < callLoc.start.line ||
+        (bindingLoc.start.line < callLoc.start.line &&
+          bindingLoc.end.line > callLoc.end.line) ||
+        (bindingLoc.start.line === callLoc.start.line &&
+          bindingLoc.start.column < callLoc.start.column)
+      ) {
+        pushBinding();
+        maybePushStyle();
+      } else {
+        pushBinding();
+        maybePushStyle();
+      }
+    }
+  }
+
   callPath.replaceWith(importedIdent);
+}
+
+function findRootBinding(path: NodePath<t.Node>) {
+  let node: t.Node;
+  if (!('parent' in path) || path.parentPath?.isProgram()) {
+    node = path.node as any;
+  } else {
+    node = path.parent as any;
+  }
+
+  return t.cloneNode(node);
 }

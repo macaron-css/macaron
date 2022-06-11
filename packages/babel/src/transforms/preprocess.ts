@@ -13,6 +13,8 @@ export default function preprocess(
     imports: new Map(),
     styles: [],
     cssFile: `extracted_${hash(path.toString())}.css.ts`,
+    nodes: [],
+    bindings: [],
   };
 
   // path.traverse(styledComponentsVisitor(path), state);

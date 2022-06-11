@@ -1,6 +1,5 @@
-import pluginTester from 'babel-plugin-tester';
-import { macaronBabelPlugin } from './index';
 import { transformSync } from '@babel/core';
+import { macaronBabelPlugin } from './index';
 import { PluginOptions } from './types';
 
 function babelTransform(code: string) {
@@ -40,7 +39,7 @@ test('inside jsx expression', () => {
       })}>Hello</div>
     }
 
-    console.log(red, blue, green);
+    console.log(red);
   `);
 
   expect(result).toMatchSnapshot();
@@ -84,7 +83,7 @@ test('hoists array member', () => {
   expect(code).toMatchSnapshot();
 });
 
-test('extracts style function', () => {
+test.skip('extracts style function', () => {
   const { result, code } = babelTransform(`
     import { style } from '@macaron-css/core';
     
@@ -129,14 +128,10 @@ test('inside block scope', () => {
   const { result, code } = babelTransform(`
     import { style } from '@macaron-css/core';
     
-    const redColor = 'red';
-
-    const red = 'a';
-
     {
-      const red = style({ color: redColor });
+      const red = style({ color: 'red' });
 
-      console.log(red, blue, green);
+      console.log(red);
     }
   `);
 
@@ -144,7 +139,7 @@ test('inside block scope', () => {
   expect(code).toMatchSnapshot();
 });
 
-test('styled components', () => {
+test.skip('styled components', () => {
   const { result, code } = babelTransform(`
     import { styled } from '@macaron-css/solid';
     
@@ -199,6 +194,21 @@ test('array pattern hoisting', () => {
       }
     });
     console.log(themeClass, vars);
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});
+
+test.only('same binding in multiple declarations', () => {
+  const { result, code } = babelTransform(`
+    import { style } from '@macaron-css/core';
+
+    const color = 'red';
+    const foreground = style({ color });
+    const background = style({ background: color });
+
+    console.log(foreground, background)
   `);
 
   expect(result).toMatchSnapshot();
