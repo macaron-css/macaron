@@ -34,7 +34,7 @@ export function transformCallExpression(
     }
 
     let styledNode: Exclude<MacaronNode, { type: 'binding' | 'alias' }>;
-    const aliasNodes: Array<string> = [];
+    const aliasNodes: Array<string[]> = [];
     const toRename = [] as t.Identifier[];
 
     if (ident.isArrayPattern()) {
