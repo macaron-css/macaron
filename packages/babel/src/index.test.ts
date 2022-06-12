@@ -95,7 +95,7 @@ test('extracts style function', () => {
   expect(code).toMatchSnapshot();
 });
 
-test('multiple variable declarators in one declaration', () => {
+test.skip('multiple variable declarators in one declaration', () => {
   const { result, code } = babelTransform(`
     import { style } from '@macaron-css/core';
     

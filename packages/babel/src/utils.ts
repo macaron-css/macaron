@@ -60,8 +60,13 @@ export function getNearestIdentifier(path: NodePath<t.Node>) {
     }
 
     let id = currentPath.get('id');
-    if (!Array.isArray(id) && id.isIdentifier()) {
-      return id;
+    if (!Array.isArray(id)) {
+      if (id.isIdentifier()) return id;
+      if (id.isArrayPattern()) {
+        for (const el of id.get('elements')) {
+          if (el.isIdentifier()) return el;
+        }
+      }
     }
 
     let key = currentPath.get('key');
