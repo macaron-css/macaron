@@ -43,7 +43,7 @@ export async function compile({
     stdin: {
       contents: source,
       // contents: `module.exports = require(${JSON.stringify(filePath)})`,
-      loader: 'ts',
+      loader: 'tsx',
       resolveDir: dirname(filePath),
       sourcefile: basename(filePath),
     },
@@ -82,7 +82,8 @@ export async function compile({
 
             return {
               contents: source,
-              loader: args.path.match(/\.(ts|tsx)$/i) ? 'ts' : undefined,
+              // loader: args.path.match(/\.(ts|tsx)$/i) ? 'ts' : undefined,
+              loader: 'tsx',
               resolveDir: dirname(args.path),
             };
           });
