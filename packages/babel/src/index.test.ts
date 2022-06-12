@@ -139,9 +139,24 @@ test('inside block scope', () => {
   expect(code).toMatchSnapshot();
 });
 
-test.skip('styled components', () => {
+test('solid styled components', () => {
   const { result, code } = babelTransform(`
     import { styled } from '@macaron-css/solid';
+    
+    const Button = styled("button", {
+      base: { color: 'red' }
+    })
+
+    console.log(Button)
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});
+
+test('react styled components', () => {
+  const { result, code } = babelTransform(`
+    import { styled } from '@macaron-css/react';
     
     const Button = styled("button", {
       base: { color: 'red' }
@@ -209,6 +224,22 @@ test('same binding in multiple declarations', () => {
     const background = style({ background: color });
 
     console.log(foreground, background)
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});
+
+test('binding ordering', () => {
+  const { result, code } = babelTransform(`
+    import { style } from '@macaron-css/core';
+    import {render} from 'render'
+
+    const color = 'red';
+    const red = style({ color });
+    const longClass = \`abc \${red}\`;
+    
+    console.log(longClass)
   `);
 
   expect(result).toMatchSnapshot();

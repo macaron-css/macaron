@@ -24,10 +24,11 @@ export type ProgramScope = Scope & {
           type: 'style';
           export: t.ExportNamedDeclaration;
           // node: t.CallExpression;
-          name: string;
+          // name: string;
           shouldReExport: boolean;
         }
       | { type: 'binding'; node: t.Node }
+      | { type: 'alias'; node: t.VariableDeclaration }
     >;
     styles: Array<{
       shouldReExport: boolean;
@@ -37,3 +38,5 @@ export type ProgramScope = Scope & {
     cssFile: string;
   };
 };
+
+export type MacaronNode = ProgramScope['macaronData']['nodes'][number];

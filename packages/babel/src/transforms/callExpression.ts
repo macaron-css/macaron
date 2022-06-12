@@ -1,4 +1,4 @@
-import { PluginState, ProgramScope } from '../types';
+import { MacaronNode, PluginState, ProgramScope } from '../types';
 import { NodePath, types as t } from '@babel/core';
 import { Binding } from '@babel/traverse';
 import {
@@ -33,10 +33,9 @@ export function transformCallExpression(
       );
     }
 
-    let styleToPush: Exclude<
-      ProgramScope['macaronData']['nodes'][number],
-      { type: 'binding' }
-    >;
+    let styledNode: Exclude<MacaronNode, { type: 'binding' | 'alias' }>;
+    const aliasNodes: Array<string> = [];
+    const toRename = [] as t.Identifier[];
 
     if (ident.isArrayPattern()) {
       for (const elementPath of ident.get('elements')) {
@@ -45,36 +44,22 @@ export function transformCallExpression(
             elementPath.node.name
           );
 
-          const importedIdent = registerImportMethod(
-            variablePath,
-            programUniqueIdent.name,
-            programParent.macaronData.cssFile
-          );
-
           variablePath.scope.rename(
             elementPath.node.name,
             programUniqueIdent.name
           );
 
-          // this happening on each array pattern element means
-          // that multiple declarations get written to in the virtual file
-          // but it shouldn't matter much since they get tree shaked by the bundler
-          // and new identifiers are created for each, so it shouldn't cause violations
-          styleToPush = {
-            type: 'style',
-            shouldReExport,
-            export: t.exportNamedDeclaration(
-              t.variableDeclaration('var', [t.cloneNode(variablePath.node)])
-            ),
-            name: programUniqueIdent.name,
-          };
-
-          variablePath.scope.rename(
-            programUniqueIdent.name,
-            importedIdent.name
-          );
+          toRename.push(programUniqueIdent);
         }
       }
+
+      styledNode = {
+        type: 'style',
+        shouldReExport,
+        export: t.exportNamedDeclaration(
+          t.variableDeclaration('var', [t.cloneNode(variablePath.node)])
+        ),
+      };
     } else {
       const programUniqueIdent = programParent.generateUidIdentifier(
         ident.node.name
@@ -82,23 +67,38 @@ export function transformCallExpression(
 
       variablePath.scope.rename(ident.node.name, programUniqueIdent.name);
 
-      const importedIdent = registerImportMethod(
-        variablePath,
-        programUniqueIdent.name,
-        programParent.macaronData.cssFile
-      );
+      toRename.push(programUniqueIdent);
 
-      styleToPush = {
+      styledNode = {
         type: 'style',
         shouldReExport,
         export: t.exportNamedDeclaration(
           t.variableDeclaration('var', [t.cloneNode(variablePath.node)])
         ),
-        name: programUniqueIdent.name,
       };
 
-      variablePath.scope.rename(programUniqueIdent.name, importedIdent.name);
+      // const importedIdent = registerImportMethod(
+      //   variablePath,
+      //   programUniqueIdent.name,
+      //   programParent.macaronData.cssFile
+      // );
+
+      // variablePath.scope.rename(programUniqueIdent.name, importedIdent.name);
     }
+
+    for (const ident of toRename) {
+      const importedIdent = registerImportMethod(
+        variablePath,
+        ident.name,
+        programParent.macaronData.cssFile
+      );
+
+      aliasNodes.push([ident.name, importedIdent.name]);
+
+      variablePath.scope.rename(ident.name, importedIdent.name);
+    }
+
+    variablePath.remove();
 
     const allBindings = variablePath.scope.getAllBindings() as Record<
       string,
@@ -107,14 +107,25 @@ export function transformCallExpression(
 
     let shouldPush = false;
     let alreadyPushed = false;
+
     const pushStyle = () => {
-      if (shouldPush && !alreadyPushed) {
-        programParent.macaronData.nodes.push(styleToPush);
+      if (alreadyPushed) return;
+
+      if (shouldPush) {
+        programParent.macaronData.nodes.push(styledNode, {
+          type: 'alias',
+          node: t.variableDeclaration(
+            'var',
+            aliasNodes.map(([from, to]) =>
+              t.variableDeclarator(t.identifier(to), t.identifier(from))
+            )
+          ),
+        });
+
         alreadyPushed = true;
       }
 
       shouldPush = true;
-      // pushedStyle = true;
     };
 
     for (const bindingName in allBindings) {
@@ -128,8 +139,9 @@ export function transformCallExpression(
           if (
             programParent.macaronData.bindings.includes(binding.path) ||
             !binding.referenced
-          )
+          ) {
             return;
+          }
 
           programParent.macaronData.nodes.push({
             type: 'binding',
@@ -162,17 +174,16 @@ export function transformCallExpression(
           pushBinding();
           pushStyle();
         } else {
-          shouldPush = true;
-          pushBinding();
           pushStyle();
+          pushBinding();
         }
       }
     }
 
-    shouldPush = true;
-    pushStyle();
+    // push style if not already pushed
 
-    variablePath.remove();
+    // shouldPush = true;
+    pushStyle();
 
     return;
   }
@@ -208,7 +219,6 @@ export function transformCallExpression(
       programParent.macaronData.nodes.push({
         type: 'style',
         export: declaration,
-        name: ident.name,
         shouldReExport: false,
       });
 
@@ -257,17 +267,17 @@ export function transformCallExpression(
           bindingLoc.start.column < callLoc.start.column)
       ) {
         shouldPush = false;
-        pushBinding();
         pushStyle();
+        pushBinding();
       } else {
-        shouldPush = true;
+        // shouldPush = true;
         pushBinding();
         pushStyle();
       }
     }
   }
 
-  shouldPush = true;
+  // shouldPush = true;
   pushStyle();
 
   callPath.replaceWith(importedIdent);

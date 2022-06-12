@@ -17,5 +17,5 @@ export default function preprocess(
     bindings: [],
   };
 
-  // path.traverse(styledComponentsVisitor(path), state);
+  path.traverse(styledComponentsVisitor(path), state);
 }
