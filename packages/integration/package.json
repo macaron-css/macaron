@@ -14,7 +14,7 @@
     "@babel/core": "^7.18.2",
     "@vanilla-extract/integration": "^4.0.1",
     "esbuild": "^0.14.42",
-    "@macaron-css/babel": "0.1.4"
+    "@macaron-css/babel": "0.1.5"
   },
   "files": [
     "dist",
