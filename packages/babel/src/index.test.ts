@@ -233,13 +233,28 @@ test('same binding in multiple declarations', () => {
 test('binding ordering', () => {
   const { result, code } = babelTransform(`
     import { style } from '@macaron-css/core';
-    import {render} from 'render'
 
     const color = 'red';
     const red = style({ color });
     const longClass = \`abc \${red}\`;
     
     console.log(longClass)
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});
+
+test('nested bindings', () => {
+  const { result, code } = babelTransform(`
+    import { style } from '@macaron-css/core';
+
+    const theme = { color: 'red' };
+    const themeColor = theme.color;
+    const color = themeColor;
+
+    const red = style({ color });
+    console.log(red)
   `);
 
   expect(result).toMatchSnapshot();

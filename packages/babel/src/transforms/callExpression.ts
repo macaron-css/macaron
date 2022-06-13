@@ -39,21 +39,13 @@ export function transformCallExpression(
     ])
   );
 
-  callPath.traverse({
-    Expression(expressionPath, state) {
-      if (!expressionPath.isIdentifier()) return;
-
-      const binding = callPath.scope.getBinding(expressionPath as any);
-      if (!binding || programParent.macaronData.bindings.includes(binding.path))
-        return;
-
-      programParent.macaronData.bindings.push(binding.path);
-      programParent.macaronData.nodes.push({
-        type: 'binding',
-        node: t.cloneNode(findRootBinding(binding.path)),
-      });
-    },
-  });
+  const bindings = getBindings(callPath);
+  for (const binding of bindings) {
+    programParent.macaronData.nodes.push({
+      type: 'binding',
+      node: t.cloneNode(findRootBinding(binding).node),
+    });
+  }
 
   programParent.macaronData.nodes.push({
     type: 'style',
@@ -65,12 +57,39 @@ export function transformCallExpression(
 }
 
 function findRootBinding(path: NodePath<t.Node>) {
-  let node: t.Node;
+  let rootPath: NodePath<t.Node>;
   if (!('parent' in path) || path.parentPath?.isProgram()) {
-    node = path.node as any;
+    rootPath = path;
   } else {
-    node = path.parent as any;
+    rootPath = path.parentPath!;
   }
 
-  return t.cloneNode(node);
+  return rootPath;
+}
+
+function getBindings(path: NodePath<t.Node>) {
+  const programParent = path.scope.getProgramParent() as ProgramScope;
+  const bindings: Array<NodePath<t.Node>> = [];
+
+  path.traverse({
+    Expression(expressionPath, state) {
+      if (!expressionPath.isIdentifier()) return;
+
+      const binding = path.scope.getBinding(expressionPath as any);
+      if (
+        !binding ||
+        programParent.macaronData.bindings.includes(binding.path) ||
+        bindings.includes(binding.path)
+      )
+        return;
+
+      const bindingOfBindings = getBindings(findRootBinding(binding.path));
+
+      bindings.push(...bindingOfBindings, binding.path);
+    },
+  });
+
+  programParent.macaronData.bindings.push(...bindings);
+
+  return bindings;
 }

@@ -38,7 +38,7 @@ console.log(themeClass, vars);"
 
 exports[`binding ordering 1`] = `
 Array [
-  "extracted_58jcgh.css.ts",
+  "extracted_meded.css.ts",
   "import { style } from '@macaron-css/core';
 const color = 'red';
 export var _$$macaron_red = style({
@@ -48,7 +48,7 @@ export var _$$macaron_red = style({
 `;
 
 exports[`binding ordering 2`] = `
-"import { _$$macaron_red as _$$macaron_red2 } from \\"extracted_58jcgh.css.ts\\";
+"import { _$$macaron_red as _$$macaron_red2 } from \\"extracted_meded.css.ts\\";
 import { style } from '@macaron-css/core';
 const color = 'red';
 const red = _$$macaron_red2;
@@ -258,6 +258,33 @@ const red = _$$macaron_red2,
       blue = _$$macaron_blue2,
       green = _$$macaron_green2;
 console.log(red, blue, green);"
+`;
+
+exports[`nested bindings 1`] = `
+Array [
+  "extracted_15sqdx.css.ts",
+  "import { style } from '@macaron-css/core';
+const theme = {
+  color: 'red'
+};
+const themeColor = theme.color;
+const color = themeColor;
+export var _$$macaron_red = style({
+  color
+});",
+]
+`;
+
+exports[`nested bindings 2`] = `
+"import { _$$macaron_red as _$$macaron_red2 } from \\"extracted_15sqdx.css.ts\\";
+import { style } from '@macaron-css/core';
+const theme = {
+  color: 'red'
+};
+const themeColor = theme.color;
+const color = themeColor;
+const red = _$$macaron_red2;
+console.log(red);"
 `;
 
 exports[`react styled components 1`] = `
