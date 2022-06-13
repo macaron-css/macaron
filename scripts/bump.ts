@@ -1,10 +1,6 @@
-import { join } from 'path';
-import semver, { ReleaseType } from 'semver';
 import fs from 'fs';
-import { execSync, exec as _exec } from 'child_process';
-import { promisify } from 'util';
-
-const exec = promisify(_exec);
+import { join } from 'path';
+import semver from 'semver';
 
 const macaronPackageNames = [
   '@macaron-css/core',
@@ -12,6 +8,7 @@ const macaronPackageNames = [
   '@macaron-css/esbuild',
   '@macaron-css/babel',
   '@macaron-css/solid',
+  '@macaron-css/react',
   '@macaron-css/vite',
 ];
 
@@ -21,6 +18,7 @@ const packageToDir = {
   '@macaron-css/esbuild': 'esbuild',
   '@macaron-css/babel': 'babel',
   '@macaron-css/solid': 'solid',
+  '@macaron-css/react': 'react',
   '@macaron-css/vite': 'vite',
 };
 
@@ -47,10 +45,6 @@ async function main() {
     console.error(`Incorrect package: ${packageName}`);
     return;
   }
-
-  console.log('-> Building packages...');
-  execSync('yarn build', { encoding: 'utf8' });
-  console.log('');
 
   const packageDir = join(
     process.cwd(),
@@ -107,26 +101,6 @@ async function main() {
   console.log('');
 
   await Promise.all(examplesPromises);
-
-  execSync(
-    `git add . && git commit -m "release: ${packageName}@${newVersion}"`
-  );
-
-  console.log('-> Publishing packages...');
-  for (const dep of packagesToPublish) {
-    if (!macaronPackageNames.includes(dep)) {
-      console.error(`Incorrect dependency: ${dep}`);
-      process.exit(1);
-    }
-
-    const packageDir = join(
-      process.cwd(),
-      'packages',
-      packageToDir[dep as keyof typeof packageToDir]
-    );
-    execSync('npm publish', { cwd: packageDir });
-    console.log(`-> Published ${dep}@${newVersion}`);
-  }
 }
 
 main();

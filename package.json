@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "node -r esbuild-register scripts/build.ts",
-    "pub": "node -r esbuild-register scripts/publish.ts",
+    "bump": "node -r esbuild-register scripts/bump.ts",
     "test": "jest"
   },
   "dependencies": {
