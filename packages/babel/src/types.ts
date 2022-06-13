@@ -23,18 +23,11 @@ export type ProgramScope = Scope & {
       | {
           type: 'style';
           export: t.ExportNamedDeclaration;
-          // node: t.CallExpression;
-          // name: string;
           shouldReExport: boolean;
         }
       | { type: 'binding'; node: t.Node }
       | { type: 'alias'; node: t.VariableDeclaration }
     >;
-    styles: Array<{
-      shouldReExport: boolean;
-      declaration: t.ExportNamedDeclaration;
-      name: string;
-    }>;
     cssFile: string;
   };
 };

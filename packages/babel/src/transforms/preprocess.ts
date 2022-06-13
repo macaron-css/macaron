@@ -1,6 +1,6 @@
 import { NodePath, types as t } from '@babel/core';
 import { PluginState, ProgramScope } from '../types';
-import { styledComponentsVisitor } from '../visitors/styled-components';
+import { StyledComponentsVisitor } from './styledComponents';
 import hash from '@emotion/hash';
 
 export default function preprocess(
@@ -11,11 +11,10 @@ export default function preprocess(
   state.styledNodes = [];
   (path.scope as ProgramScope).macaronData = {
     imports: new Map(),
-    styles: [],
     cssFile: `extracted_${hash(path.toString())}.css.ts`,
     nodes: [],
     bindings: [],
   };
 
-  path.traverse(styledComponentsVisitor(path), state);
+  path.traverse(StyledComponentsVisitor, state);
 }

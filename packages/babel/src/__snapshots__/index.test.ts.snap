@@ -264,7 +264,7 @@ exports[`react styled components 1`] = `
 Array [
   "extracted_5dzqko.css.ts",
   "import { recipe as _recipe } from \\"@macaron-css/core\\";
-export var _$$macaron__button = _recipe({
+export var _$$macaron_Button = _recipe({
   base: {
     color: 'red'
   }
@@ -273,12 +273,11 @@ export var _$$macaron__button = _recipe({
 `;
 
 exports[`react styled components 2`] = `
-"import { _$$macaron__button as _$$macaron__button2 } from \\"extracted_5dzqko.css.ts\\";
-import { $$styled as _$$styled } from \\"@macaron-css/react/runtime\\";
+"import { _$$macaron_Button as _$$macaron_Button2 } from \\"extracted_5dzqko.css.ts\\";
 import { recipe as _recipe } from \\"@macaron-css/core\\";
-const _button = _$$macaron__button2;
+import { $$styled as _$$styled } from \\"@macaron-css/react/runtime\\";
 
-const Button = /* @__PURE__ */_$$styled(\\"button\\", _button);
+const Button = /* @__PURE__ */_$$styled(\\"button\\", _$$macaron_Button2);
 
 console.log(Button);"
 `;
@@ -311,7 +310,7 @@ exports[`solid styled components 1`] = `
 Array [
   "extracted_304vki.css.ts",
   "import { recipe as _recipe } from \\"@macaron-css/core\\";
-export var _$$macaron__button = _recipe({
+export var _$$macaron_Button = _recipe({
   base: {
     color: 'red'
   }
@@ -320,12 +319,11 @@ export var _$$macaron__button = _recipe({
 `;
 
 exports[`solid styled components 2`] = `
-"import { _$$macaron__button as _$$macaron__button2 } from \\"extracted_304vki.css.ts\\";
-import { $$styled as _$$styled } from \\"@macaron-css/solid/runtime\\";
+"import { _$$macaron_Button as _$$macaron_Button2 } from \\"extracted_304vki.css.ts\\";
 import { recipe as _recipe } from \\"@macaron-css/core\\";
-const _button = _$$macaron__button2;
+import { $$styled as _$$styled } from \\"@macaron-css/solid/runtime\\";
 
-const Button = /* @__PURE__ */_$$styled(\\"button\\", _button);
+const Button = /* @__PURE__ */_$$styled(\\"button\\", _$$macaron_Button2);
 
 console.log(Button);"
 `;

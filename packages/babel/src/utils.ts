@@ -1,18 +1,6 @@
-import { template, NodePath, types as t } from '@babel/core';
+import { NodePath, types as t } from '@babel/core';
 import { addNamed } from '@babel/helper-module-imports';
 import { ProgramScope } from './types';
-
-export const buildImport = template(
-  'import { %%specifier%% as %%alias%% } from %%source%%;'
-);
-export const buildModuleExport = template('module.exports = %%nodes%%');
-export const buildNamedExport = template('export { %%ident%% }');
-export const buildComponentStyle = template(`
-const %%className%% = %%recipeImport%%(%%styles%%);
-`);
-export const buildComponent = template(
-  `const %%component%% = /* @__PURE__ */ %%styledImport%%(%%tag%%, %%className%%);`
-);
 
 export function invariant(cond: boolean, message: string): asserts cond {
   if (!cond) {
@@ -41,14 +29,6 @@ export function registerImportMethod(
     // problems with the multiple identifiers of the same thing
     return t.cloneNode(iden);
   }
-}
-
-export function registerExport(path: NodePath<t.Node>) {}
-
-export function registerMacaronStyle(path: NodePath<t.Node>) {
-  const styles =
-    (path.scope.getProgramParent() as ProgramScope).macaronData.styles ||
-    ((path.scope.getProgramParent() as ProgramScope).macaronData.styles = []);
 }
 
 export function getNearestIdentifier(path: NodePath<t.Node>) {
