@@ -18,6 +18,7 @@ macaron is a zero-runtime and type-safe CSS-in-JS library made with performance 
 ### Styled API
 
 ```jsx
+// or import it from @macaron-css/react
 import { styled } from '@macaron-css/solid';
 
 const StyledButton = styled('button', {
@@ -57,10 +58,10 @@ const StyledButton = styled('button', {
   },
 });
 
-// Use it like a regular solidjs component
+// Use it like a regular solidjs/react component
 function App() {
   return (
-    <StyledButton color="accent" size="small" rounded={true}>
+    <StyledButton color="accent" size="small" rounded>
       Click me!
     </StyledButton>
   );
@@ -71,27 +72,38 @@ function App() {
 
 The styling API is the same api is vanilla-extract, but allows styles to be defined in the same file, increasing the authoring experience.
 
-Check out [vanilla-extract docs](https://vanilla-extract.style/documentation/styling-api/)
+Check out [vanilla-extract docs](https://vanilla-extract.style/documentation/styling-api/) for the API reference.
 
-## Limitations
+These functions can also be called directly inside expressions to provide a `css` prop-like API with zero-runtime cost:-
 
-- The style declarations should preferably be at the top level and not inside a function.
-- All the properties passed to them should be evaluatable at build time and should not use any of the browser specific APIs (`window`, `document`)
-- Each style declaration should be it's own variable declaration
+```js
+import { style } from '@macaron-css/core';
+
+function App() {
+  return (
+    <div
+      class={style({
+        display: 'flex',
+        padding: '10px',
+      })}
+    >
+      <button class={style({ color: 'red' })}>Click me</button>
+    </div>
+  );
+}
+```
 
 ## How it works
 
 The esbuild/vite plugin loads every `ts` and `js` file and runs `@macaron-css/babel` plugin on it.
 
-The babel plugin looks for variable declarations in your code and checks if they are of macarons's API like `styled` or `recipe` etc.
+The babel plugin looks for call expressions in your code and checks if the callee is a macarons API like `styled` or `recipe` etc.
 
-It finds the styles defined in the currently processed file, looks for all their referenced identifiers, gets all their declarations and repeats this cycle until no more are found and constructs a new babel program of these statements.
+It traverses the call expressions and finds all the referenced identifiers, gets all their declarations and repeats this cycle until no more are found and constructs a new babel program of these statements.
 
-It then converts that AST to string and generates a virtual file from it and returns the contents of this virtual file along with the metadata.
+It then converts that AST to string and generates a virtual file from it and returns the contents of this virtual file along with the metadata and adds imports for those extracted styles in the current file.
 
 It also generates unique filename for these css files based on `murmurhash`.
-
-It also adds imports for those extracted styles in the current file.
 
 It tags all these extracted files in a namespace and pre evaluates them at build time using vanilla-extract
 
@@ -122,19 +134,15 @@ To This:
 
 ```js
 // main.ts
-import { _StyledButton } from 'extracted_1747103777.css.ts';
-import { $$styled as _$$styled } from '@macaron-css/solid/runtime';
+import { $macaron$$StyledButton } from 'extracted_1747103777.css.ts';
+import { $$styled } from '@macaron-css/solid/runtime';
 
-const StyledButton = _$$styled('button', _StyledButton);
-```
+const StyledButton = $$styled('button', $macaron$$StyledButton);
 
-and
-
-```js
 // extracted_1747103777.css.ts
-import { recipe as _recipe } from '@macaron-css/core';
+import { recipe } from '@macaron-css/core';
 
-const _StyledButton = _recipe({
+export var $macaron$$StyledButton = recipe({
   base: {
     borderRadius: 6,
   },
@@ -149,8 +157,6 @@ const _StyledButton = _recipe({
     color: 'accent',
   },
 });
-
-module.exports = { _StyledButton };
 ```
 
 Which gets further compiled to:
@@ -160,7 +166,7 @@ Which gets further compiled to:
 import 'extracted_1747103777.vanilla.css';
 import { createRuntimeFn } from '@macaron-css/core/create-runtime-fn';
 
-const _StyledButton = createRuntimeFn({
+export var $macaron$$StyledButton = createRuntimeFn({
   defaultClassName: 'extracted_1747103777__1g7h5za0',
   variantClassNames: {
     color: {
@@ -173,8 +179,6 @@ const _StyledButton = createRuntimeFn({
     color: 'accent',
   },
 });
-
-module.exports = { _StyledButton };
 ```
 
 The extracted css will look something like this:
@@ -194,25 +198,3 @@ The extracted css will look something like this:
   background: slateblue;
 }
 ```
-
-<!-- ## To be implemented
-
-- Static extraction of styles in expressions.
-
-  Currently the static extraction requires each style that has to be extracted also have a variable declaration. This way it can remove the declaration and add an import with the same identifier.
-  It currently **wouldn't** work with this:
-
-  ```js
-  import { style } from '@macaron-css/core';
-
-  let class = `abc ${style({ color: 'red' })}`;
-  ```
-
-  but **would** work with this:
-
-  ```js
-  import { style } from '@macaron-css/core';
-
-  let red = style({ color: 'red' });
-  let class = `abc ${red}`;
-  ``` -->
