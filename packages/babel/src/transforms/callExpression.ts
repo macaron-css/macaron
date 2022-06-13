@@ -11,9 +11,10 @@ export function transformCallExpression(
   callPath: NodePath<t.CallExpression>,
   _callState: PluginState
 ) {
+  const callee = callPath.get('callee');
   if (
     !extractionAPIs.some(api =>
-      callPath.get('callee').referencesImport('@macaron-css/core', api)
+      callee.referencesImport('@macaron-css/core', api)
     )
   ) {
     return;
@@ -38,77 +39,27 @@ export function transformCallExpression(
     ])
   );
 
-  const allBindings = callPath.scope.getAllBindings() as Record<
-    string,
-    Binding
-  >;
+  callPath.traverse({
+    Expression(expressionPath, state) {
+      if (!expressionPath.isIdentifier()) return;
 
-  let shouldPush = false;
-  let alreadyPushed = false;
-  const pushStyle = () => {
-    if (shouldPush && !alreadyPushed) {
+      const binding = callPath.scope.getBinding(expressionPath as any);
+      if (!binding || programParent.macaronData.bindings.includes(binding.path))
+        return;
+
+      programParent.macaronData.bindings.push(binding.path);
       programParent.macaronData.nodes.push({
-        type: 'style',
-        export: declaration,
-        shouldReExport: false,
+        type: 'binding',
+        node: t.cloneNode(findRootBinding(binding.path)),
       });
+    },
+  });
 
-      alreadyPushed = true;
-    }
-
-    shouldPush = true;
-  };
-
-  for (const bindingName in allBindings) {
-    const binding = allBindings[bindingName];
-    if (binding && bindingName) {
-      const bindingNode = findRootBinding(binding.path);
-      const bindingLoc = bindingNode.loc;
-      const callLoc = callPath.node.loc;
-
-      const pushBinding = () => {
-        if (programParent.macaronData.bindings.includes(binding.path)) {
-          return;
-        }
-
-        programParent.macaronData.nodes.push({
-          type: 'binding',
-          node: t.cloneNode(bindingNode),
-        });
-        programParent.macaronData.bindings.push(binding.path);
-      };
-
-      if (programParent.macaronData.bindings.includes(binding.path)) {
-        pushStyle();
-
-        continue;
-      }
-
-      if (bindingLoc == null || callLoc == null) {
-        pushBinding();
-        pushStyle();
-
-        continue;
-      }
-
-      if (
-        bindingLoc.end.line < callLoc.start.line ||
-        (bindingLoc.start.line < callLoc.start.line &&
-          bindingLoc.end.line > callLoc.end.line) ||
-        (bindingLoc.start.line === callLoc.start.line &&
-          bindingLoc.start.column < callLoc.start.column)
-      ) {
-        shouldPush = false;
-        pushBinding();
-        pushStyle();
-      } else {
-        pushStyle();
-        pushBinding();
-      }
-    }
-  }
-
-  pushStyle();
+  programParent.macaronData.nodes.push({
+    type: 'style',
+    export: declaration,
+    shouldReExport: false,
+  });
 
   callPath.replaceWith(importedIdent);
 }

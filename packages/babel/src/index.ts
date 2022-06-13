@@ -6,11 +6,7 @@ import { PluginOptions, PluginState } from './types';
 
 export { PluginOptions };
 
-// TODO: target VariableDeclarator instead of VariableDeclaration
-export function macaronBabelPlugin(): PluginObj<// opts: PluginOptions
-PluginState> {
-  let programPath: NodePath<t.Program>;
-
+export function macaronBabelPlugin(): PluginObj<PluginState> {
   return {
     name: 'macaron-css-babel',
     visitor: {

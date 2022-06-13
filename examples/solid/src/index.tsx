@@ -1,5 +1,6 @@
 import { render } from 'solid-js/web';
 import { styled, StyleVariants } from '@macaron-css/solid';
+import { style } from '@macaron-css/core';
 
 const Button = styled('button', {
   base: {
@@ -45,7 +46,8 @@ type Variants = StyleVariants<typeof Button>;
 
 function App() {
   return (
-    <div>
+    // inline styles with zero-runtime cost
+    <div class={style({ color: 'red' })}>
       <Button color="brand" size="medium">
         Click Me
       </Button>
