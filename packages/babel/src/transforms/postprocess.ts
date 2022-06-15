@@ -7,14 +7,9 @@ export default function postprocess(
   state: PluginState
 ) {
   const programParent = path.scope as ProgramScope;
-
-  const program = t.program(
-    programParent.macaronData.nodes.map(node =>
-      node.type === 'style' ? node.export : node.node
-    ) as t.Statement[]
-  );
-
-  const cssExtract = generate(program).code;
+  const cssExtract = generate(
+    t.program(programParent.macaronData.nodes as t.Statement[])
+  ).code;
 
   state.opts.result = [programParent.macaronData.cssFile, cssExtract];
 }

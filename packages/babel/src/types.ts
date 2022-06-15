@@ -19,15 +19,7 @@ export type ProgramScope = Scope & {
   macaronData: {
     imports: Map<string, t.Identifier>;
     bindings: Array<NodePath<t.Node>>;
-    nodes: Array<
-      | {
-          type: 'style';
-          export: t.ExportNamedDeclaration;
-          shouldReExport: boolean;
-        }
-      | { type: 'binding'; node: t.Node }
-      | { type: 'alias'; node: t.VariableDeclaration }
-    >;
+    nodes: Array<t.Node>;
     cssFile: string;
   };
 };

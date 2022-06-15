@@ -1,6 +1,5 @@
-import { MacaronNode, PluginState, ProgramScope } from '../types';
 import { NodePath, types as t } from '@babel/core';
-import { Binding } from '@babel/traverse';
+import { PluginState, ProgramScope } from '../types';
 import {
   extractionAPIs,
   getNearestIdentifier,
@@ -24,34 +23,29 @@ export function transformCallExpression(
   const nearestIdentifier = getNearestIdentifier(callPath);
   const ident = nearestIdentifier
     ? programParent.generateUidIdentifier(
-        `$$macaron_${nearestIdentifier.node.name}`
+        `$macaron$$${nearestIdentifier.node.name}`
       )
-    : programParent.generateUidIdentifier('$$macaron_identifier');
+    : programParent.generateUidIdentifier('$macaron$$unknown');
   const importedIdent = registerImportMethod(
     callPath,
     ident.name,
     programParent.macaronData.cssFile
   );
 
-  const declaration = t.exportNamedDeclaration(
-    t.variableDeclaration('var', [
-      t.variableDeclarator(ident, t.cloneNode(callPath.node)),
-    ])
-  );
-
   const bindings = getBindings(callPath);
   for (const binding of bindings) {
-    programParent.macaronData.nodes.push({
-      type: 'binding',
-      node: t.cloneNode(findRootBinding(binding).node),
-    });
+    programParent.macaronData.nodes.push(
+      t.cloneNode(findRootBinding(binding).node)
+    );
   }
 
-  programParent.macaronData.nodes.push({
-    type: 'style',
-    export: declaration,
-    shouldReExport: false,
-  });
+  programParent.macaronData.nodes.push(
+    t.exportNamedDeclaration(
+      t.variableDeclaration('var', [
+        t.variableDeclarator(ident, t.cloneNode(callPath.node)),
+      ])
+    )
+  );
 
   callPath.replaceWith(importedIdent);
 }
