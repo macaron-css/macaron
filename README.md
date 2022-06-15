@@ -13,6 +13,54 @@ macaron is a zero-runtime and type-safe CSS-in-JS library made with performance 
 - Out of box support for react and solidjs
 - Supports esbuild and vite (with hmr)
 
+## Setup
+
+macaron currently supports esbuild and vite with the following setup:-
+
+### vite
+
+1. Install the dependencies
+
+```
+npm install @macaron-css/core @macaron-css/vite
+```
+
+2. Add the vite plugin
+
+```js
+import { macaronVitePlugin } from '@macaron-css/vite';
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  plugins: [macaronVitePlugin()],
+});
+```
+
+### esbuild
+
+1. Install the dependencies
+
+```
+npm install @macaron-css/core @macaron-css/esbuild
+```
+
+2. Add the esbuild plugin
+
+> If you already have `@vanilla-extract/esbuild-plugin` in your `plugins`, then change `...macaronEsbuildPlugins()` to `macaronEsbuildPlugin()`
+
+```js
+const esbuild = require('esbuild');
+const { macaronEsbuildPlugins } = require('@macaron-css/esbuild');
+
+esbuild.build({
+  entryPoints: ['src/index.ts'],
+  plugins: [...macaronEsbuildPlugins()],
+  outdir: 'dist',
+  format: 'esm',
+  bundle: true,
+});
+```
+
 ## Example
 
 ### Styled API
