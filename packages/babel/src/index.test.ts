@@ -260,3 +260,22 @@ test('nested bindings', () => {
   expect(result).toMatchSnapshot();
   expect(code).toMatchSnapshot();
 });
+
+test.only('css variables', () => {
+  const { result, code } = babelTransform(`
+    import { style, createVar } from '@macaron-css/core';
+
+    const colorVar = createVar();
+
+    const red = style({
+      color: 'red',
+      vars: {
+        [colorVar]: 'red'
+      }
+    });
+    console.log(red)
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});

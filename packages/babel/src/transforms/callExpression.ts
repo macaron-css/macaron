@@ -46,6 +46,11 @@ export function transformCallExpression(
       ])
     )
   );
+  // add a variable alias
+  // because other transforms use the imported ident as reference
+  programParent.macaronData.nodes.push(
+    t.variableDeclaration('var', [t.variableDeclarator(importedIdent, ident)])
+  );
 
   callPath.replaceWith(importedIdent);
 }
