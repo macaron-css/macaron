@@ -261,7 +261,7 @@ test('nested bindings', () => {
   expect(code).toMatchSnapshot();
 });
 
-test.only('css variables', () => {
+test('css variables', () => {
   const { result, code } = babelTransform(`
     import { style, createVar } from '@macaron-css/core';
 

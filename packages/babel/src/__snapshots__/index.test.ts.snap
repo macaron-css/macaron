@@ -6,7 +6,8 @@ Array [
   "import { style } from '@macaron-css/core';
 export var _$macaron$$red = style({
   color: 'red'
-});",
+});
+var _$macaron$$red2 = _$macaron$$red;",
 ]
 `;
 
@@ -25,7 +26,8 @@ export var _$macaron$$themeClass = createTheme({
   colors: {
     brand: 'red'
   }
-});",
+});
+var _$macaron$$themeClass2 = _$macaron$$themeClass;",
 ]
 `;
 
@@ -43,7 +45,8 @@ Array [
 const color = 'red';
 export var _$macaron$$red = style({
   color
-});",
+});
+var _$macaron$$red2 = _$macaron$$red;",
 ]
 `;
 
@@ -89,7 +92,8 @@ Array [
   "import { style } from '@macaron-css/core';
 export var _$macaron$$unknown = style({
   color: 'red'
-});",
+});
+var _$macaron$$unknown2 = _$macaron$$unknown;",
 ]
 `;
 
@@ -105,7 +109,8 @@ Array [
   "import { style } from '@macaron-css/core';
 export var _$macaron$$red = style({
   color: 'red'
-});",
+});
+var _$macaron$$red2 = _$macaron$$red;",
 ]
 `;
 
@@ -123,9 +128,11 @@ Array [
 export var _$macaron$$red = style({
   color: 'red'
 });
+var _$macaron$$red2 = _$macaron$$red;
 export var _$macaron$$red3 = style({
   color: 'blue'
-});",
+});
+var _$macaron$$red4 = _$macaron$$red3;",
 ]
 `;
 
@@ -149,9 +156,11 @@ Array [
 export var _$macaron$$arr = style({
   color: 'red'
 });
+var _$macaron$$arr2 = _$macaron$$arr;
 export var _$macaron$$arr3 = style({
   color: 'blue'
-});",
+});
+var _$macaron$$arr4 = _$macaron$$arr3;",
 ]
 `;
 
@@ -169,7 +178,8 @@ Array [
   "import { style } from '@macaron-css/core';
 export var _$macaron$$str = style({
   color: 'red'
-});",
+});
+var _$macaron$$str2 = _$macaron$$str;",
 ]
 `;
 
@@ -186,7 +196,8 @@ Array [
   "import { style } from '@macaron-css/core';
 export var _$macaron$$key = style({
   color: 'red'
-});",
+});
+var _$macaron$$key2 = _$macaron$$key;",
 ]
 `;
 
@@ -207,7 +218,8 @@ Array [
   "import { style } from '@macaron-css/core';
 export var _$macaron$$red = style({
   color: 'red'
-});",
+});
+var _$macaron$$red2 = _$macaron$$red;",
 ]
 `;
 
@@ -226,7 +238,8 @@ Array [
   "import { style } from '@macaron-css/core';
 export var _$macaron$$App = style({
   color: 'red'
-});",
+});
+var _$macaron$$App2 = _$macaron$$App;",
 ]
 `;
 
@@ -248,7 +261,8 @@ Array [
 const redColor = 'red';
 export var _$macaron$$red = style({
   color: redColor
-});",
+});
+var _$macaron$$red2 = _$macaron$$red;",
 ]
 `;
 
@@ -267,12 +281,15 @@ Array [
 export var _$macaron$$red = style({
   color: 'red'
 });
+var _$macaron$$red2 = _$macaron$$red;
 export var _$macaron$$blue = style({
   color: 'blue'
 });
+var _$macaron$$blue2 = _$macaron$$blue;
 export var _$macaron$$green = style({
   color: 'green'
-});",
+});
+var _$macaron$$green2 = _$macaron$$green;",
 ]
 `;
 
@@ -298,7 +315,8 @@ const themeColor = theme.color;
 const color = themeColor;
 export var _$macaron$$red = style({
   color
-});",
+});
+var _$macaron$$red2 = _$macaron$$red;",
 ]
 `;
 
@@ -322,7 +340,8 @@ export var _$macaron$$Button = _recipe({
   base: {
     color: 'red'
   }
-});",
+});
+var _$macaron$$Button2 = _$macaron$$Button;",
 ]
 `;
 
@@ -344,9 +363,11 @@ const color = 'red';
 export var _$macaron$$foreground = style({
   color
 });
+var _$macaron$$foreground2 = _$macaron$$foreground;
 export var _$macaron$$background = style({
   background: color
-});",
+});
+var _$macaron$$background2 = _$macaron$$background;",
 ]
 `;
 
@@ -368,7 +389,8 @@ export var _$macaron$$Button = _recipe({
   base: {
     color: 'red'
   }
-});",
+});
+var _$macaron$$Button2 = _$macaron$$Button;",
 ]
 `;
 
