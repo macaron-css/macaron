@@ -7,8 +7,8 @@ export function $$styled(
 ) {
   function StyledComponent(props: any) {
     const [classes, others] = splitProps(props, [
-      ...styles.variants,
-      component.variants,
+      ...(styles.variants || []),
+      ...(component.variants || []),
     ]);
 
     return createComponent(

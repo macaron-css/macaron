@@ -19,5 +19,10 @@
   },
   "engines": {
     "node": ">=14"
+  },
+  "dependencies": {
+    "@macaron-css/core": "^0.1.4",
+    "@macaron-css/vite": "^0.1.1",
+    "@macaron-css/solid": "^0.1.2"
   }
 }

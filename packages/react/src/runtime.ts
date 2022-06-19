@@ -6,7 +6,10 @@ export function $$styled(
   styles: ((_: any) => string) & { variants: string[] }
 ) {
   function StyledComponent(props: any) {
-    const allVariants = [...styles.variants, ...component.variants];
+    const allVariants = [
+      ...(styles.variants || []),
+      ...(component.variants || []),
+    ];
     const [classes, others] = useMemo(() => {
       const [classes, others]: any[] = [{}, {}];
 
