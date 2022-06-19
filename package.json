@@ -4,10 +4,15 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "examples/*"
+    ],
+    "nohoist": [
+      "**/solid-start"
+    ]
+  },
   "scripts": {
     "build": "node -r esbuild-register scripts/build.ts",
     "bump": "node -r esbuild-register scripts/bump.ts",
