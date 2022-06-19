@@ -66,7 +66,7 @@ export function macaronVitePlugin(): Plugin {
       // console.log('LOADING', id);
 
       if (extractedCssFileFilter.test(id)) {
-        let normalizedId = id.startsWith('/') ? id.slice(1) : id;
+        let normalizedId = customNormalize(id);
         let pluginData = idToPluginData.get(normalizedId);
 
         // console.log('LOADING', id, p);
@@ -326,8 +326,10 @@ export function macaronVitePlugin(): Plugin {
           resolvers.set(resolvedCssPath, cssExtract);
           resolverCache.delete(id);
 
+          const normalizedCssPath = customNormalize(resolvedCssPath);
+
           idToPluginData.set(id, { mainFilePath: id });
-          idToPluginData.set(resolvedCssPath, {
+          idToPluginData.set(normalizedCssPath, {
             mainFilePath: id,
             path: resolvedCssPath,
           });
@@ -349,4 +351,8 @@ function replaceCreateRuntimeFnWithMacaron(source: string) {
     /("@vanilla-extract\/recipes\/createRuntimeFn"|'@vanilla-extract\/recipes\/createRuntimeFn')/g,
     '"@macaron-css/core/create-runtime-fn"'
   );
+}
+
+function customNormalize(path: string) {
+  return path.startsWith('/') ? path.slice(1) : path;
 }
