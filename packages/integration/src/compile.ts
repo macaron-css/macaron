@@ -1,7 +1,6 @@
 import { addFileScope, getPackageInfo } from '@vanilla-extract/integration';
-import { PluginBuild } from 'esbuild';
+import defaultEsbuild, { PluginBuild } from 'esbuild';
 import fs from 'fs';
-import defaultEsbuild from 'esbuild';
 import { basename, dirname, join } from 'path';
 
 interface CompileOptions {
@@ -42,7 +41,6 @@ export async function compile({
   const result = await esbuild.build({
     stdin: {
       contents: source,
-      // contents: `module.exports = require(${JSON.stringify(filePath)})`,
       loader: 'tsx',
       resolveDir: dirname(filePath),
       sourcefile: basename(filePath),
@@ -67,18 +65,18 @@ export async function compile({
             let contents = await fs.promises.readFile(args.path, 'utf8');
             let source: string;
 
-            if (resolverCache.has(args.path)) {
-              source = resolverCache.get(args.path)!;
-            } else {
-              source = addFileScope({
-                source: contents,
-                filePath: args.path,
-                rootPath: build.initialOptions.absWorkingDir!,
-                packageName: packageInfo.name,
-              });
+            // if (resolverCache.has(args.path)) {
+            //   source = resolverCache.get(args.path)!;
+            // } else {
+            source = addFileScope({
+              source: contents,
+              filePath: args.path,
+              rootPath: build.initialOptions.absWorkingDir!,
+              packageName: packageInfo.name,
+            });
 
-              resolverCache.set(args.path, source);
-            }
+            // resolverCache.set(args.path, source);
+            // }
 
             return {
               contents: source,

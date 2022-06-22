@@ -22,24 +22,27 @@ export function macaronEsbuildPlugin(): Plugin {
       let resolvers = new Map<string, string>();
       let resolverCache = new Map<string, string>();
 
-      build.onResolve(
-        // { filter: /^extracted_(.*)\.css\.ts\?from=(.*)$/ },
-        { filter: /^extracted_(.*)\.css\.ts$/ },
-        async args => {
-          if (!resolvers.has(args.path)) return;
+      build.onEnd(() => {
+        resolvers.clear();
+        resolverCache.clear();
+      });
 
-          let resolvedPath = join(args.importer, '..', args.path);
-
-          return {
-            namespace: 'extracted-css',
-            path: resolvedPath,
-            pluginData: {
-              path: args.path,
-              mainFilePath: args.pluginData.mainFilePath,
-            },
-          };
+      build.onResolve({ filter: /^extracted_(.*)\.css\.ts$/ }, async args => {
+        if (!resolvers.has(args.path)) {
+          return;
         }
-      );
+
+        let resolvedPath = join(args.importer, '..', args.path);
+
+        return {
+          namespace: 'extracted-css',
+          path: resolvedPath,
+          pluginData: {
+            path: args.path,
+            mainFilePath: args.pluginData.mainFilePath,
+          },
+        };
+      });
 
       build.onLoad(
         { filter: /.*/, namespace: 'extracted-css' },
@@ -55,23 +58,38 @@ export function macaronEsbuildPlugin(): Plugin {
             resolverCache,
           });
 
-          const contents = await processVanillaFile({
-            source,
-            filePath: path,
-            outputCss: undefined,
-            identOption:
-              undefined ?? (build.initialOptions.minify ? 'short' : 'debug'),
-          });
+          try {
+            const contents = await processVanillaFile({
+              source,
+              filePath: path,
+              outputCss: undefined,
+              identOption:
+                undefined ?? (build.initialOptions.minify ? 'short' : 'debug'),
+            });
 
-          return {
-            contents: contents.replace(
-              /("@vanilla-extract\/recipes\/createRuntimeFn"|'@vanilla-extract\/recipes\/createRuntimeFn')/g,
-              '"@macaron-css/core/create-runtime-fn"'
-            ),
-            loader: 'js',
-            // watchFiles,
-            resolveDir: dirname(path),
-          };
+            return {
+              contents: contents.replace(
+                /("@vanilla-extract\/recipes\/createRuntimeFn"|'@vanilla-extract\/recipes\/createRuntimeFn')/g,
+                '"@macaron-css/core/create-runtime-fn"'
+              ),
+              loader: 'js',
+              resolveDir: dirname(path),
+            };
+          } catch (error) {
+            if (error instanceof ReferenceError) {
+              return {
+                errors: [
+                  {
+                    text: error.toString(),
+                    detail:
+                      'This usually happens if you use a browser api at the top level of a file being imported.',
+                  },
+                ],
+              };
+            }
+
+            throw error;
+          }
         }
       );
 

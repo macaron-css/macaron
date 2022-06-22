@@ -279,3 +279,16 @@ test('css variables', () => {
   expect(result).toMatchSnapshot();
   expect(code).toMatchSnapshot();
 });
+
+test('global styles', () => {
+  const { result, code } = babelTransform(`
+    import { globalStyle } from '@macaron-css/core';
+
+    globalStyle('html, body', {
+      color: 'red',
+    });
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});

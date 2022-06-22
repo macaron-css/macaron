@@ -1,8 +1,11 @@
 import { style } from '@macaron-css/core';
+import { themeClass, vars } from './theme';
 
 const redButton = style({
-  color: 'red',
+  color: vars.colors.primary,
 });
+
+document.body.classList.add(themeClass);
 
 document.write(`
 <button class=${redButton}>

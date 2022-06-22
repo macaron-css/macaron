@@ -6,7 +6,7 @@ export async function babelTransform(path: string) {
   const result = await transformFileAsync(path, {
     plugins: [[macaronBabelPlugin(), options]],
     presets: ['@babel/preset-typescript'],
-    sourceMaps: 'inline',
+    sourceMaps: false,
   });
 
   if (result === null || result.code === null)

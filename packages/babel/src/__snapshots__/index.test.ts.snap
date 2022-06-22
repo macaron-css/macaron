@@ -121,6 +121,23 @@ const red = _$macaron$$red2;
 console.log(red);"
 `;
 
+exports[`global styles 1`] = `
+Array [
+  "extracted_hg9qeo.css.ts",
+  "import { globalStyle } from '@macaron-css/core';
+export var _$macaron$$unknown = globalStyle('html, body', {
+  color: 'red'
+});
+var _$macaron$$unknown2 = _$macaron$$unknown;",
+]
+`;
+
+exports[`global styles 2`] = `
+"import { _$macaron$$unknown as _$macaron$$unknown2 } from \\"extracted_hg9qeo.css.ts\\";
+import { globalStyle } from '@macaron-css/core';
+_$macaron$$unknown2;"
+`;
+
 exports[`hoisting same variable name in different scope 1`] = `
 Array [
   "extracted_l7klua.css.ts",
