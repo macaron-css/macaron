@@ -8,7 +8,7 @@
     "start": "npx serve ."
   },
   "dependencies": {
-    "@macaron-css/esbuild": "0.1.2",
+    "@macaron-css/esbuild": "0.1.3",
     "@macaron-css/solid": "0.1.3",
     "babel-preset-solid": "^1.4.2",
     "@macaron-css/core": "0.1.4",
