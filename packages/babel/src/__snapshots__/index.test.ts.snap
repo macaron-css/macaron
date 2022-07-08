@@ -38,6 +38,60 @@ const [themeClass, vars] = _$macaron$$themeClass2;
 console.log(themeClass, vars);"
 `;
 
+exports[`arrow function bindings 1`] = `
+Array [
+  "extracted_1q9edn9.css.ts",
+  "import { style } from '@macaron-css/core';
+const utility = {
+  gap: size => ({
+    gap: size
+  })
+};
+export var _$macaron$$red = style({ ...utility.gap('10px')
+});
+var _$macaron$$red2 = _$macaron$$red;",
+]
+`;
+
+exports[`arrow function bindings 2`] = `
+"import { _$macaron$$red as _$macaron$$red2 } from \\"extracted_1q9edn9.css.ts\\";
+import { style } from '@macaron-css/core';
+const utility = {
+  gap: size => ({
+    gap: size
+  })
+};
+const red = _$macaron$$red2;
+console.log(red);"
+`;
+
+exports[`arrow function bindings 3`] = `
+Array [
+  "extracted_1p6jeby.css.ts",
+  "import { style } from '@macaron-css/core';
+
+const getStyles = color => ({
+  color
+});
+
+export var _$macaron$$red = style({ ...getStyles('red')
+});
+var _$macaron$$red2 = _$macaron$$red;",
+]
+`;
+
+exports[`arrow function bindings 4`] = `
+"import { _$macaron$$red as _$macaron$$red2 } from \\"extracted_1p6jeby.css.ts\\";
+import { style } from '@macaron-css/core';
+
+const getStyles = color => ({
+  color
+});
+
+const red = _$macaron$$red2;
+console.log(red);"
+`;
+
 exports[`binding ordering 1`] = `
 Array [
   "extracted_meded.css.ts",
@@ -117,6 +171,71 @@ var _$macaron$$red2 = _$macaron$$red;",
 exports[`extracts style function 2`] = `
 "import { _$macaron$$red as _$macaron$$red2 } from \\"extracted_1sozav4.css.ts\\";
 import { style } from '@macaron-css/core';
+const red = _$macaron$$red2;
+console.log(red);"
+`;
+
+exports[`function declaration bindings 1`] = `
+Array [
+  "extracted_140ruiz.css.ts",
+  "import { style } from '@macaron-css/core';
+
+function getColor() {
+  return 'red';
+}
+
+export var _$macaron$$red = style({
+  color: getColor()
+});
+var _$macaron$$red2 = _$macaron$$red;",
+]
+`;
+
+exports[`function declaration bindings 2`] = `
+"import { _$macaron$$red as _$macaron$$red2 } from \\"extracted_140ruiz.css.ts\\";
+import { style } from '@macaron-css/core';
+
+function getColor() {
+  return 'red';
+}
+
+const red = _$macaron$$red2;
+console.log(red);"
+`;
+
+exports[`function declaration bindings 3`] = `
+Array [
+  "extracted_1st5g7g.css.ts",
+  "import { style } from '@macaron-css/core';
+
+function getStyles(color) {
+  return {
+    color
+  };
+}
+
+function getStyles(color) {
+  return {
+    color
+  };
+}
+
+export var _$macaron$$red = style({ ...getStyles('red')
+});
+var _$macaron$$red2 = _$macaron$$red;",
+]
+`;
+
+exports[`function declaration bindings 4`] = `
+"import { _$macaron$$red as _$macaron$$red2 } from \\"extracted_1st5g7g.css.ts\\";
+import { style } from '@macaron-css/core';
+
+function getStyles(color) {
+  return {
+    color
+  };
+}
+
 const red = _$macaron$$red2;
 console.log(red);"
 `;

@@ -292,3 +292,59 @@ test('global styles', () => {
   expect(result).toMatchSnapshot();
   expect(code).toMatchSnapshot();
 });
+
+test('arrow function bindings', () => {
+  {
+    const { result, code } = babelTransform(`
+    import { style } from '@macaron-css/core';
+    
+    const utility = { gap: (size) => ({ gap: size }) }
+    const red = style({ ...utility.gap('10px') });
+    console.log(red);
+  `);
+
+    expect(result).toMatchSnapshot();
+    expect(code).toMatchSnapshot();
+  }
+
+  {
+    const { result, code } = babelTransform(`
+    import { style } from '@macaron-css/core';
+    
+    const getStyles = (color) => ({ color })
+    const red = style({ ...getStyles('red') });
+    console.log(red);
+  `);
+
+    expect(result).toMatchSnapshot();
+    expect(code).toMatchSnapshot();
+  }
+});
+
+test('function declaration bindings', () => {
+  {
+    const { result, code } = babelTransform(`
+    import { style } from '@macaron-css/core';
+    
+    function getColor() { return 'red' }
+    const red = style({ color: getColor() });
+    console.log(red);
+  `);
+
+    expect(result).toMatchSnapshot();
+    expect(code).toMatchSnapshot();
+  }
+
+  {
+    const { result, code } = babelTransform(`
+    import { style } from '@macaron-css/core';
+    
+    function getStyles(color) { return { color } }
+    const red = style({ ...getStyles('red') });
+    console.log(red);
+  `);
+
+    expect(result).toMatchSnapshot();
+    expect(code).toMatchSnapshot();
+  }
+});

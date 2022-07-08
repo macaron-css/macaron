@@ -75,6 +75,7 @@ function getBindings(path: NodePath<t.Node>) {
       if (!expressionPath.isIdentifier()) return;
 
       const binding = path.scope.getBinding(expressionPath as any);
+
       if (
         !binding ||
         programParent.macaronData.bindings.includes(binding.path) ||
@@ -82,7 +83,16 @@ function getBindings(path: NodePath<t.Node>) {
       )
         return;
 
-      const bindingOfBindings = getBindings(findRootBinding(binding.path));
+      const rootBinding = findRootBinding(binding.path);
+
+      // prevents infinite loop in a few cases like having arguments in a function declaration
+      // if the path being checked is the same as the latest path, then the bindings will be same
+      if (path === rootBinding) {
+        bindings.push(binding.path);
+        return;
+      }
+
+      const bindingOfBindings = getBindings(rootBinding);
 
       bindings.push(...bindingOfBindings, binding.path);
     },
