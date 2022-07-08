@@ -20,7 +20,7 @@
     "@babel/core": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@babel/standalone": "^7.18.8",
-    "@macaron-css/babel": "^0.1.6",
+    "@macaron-css/babel": "^0.1.7",
     "@solid-primitives/scheduled": "^1.0.0",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
