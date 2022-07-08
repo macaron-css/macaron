@@ -63,8 +63,6 @@ export function macaronVitePlugin(): Plugin {
       }
     },
     async load(id, options) {
-      // console.log('LOADING', id);
-
       if (extractedCssFileFilter.test(id)) {
         let normalizedId = customNormalize(id);
         let pluginData = idToPluginData.get(normalizedId);
@@ -95,7 +93,7 @@ export function macaronVitePlugin(): Plugin {
         // console.log('\n----\n\n');
 
         idToPluginData.set(id, {
-          filePath: normalizedId,
+          filePath: id,
           originalPath: pluginData.mainFilePath,
         });
 
@@ -159,8 +157,6 @@ export function macaronVitePlugin(): Plugin {
             packageName,
           });
         }
-
-        // console.log({ code, moduleInfo });
 
         const { source, watchFiles } = await compile({
           filePath: moduleInfo.filePath,
