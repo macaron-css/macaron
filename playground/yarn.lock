@@ -322,10 +322,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@macaron-css/babel@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@macaron-css/babel/-/babel-0.1.5.tgz#9f1313505cb352bcfa74cf60a78fed03da770cb3"
-  integrity sha512-n9xJMLto4eUjmXTjk0NMW2cu49HN/FQnF/U9aIPR/cjCUwTINZP3Gps4x+6ZMWtiQT43cfM+U44nQ09VLsphVw==
+"@macaron-css/babel@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@macaron-css/babel/-/babel-0.1.6.tgz#fdcda05439366dad3548a5cf897ec9c28d43f536"
+  integrity sha512-s29Uq1P/gTK/Qt+2L5NnE5Mv9oJ5sQfkxqcvM8+75/Pg3/sAAMkWlO3PG40Czd32sLLRF3NIe+0luU4/5M00SQ==
   dependencies:
     "@babel/core" "^7.18.2"
     "@babel/generator" "^7.18.2"
@@ -351,6 +351,11 @@
     "@types/estree" "0.0.39"
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
+
+"@solid-primitives/scheduled@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@solid-primitives/scheduled/-/scheduled-1.0.0.tgz#40e8e408206bc7d97ce058b8bab7e0892bb24492"
+  integrity sha512-FfzYoAkFCRGBuCuXF8G7fU4J4SK9PhKbwxZvzqk+VVBcowPS1eGlLAtlqW/29paSKlUSxuLuhZxq1sPzwmuvoQ==
 
 "@types/babel__core@^7.1.19":
   version "7.1.19"
