@@ -24,6 +24,7 @@ export const createRuntimeFn = <Variants extends VariantGroups>(
 ) => {
   const runtimeFn: RuntimeFn<Variants> & {
     variants: Array<keyof Variants>;
+    defaultClassName: string;
   } = options => {
     let className = config.defaultClassName;
 
@@ -64,6 +65,7 @@ export const createRuntimeFn = <Variants extends VariantGroups>(
     return className;
   };
 
+  runtimeFn.defaultClassName = config.defaultClassName;
   runtimeFn.variants = Object.keys(config.variantClassNames);
 
   return runtimeFn;

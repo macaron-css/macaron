@@ -3,30 +3,34 @@ import {
   VariantGroups,
   VariantSelection,
 } from '@vanilla-extract/recipes/dist/declarations/src/types';
-import { JSX, Component, ParentComponent } from 'solid-js';
+import { PropsWithChildren, ReactElement, ReactNode } from 'react';
+
+type Component<TProps = {}> = (props: TProps) => ReactNode;
 
 type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[TComponent]
   : any;
 
-export function styled<TProps, Variants extends VariantGroups>(
+export function styled<TProps, Variants extends VariantGroups = {}>(
   component: Component<TProps>,
   options: PatternOptions<Variants>
-): ParentComponent<TProps & VariantSelection<Variants>>;
+): Component<PropsWithChildren<TProps & VariantSelection<Variants>>>;
 
 export function styled<
   TProps,
   TComponent extends string | keyof JSX.IntrinsicElements,
-  Variants extends VariantGroups
+  Variants extends VariantGroups = {}
 >(
   component: TComponent,
   options: PatternOptions<Variants>
-): ParentComponent<IntrinsicProps<TComponent> & VariantSelection<Variants>>;
+): Component<
+  PropsWithChildren<IntrinsicProps<TComponent> & VariantSelection<Variants>>
+>;
 
 export function styled(
   component: any,
   options: any
-): (props: any) => JSX.Element {
+): (props: any) => ReactElement {
   return function StyledComponent(props) {
     throw new Error(
       'This function should be stripped out at runtime. This error usually occurs if there is something wrong with the build configuration. If you think that the configuration is fine, then open an issue here `https://github.com/mokshit06/macaron/issues`'

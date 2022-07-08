@@ -3,7 +3,10 @@ import { Dynamic } from 'solid-js/web';
 
 export function $$styled(
   component: any,
-  styles: ((_: any) => string) & { variants: string[] }
+  styles: ((options: any) => string) & {
+    variants: Array<string>;
+    defaultClassName: string;
+  }
 ) {
   function StyledComponent(props: any) {
     const [classes, others] = splitProps(props, [
@@ -28,7 +31,8 @@ export function $$styled(
     );
   }
 
-  StyledComponent.toString = () => `Styled(${component})`;
+  StyledComponent.toString = () => styles.defaultClassName;
+  // StyledComponent.toString = () => `Styled(${component})`;
   StyledComponent.variants = styles.variants;
 
   return StyledComponent;

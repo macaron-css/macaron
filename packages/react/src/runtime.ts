@@ -3,7 +3,10 @@ import { useMemo, createElement } from 'react';
 
 export function $$styled(
   component: any,
-  styles: ((_: any) => string) & { variants: string[] }
+  styles: ((options: any) => string) & {
+    variants: Array<string>;
+    defaultClassName: string;
+  }
 ) {
   function StyledComponent(props: any) {
     const allVariants = [
@@ -36,6 +39,7 @@ export function $$styled(
     return createElement(component, { ...others, className });
   }
 
+  StyledComponent.toString = () => styles.defaultClassName;
   StyledComponent.displayName = `Macaron(${component})`;
   StyledComponent.variants = styles.variants;
 

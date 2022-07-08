@@ -9,7 +9,7 @@ type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[TComponent]
   : any;
 
-export function styled<TProps, Variants extends VariantGroups>(
+export function styled<TProps, Variants extends VariantGroups = {}>(
   component: Component<TProps>,
   options: PatternOptions<Variants>
 ): ParentComponent<TProps & VariantSelection<Variants>>;
@@ -17,7 +17,7 @@ export function styled<TProps, Variants extends VariantGroups>(
 export function styled<
   TProps,
   TComponent extends string | keyof JSX.IntrinsicElements,
-  Variants extends VariantGroups
+  Variants extends VariantGroups = {}
 >(
   component: TComponent,
   options: PatternOptions<Variants>
