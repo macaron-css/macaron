@@ -9,9 +9,9 @@
   },
   "dependencies": {
     "@macaron-css/esbuild": "0.1.4",
-    "@macaron-css/solid": "0.1.4",
+    "@macaron-css/solid": "0.1.5",
     "babel-preset-solid": "^1.4.2",
-    "@macaron-css/core": "0.1.5",
+    "@macaron-css/core": "0.1.6",
     "esbuild": "^0.14.42",
     "solid-js": "^1.4.3"
   }
