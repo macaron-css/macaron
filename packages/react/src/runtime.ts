@@ -3,9 +3,8 @@ import { useMemo, createElement } from 'react';
 
 export function $$styled(
   component: any,
-  styles: ((options: any) => string) & {
+  styles: ((options?: any) => string) & {
     variants: Array<string>;
-    defaultClassName: string;
   }
 ) {
   function StyledComponent(props: any) {
@@ -39,9 +38,20 @@ export function $$styled(
     return createElement(component, { ...others, className });
   }
 
-  StyledComponent.toString = () => styles.defaultClassName;
+  StyledComponent.toString = () => mergeSelector(styles());
   StyledComponent.displayName = `Macaron(${component})`;
   StyledComponent.variants = styles.variants;
+  StyledComponent.selector = (variants: any) => mergeSelector(styles(variants));
 
   return StyledComponent;
+}
+
+function mergeSelector(className: string) {
+  const classes = className.split(' ');
+
+  if (classes.length == 0) {
+    return '';
+  }
+
+  return '.' + classes.join('.');
 }

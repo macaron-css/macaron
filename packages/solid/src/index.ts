@@ -9,10 +9,18 @@ type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[TComponent]
   : any;
 
+type StyledComponent<
+  TProps = {},
+  Variants extends VariantGroups = {}
+> = ParentComponent<TProps> & {
+  variants: Array<keyof Variants>;
+  selector: (variants: VariantSelection<Variants>) => string;
+};
+
 export function styled<TProps, Variants extends VariantGroups = {}>(
   component: Component<TProps>,
   options: PatternOptions<Variants>
-): ParentComponent<TProps & VariantSelection<Variants>>;
+): StyledComponent<TProps & VariantSelection<Variants>, Variants>;
 
 export function styled<
   TProps,
@@ -21,12 +29,12 @@ export function styled<
 >(
   component: TComponent,
   options: PatternOptions<Variants>
-): ParentComponent<IntrinsicProps<TComponent> & VariantSelection<Variants>>;
+): StyledComponent<
+  IntrinsicProps<TComponent> & VariantSelection<Variants>,
+  Variants
+>;
 
-export function styled(
-  component: any,
-  options: any
-): (props: any) => JSX.Element {
+export function styled(component: any, options: any): (props: any) => any {
   return function StyledComponent(props) {
     throw new Error(
       'This function should be stripped out at runtime. This error usually occurs if there is something wrong with the build configuration. If you think that the configuration is fine, then open an issue here `https://github.com/mokshit06/macaron/issues`'

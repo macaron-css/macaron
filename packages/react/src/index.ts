@@ -3,9 +3,16 @@ import {
   VariantGroups,
   VariantSelection,
 } from '@vanilla-extract/recipes/dist/declarations/src/types';
-import { PropsWithChildren, ReactElement, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 
 type Component<TProps = {}> = (props: TProps) => ReactNode;
+type StyledComponent<
+  TProps = {},
+  Variants extends VariantGroups = {}
+> = Component<PropsWithChildren<TProps>> & {
+  variants: Array<keyof Variants>;
+  selector: (variants: VariantSelection<Variants>) => string;
+};
 
 type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[TComponent]
@@ -14,7 +21,7 @@ type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
 export function styled<TProps, Variants extends VariantGroups = {}>(
   component: Component<TProps>,
   options: PatternOptions<Variants>
-): Component<PropsWithChildren<TProps & VariantSelection<Variants>>>;
+): StyledComponent<TProps & VariantSelection<Variants>, Variants>;
 
 export function styled<
   TProps,
@@ -23,14 +30,12 @@ export function styled<
 >(
   component: TComponent,
   options: PatternOptions<Variants>
-): Component<
-  PropsWithChildren<IntrinsicProps<TComponent> & VariantSelection<Variants>>
+): StyledComponent<
+  IntrinsicProps<TComponent> & VariantSelection<Variants>,
+  Variants
 >;
 
-export function styled(
-  component: any,
-  options: any
-): (props: any) => ReactElement {
+export function styled(component: any, options: any): (props: any) => any {
   return function StyledComponent(props) {
     throw new Error(
       'This function should be stripped out at runtime. This error usually occurs if there is something wrong with the build configuration. If you think that the configuration is fine, then open an issue here `https://github.com/mokshit06/macaron/issues`'

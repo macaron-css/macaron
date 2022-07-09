@@ -3,9 +3,8 @@ import { Dynamic } from 'solid-js/web';
 
 export function $$styled(
   component: any,
-  styles: ((options: any) => string) & {
+  styles: ((options?: any) => string) & {
     variants: Array<string>;
-    defaultClassName: string;
   }
 ) {
   function StyledComponent(props: any) {
@@ -31,9 +30,19 @@ export function $$styled(
     );
   }
 
-  StyledComponent.toString = () => styles.defaultClassName;
-  // StyledComponent.toString = () => `Styled(${component})`;
+  StyledComponent.toString = () => mergeSelector(styles());
   StyledComponent.variants = styles.variants;
+  StyledComponent.selector = (variants: any) => mergeSelector(styles(variants));
 
   return StyledComponent;
+}
+
+function mergeSelector(className: string) {
+  const classes = className.split(' ');
+
+  if (classes.length == 0) {
+    return '';
+  }
+
+  return '.' + classes.join('.');
 }
