@@ -6,7 +6,7 @@ import {
 } from '@vanilla-extract/integration';
 import { babelTransform, compile } from '@macaron-css/integration';
 import outdent from 'outdent';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { normalizePath, Plugin, ResolvedConfig, ViteDevServer } from 'vite';
 
 const extractedCssFileFilter = /extracted_(.*)\.css\.ts(\?used)?$/;
@@ -42,6 +42,8 @@ export function macaronVitePlugin(): Plugin {
       virtualExt = `.vanilla.${config.command === 'serve' ? 'js' : 'css'}`;
     },
     resolveId(id, importer, options) {
+      if (id.startsWith('\0')) return;
+
       if (extractedCssFileFilter.test(id)) {
         const normalizedId = id.startsWith('/') ? id.slice(1) : id;
         let resolvedPath = normalizePath(join(importer!, '..', normalizedId));
@@ -57,40 +59,28 @@ export function macaronVitePlugin(): Plugin {
       if (id.endsWith(virtualExt)) {
         const normalizedId = id.startsWith('/') ? id.slice(1) : id;
 
-        if (cssMap.has(normalizedId)) {
-          return normalizePath(join(config.root, normalizedId));
+        const key = normalizePath(resolve(config.root, normalizedId));
+        if (cssMap.has(key)) {
+          return key;
         }
       }
     },
     async load(id, options) {
+      if (id.startsWith('\0')) return;
+
       if (extractedCssFileFilter.test(id)) {
         let normalizedId = customNormalize(id);
         let pluginData = idToPluginData.get(normalizedId);
 
-        // console.log('LOADING', id, p);
-
         if (!pluginData) {
-          // console.log('NO LOAD', {
-          //   normalizedId,
-          //   id,
-          //   idToPluginData,
-          // });
           return null;
         }
 
         const resolverContents = resolvers.get(pluginData.path);
 
         if (!resolverContents) {
-          // console.log('NO RESOLVERS', {
-          //   resolvers,
-          //   p,
-          // });
           return null;
         }
-
-        // console.log(`\n\nRESOLVER CONTENTS (${normalizedId}) ----\n`);
-        // console.log(resolverContents);
-        // console.log('\n----\n\n');
 
         idToPluginData.set(id, {
           filePath: id,
@@ -101,7 +91,8 @@ export function macaronVitePlugin(): Plugin {
       }
 
       if (id.endsWith(virtualExt)) {
-        const cssFileId = id.slice(config.root.length + 1);
+        // const cssFileId = id.slice(config.root.length + 1);
+        const cssFileId = normalizePath(resolve(config.root, id));
         const css = cssMap.get(cssFileId);
 
         if (typeof css !== 'string') {
@@ -127,6 +118,8 @@ export function macaronVitePlugin(): Plugin {
       }
     },
     async transform(code, id, ssrParam) {
+      if (id.startsWith('\0')) return;
+
       const moduleInfo = idToPluginData.get(id);
 
       // console.log('TRANSFORMING', id);
@@ -190,10 +183,15 @@ export function macaronVitePlugin(): Plugin {
               undefined ?? (config.mode === 'production' ? 'short' : 'debug'),
             serializeVirtualCssPath: async ({ fileScope, source }) => {
               const id = `${fileScope.filePath}${virtualExt}`;
+              const cssFileId = normalizePath(resolve(config.root, id));
 
               let cssSource = source;
 
-              if (server && cssMap.has(id) && cssMap.get(id) !== source) {
+              if (
+                server &&
+                cssMap.has(cssFileId) &&
+                cssMap.get(cssFileId) !== source
+              ) {
                 const { moduleGraph } = server;
                 const moduleId = normalizePath(join(config.root, id));
                 const module = moduleGraph.getModuleById(moduleId);
@@ -209,7 +207,7 @@ export function macaronVitePlugin(): Plugin {
                 });
               }
 
-              cssMap.set(id, cssSource);
+              cssMap.set(cssFileId, cssSource);
 
               return `import "${id}";`;
             },
@@ -259,10 +257,15 @@ export function macaronVitePlugin(): Plugin {
               undefined ?? (config.mode === 'production' ? 'short' : 'debug'),
             serializeVirtualCssPath: async ({ fileScope, source }) => {
               const id = `${fileScope.filePath}${virtualExt}`;
+              const cssFileId = normalizePath(resolve(config.root, id));
 
               let cssSource = source;
 
-              if (server && cssMap.has(id) && cssMap.get(id) !== source) {
+              if (
+                server &&
+                cssMap.has(cssFileId) &&
+                cssMap.get(cssFileId) !== source
+              ) {
                 const { moduleGraph } = server;
                 const moduleId = normalizePath(join(config.root, id));
                 const module = moduleGraph.getModuleById(moduleId);
@@ -278,7 +281,7 @@ export function macaronVitePlugin(): Plugin {
                 });
               }
 
-              cssMap.set(id, cssSource);
+              cssMap.set(cssFileId, cssSource);
 
               return `import "${id}";`;
             },
