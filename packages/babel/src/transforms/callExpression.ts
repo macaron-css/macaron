@@ -14,7 +14,9 @@ export function transformCallExpression(
   if (
     !extractionAPIs.some(api =>
       callee.referencesImport('@macaron-css/core', api)
-    )
+    ) &&
+    !callee.referencesImport('@macaron-css/solid', 'styled') &&
+    !callee.referencesImport('@macaron-css/react', 'styled')
   ) {
     return;
   }

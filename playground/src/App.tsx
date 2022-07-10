@@ -37,15 +37,21 @@ function App() {
           transform(e.currentTarget.value);
         }}
       />
-      <div style={{ display: 'flex', 'flex-direction': 'column' }}>
-        <div style={{ height: '50vh' }}>
+      <div
+        style={{ display: 'flex', 'flex-direction': 'column', width: '50vw' }}
+      >
+        <div style={{ height: '50vh', width: '100%' }}>
           <h2>Transpiled</h2>
-          <pre>{editor.transpiled}</pre>
+          <pre style={{ overflow: 'scroll', display: 'block' }}>
+            {editor.transpiled}
+          </pre>
         </div>
         <hr />
-        <div style={{ height: '50vh' }}>
+        <div style={{ height: '50vh', width: '100%' }}>
           <h2>Extracted</h2>
-          <pre>{editor.extracted}</pre>
+          <pre style={{ overflow: 'scroll', display: 'block' }}>
+            {editor.extracted}
+          </pre>
         </div>
       </div>
     </div>

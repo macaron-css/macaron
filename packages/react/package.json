@@ -1,6 +1,6 @@
 {
   "name": "@macaron-css/react",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,6 +22,7 @@
     }
   },
   "dependencies": {
+    "@vanilla-extract/css": "^1.7.2",
     "@vanilla-extract/recipes": "^0.2.5",
     "react": "^18.1.0"
   },

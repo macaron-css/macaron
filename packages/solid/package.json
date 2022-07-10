@@ -1,6 +1,6 @@
 {
   "name": "@macaron-css/solid",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -25,6 +25,7 @@
     "solid-js": "^1.4.3"
   },
   "dependencies": {
+    "@vanilla-extract/css": "^1.7.2",
     "@vanilla-extract/recipes": "^0.2.5"
   },
   "files": [

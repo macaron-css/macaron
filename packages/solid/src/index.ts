@@ -1,9 +1,12 @@
+import { addFunctionSerializer } from '@vanilla-extract/css/functionSerializer';
+import { recipe } from '@vanilla-extract/recipes';
 import {
   PatternOptions,
   VariantGroups,
   VariantSelection,
 } from '@vanilla-extract/recipes/dist/declarations/src/types';
-import { JSX, Component, ParentComponent } from 'solid-js';
+import { Component, JSX, ParentComponent } from 'solid-js';
+import { $$styled } from './runtime';
 
 type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[TComponent]
@@ -35,11 +38,13 @@ export function styled<
 >;
 
 export function styled(component: any, options: any): (props: any) => any {
-  return function StyledComponent(props) {
-    throw new Error(
-      'This function should be stripped out at runtime. This error usually occurs if there is something wrong with the build configuration. If you think that the configuration is fine, then open an issue here `https://github.com/mokshit06/macaron/issues`'
-    );
-  };
+  const runtimeFn = recipe(options);
+
+  return addFunctionSerializer($$styled(component, runtimeFn as any), {
+    importPath: '@macaron-css/solid/runtime',
+    args: [component, runtimeFn],
+    importName: '$$styled',
+  });
 }
 
 export type StyleVariants<T extends (...args: any[]) => any> = Exclude<

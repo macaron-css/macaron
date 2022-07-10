@@ -9,11 +9,7 @@ export type PluginOptions = {
   path?: string;
 };
 
-export type PluginState = {
-  dependentNodes: Set<{ loc: Node['loc']; node: Node }>;
-  styledNodes: Array<{ isAlreadyExported: boolean; ident: string }>;
-  // declarators: Array<t.VariableDeclarator>;
-} & PluginPass & { opts: PluginOptions };
+export type PluginState = PluginPass & { opts: PluginOptions };
 
 export type ProgramScope = Scope & {
   macaronData: {

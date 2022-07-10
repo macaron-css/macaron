@@ -1555,6 +1555,23 @@
     media-query-parser "^2.0.2"
     outdent "^0.8.0"
 
+"@vanilla-extract/css@^1.7.2":
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@vanilla-extract/css/-/css-1.7.2.tgz#2317f391a1d912372742386c8f44f2fbde3232c3"
+  integrity sha512-wRsV9sSD4qN6+dbS1ywExw5kEU4Fk/UipNKFsGwwUsHLyuPKK8BaZUmzfyAQex6POHYQboYv6Ajbqpvhx2KhfQ==
+  dependencies:
+    "@emotion/hash" "^0.8.0"
+    "@vanilla-extract/private" "^1.0.3"
+    chalk "^4.1.1"
+    css-what "^5.0.1"
+    cssesc "^3.0.0"
+    csstype "^3.0.7"
+    deep-object-diff "^1.1.0"
+    deepmerge "^4.2.2"
+    escape-string-regexp "^4.0.0"
+    media-query-parser "^2.0.2"
+    outdent "^0.8.0"
+
 "@vanilla-extract/esbuild-plugin@^2.0.5":
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/@vanilla-extract/esbuild-plugin/-/esbuild-plugin-2.0.5.tgz#62dda1c86e97fca63fc629b7bb789cb916027736"
