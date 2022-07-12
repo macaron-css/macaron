@@ -122,8 +122,6 @@ export function macaronVitePlugin(): Plugin {
 
       const moduleInfo = idToPluginData.get(id);
 
-      // console.log('TRANSFORMING', id);
-
       // is returned from extracted_HASH.css.ts
       if (
         moduleInfo &&
@@ -142,14 +140,14 @@ export function macaronVitePlugin(): Plugin {
         const index = id.indexOf('?');
         const validId = index === -1 ? id : id.substring(0, index);
 
-        if (ssr) {
-          return addFileScope({
-            source: code,
-            filePath: normalizePath(validId),
-            rootPath: config.root,
-            packageName,
-          });
-        }
+        // if (ssr) {
+        //   return addFileScope({
+        //     source: code,
+        //     filePath: normalizePath(validId),
+        //     rootPath: config.root,
+        //     packageName,
+        //   });
+        // }
 
         const { source, watchFiles } = await compile({
           filePath: moduleInfo.filePath,
@@ -159,10 +157,6 @@ export function macaronVitePlugin(): Plugin {
           resolverCache,
           externals: [],
         });
-
-        // console.log('\n\nSOURCE ----\n');
-        // console.log(source);
-        // console.log('\n----\n\n');
 
         for (const file of watchFiles) {
           if (extractedCssFileFilter.test(file)) {
