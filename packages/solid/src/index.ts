@@ -15,7 +15,7 @@ type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
 type StyledComponent<
   TProps = {},
   Variants extends VariantGroups = {}
-> = ParentComponent<TProps> & {
+> = ParentComponent<TProps & VariantSelection<Variants>> & {
   variants: Array<keyof Variants>;
   selector: (variants: VariantSelection<Variants>) => string;
 };
@@ -23,7 +23,7 @@ type StyledComponent<
 export function styled<TProps, Variants extends VariantGroups = {}>(
   component: Component<TProps>,
   options: PatternOptions<Variants>
-): StyledComponent<TProps & VariantSelection<Variants>, Variants>;
+): StyledComponent<TProps, Variants>;
 
 export function styled<
   TProps,
@@ -32,10 +32,7 @@ export function styled<
 >(
   component: TComponent,
   options: PatternOptions<Variants>
-): StyledComponent<
-  IntrinsicProps<TComponent> & VariantSelection<Variants>,
-  Variants
->;
+): StyledComponent<IntrinsicProps<TComponent>, Variants>;
 
 export function styled(component: any, options: any): (props: any) => any {
   const runtimeFn = recipe(options);

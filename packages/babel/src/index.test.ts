@@ -139,36 +139,6 @@ test('inside block scope', () => {
   expect(code).toMatchSnapshot();
 });
 
-test('solid styled components', () => {
-  const { result, code } = babelTransform(`
-    import { styled } from '@macaron-css/solid';
-    
-    const Button = styled("button", {
-      base: { color: 'red' }
-    })
-
-    console.log(Button)
-  `);
-
-  expect(result).toMatchSnapshot();
-  expect(code).toMatchSnapshot();
-});
-
-test('react styled components', () => {
-  const { result, code } = babelTransform(`
-    import { styled } from '@macaron-css/react';
-    
-    const Button = styled("button", {
-      base: { color: 'red' }
-    })
-
-    console.log(Button)
-  `);
-
-  expect(result).toMatchSnapshot();
-  expect(code).toMatchSnapshot();
-});
-
 test('already exported', () => {
   const { result, code } = babelTransform(`
     import { style } from '@macaron-css/core';
