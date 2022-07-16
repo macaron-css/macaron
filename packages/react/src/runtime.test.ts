@@ -1,5 +1,7 @@
 import { $$styled } from './runtime';
-import { createRuntimeFn } from '../../core/dist/create-runtime-fn';
+import { createElement } from 'react';
+import { renderToString } from 'react-dom/server';
+import { createRuntimeFn } from '../../core/src/create-runtime-fn';
 
 function makeComponent() {
   return $$styled(
@@ -46,7 +48,15 @@ test('component as selector', () => {
   );
 });
 
-test.skip('inherit component', () => {
+test('base component renders correctly', () => {
+  const Component = makeComponent();
+
+  expectRendersSnapshot(
+    createElement(Component, { size: 'md', className: 'custom_extra_class' })
+  );
+});
+
+test('inherit component', () => {
   const Component = makeComponent();
   const InheritedComponent = $$styled(
     Component,
@@ -63,19 +73,38 @@ test.skip('inherit component', () => {
   );
 
   expect(InheritedComponent.toString()).toBe(
-    '.default.size_sm.color_light.inherited'
+    '.inherited.default.size_sm.color_light'
   );
   expect(`${InheritedComponent}`).toBe(
-    '.default.size_sm.color_light.inherited'
+    '.inherited.default.size_sm.color_light'
   );
 
   expect(InheritedComponent.selector({ size: 'md' })).toBe(
-    '.default.size_md.color_light.inherited'
+    '.inherited.default.size_md.color_light'
   );
   expect(InheritedComponent.selector({ size: 'md', color: 'dark' })).toBe(
-    '.default.size_md.color_dark.inherited'
+    '.inherited.default.size_md.color_dark'
   );
   expect(InheritedComponent.selector({ border: true })).toBe(
-    '.default.size_sm.color_light.inherited.border_true'
+    '.inherited.border_true.default.size_sm.color_light'
+  );
+
+  expect(InheritedComponent.classes({})).toEqual([
+    'inherited',
+    'default',
+    'size_sm',
+    'color_light',
+  ]);
+
+  expectRendersSnapshot(createElement(InheritedComponent, {}));
+  expectRendersSnapshot(
+    createElement(InheritedComponent, {
+      size: 'lg',
+      className: 'custom_extra_cls',
+    })
   );
 });
+
+function expectRendersSnapshot(component: any) {
+  expect(renderToString(component)).toMatchSnapshot();
+}

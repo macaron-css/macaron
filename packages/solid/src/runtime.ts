@@ -11,14 +11,12 @@ export function $$styled(
     const [variants, others] = splitProps(props, StyledComponent.variants);
 
     if (typeof Comp === 'string') {
-      // debugger;
       return createComponent(
         Dynamic as any,
         mergeProps(others, {
           component: Comp,
           get ['class']() {
             const classes = StyledComponent.classes(variants, props.class);
-            debugger;
             return classes.join(' ');
           },
         })
@@ -30,7 +28,6 @@ export function $$styled(
       mergeProps(props, {
         get ['class']() {
           const classes = StyledComponent.classes(variants, props.class);
-          debugger;
           return classes.join(' ');
         },
       })

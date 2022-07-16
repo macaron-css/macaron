@@ -45,6 +45,10 @@ test('component as selector', () => {
   expect(Component.selector({ size: 'md', color: 'dark' })).toBe(
     '.default.size_md.color_dark'
   );
+});
+
+test('base component renders correctly', () => {
+  const Component = makeComponent();
 
   hasClasses(
     createComponent(Component, { size: 'md', class: 'custom_extra_class' }),
@@ -91,11 +95,11 @@ test('inherit styled component', () => {
     'size_sm',
     'color_light',
   ]);
+
   hasClasses(
     createComponent(InheritedComponent, {}),
     'default size_sm color_light inherited'
   );
-
   hasClasses(
     createComponent(InheritedComponent, {
       size: 'lg',
