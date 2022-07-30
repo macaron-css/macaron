@@ -1,5 +1,5 @@
-import { NodePath, Node, types as t, PluginPass } from '@babel/core';
-import { Scope } from '@babel/traverse';
+import type { NodePath, PluginPass, types as t } from '@babel/core';
+import type { Scope } from '@babel/traverse';
 
 export type PluginOptions = {
   result: [string, string];

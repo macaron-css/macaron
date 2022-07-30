@@ -16,7 +16,7 @@
     "@vanilla-extract/integration": "^4.0.1",
     "@vanilla-extract/recipes": "^0.2.5",
     "@vanilla-extract/vite-plugin": "^3.1.6",
-    "@macaron-css/babel": "0.1.9",
+    "@macaron-css/babel": "0.1.10",
     "@macaron-css/integration": "0.1.5",
     "esbuild": "^0.14.42",
     "eval": "^0.1.8",

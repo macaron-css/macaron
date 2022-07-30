@@ -1,5 +1,5 @@
-import { NodePath, types as t } from '@babel/core';
-import { PluginState, ProgramScope } from '../types';
+import { type NodePath, types as t } from '@babel/core';
+import type { PluginState, ProgramScope } from '../types';
 import {
   extractionAPIs,
   getNearestIdentifier,

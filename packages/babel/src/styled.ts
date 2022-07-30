@@ -1,6 +1,6 @@
-import { PluginObj, types as t, Visitor } from '@babel/core';
-import { PluginState } from './types';
-import { invariant, registerImportMethod } from './utils';
+import { types as t, type PluginObj } from '@babel/core';
+import type { PluginState } from './types';
+import { registerImportMethod } from './utils';
 
 export function styledComponentsPlugin(): PluginObj<PluginState> {
   return {
