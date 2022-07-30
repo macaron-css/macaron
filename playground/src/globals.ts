@@ -1,8 +1,8 @@
 import Buffer from 'buffer';
 
-window.process = {
+globalThis.process = {
   env: {
     BABEL_TYPES_8_BREAKING: false,
   },
-};
-window.Buffer = Buffer.Buffer;
+} as any;
+globalThis.Buffer = Buffer.Buffer;
