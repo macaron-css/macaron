@@ -1,3 +1,5 @@
+import { transformSync } from '@babel/core';
+import { macaronStyledComponentsPlugin } from '@macaron-css/babel';
 import { addFileScope, getPackageInfo } from '@vanilla-extract/integration';
 import defaultEsbuild, { PluginBuild } from 'esbuild';
 import fs from 'fs';
@@ -49,7 +51,7 @@ export async function compile({
     bundle: true,
     external: [
       '@vanilla-extract',
-      'solid-js',
+      // 'solid-js',
       '@macaron-css',
       // '@comptime-css',
       ...externals,
@@ -59,28 +61,58 @@ export async function compile({
     absWorkingDir: cwd,
     plugins: [
       {
-        name: 'custom-extract-scope',
+        name: 'macaron:stub-solid-template-export',
+        setup(build) {
+          build.onResolve({ filter: /^solid-js\/web$/ }, args => {
+            return {
+              namespace: 'solid-web',
+              path: args.path,
+            };
+          });
+
+          // TODO: change this to use the server transform from solid
+          build.onLoad({ filter: /.*/, namespace: 'solid-web' }, async args => {
+            return {
+              contents: `
+              const noop = () => {
+                return new Proxy({}, {
+                  get() {
+                    throw new Error("macaron: This file tried to call template() directly and use its result. Please check your compiled solid-js output and if it is correct, please file an issue at https://github.com/mokshit06/macaron/issues");
+                  }
+                });
+              }
+
+              export const template = noop;
+              export const delegateEvents = noop;
+
+              export * from ${require.resolve('solid-js/web')};
+              `,
+              resolveDir: dirname(args.path),
+            };
+          });
+        },
+      },
+      {
+        name: 'macaron:custom-extract-scope',
         setup(build) {
           build.onLoad({ filter: /\.(t|j)sx?$/ }, async args => {
-            let contents = await fs.promises.readFile(args.path, 'utf8');
-            let source: string;
-
-            // if (resolverCache.has(args.path)) {
-            //   source = resolverCache.get(args.path)!;
-            // } else {
-            source = addFileScope({
+            const contents = await fs.promises.readFile(args.path, 'utf8');
+            let source = addFileScope({
               source: contents,
               filePath: args.path,
               rootPath: build.initialOptions.absWorkingDir!,
               packageName: packageInfo.name,
             });
 
-            // resolverCache.set(args.path, source);
-            // }
+            source = transformSync(source, {
+              filename: args.path,
+              plugins: [macaronStyledComponentsPlugin()],
+              presets: ['@babel/preset-typescript'],
+              sourceMaps: false,
+            })!.code!;
 
             return {
               contents: source,
-              // loader: args.path.match(/\.(ts|tsx)$/i) ? 'ts' : undefined,
               loader: 'tsx',
               resolveDir: dirname(args.path),
             };

@@ -49,7 +49,6 @@ export function macaronVitePlugin(): Plugin {
         let resolvedPath = normalizePath(join(importer!, '..', normalizedId));
 
         if (!resolvers.has(resolvedPath)) {
-          // console.log('NO RESOLVER');
           return;
         }
 
@@ -191,6 +190,7 @@ export function macaronVitePlugin(): Plugin {
                 const module = moduleGraph.getModuleById(moduleId);
 
                 if (module) {
+                  console.log('[1] about to invalidate');
                   moduleGraph.invalidateModule(module);
                 }
 
@@ -265,6 +265,7 @@ export function macaronVitePlugin(): Plugin {
                 const module = moduleGraph.getModuleById(moduleId);
 
                 if (module) {
+                  console.log('[2] about to invalidate');
                   moduleGraph.invalidateModule(module);
                 }
 
@@ -297,7 +298,6 @@ export function macaronVitePlugin(): Plugin {
         // the extracted code and original are the same -> no css extracted
         if (file && cssExtract && cssExtract !== code) {
           if (config.command === 'build') {
-            // console.log('WATCHING', id);
             this.addWatchFile(id);
           }
 

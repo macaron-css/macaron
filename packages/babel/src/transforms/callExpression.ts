@@ -14,9 +14,7 @@ export function transformCallExpression(
   if (
     !extractionAPIs.some(api =>
       callee.referencesImport('@macaron-css/core', api)
-    ) &&
-    !callee.referencesImport('@macaron-css/solid', 'styled') &&
-    !callee.referencesImport('@macaron-css/react', 'styled')
+    )
   ) {
     return;
   }
@@ -36,16 +34,12 @@ export function transformCallExpression(
 
   const bindings = getBindings(callPath);
   for (const binding of bindings) {
-    programParent.macaronData.nodes.push(
-      t.cloneNode(findRootBinding(binding).node)
-    );
+    programParent.macaronData.nodes.push(findRootBinding(binding).node);
   }
 
   programParent.macaronData.nodes.push(
     t.exportNamedDeclaration(
-      t.variableDeclaration('var', [
-        t.variableDeclarator(ident, t.cloneNode(callPath.node)),
-      ])
+      t.variableDeclaration('var', [t.variableDeclarator(ident, callPath.node)])
     )
   );
   // add a variable alias

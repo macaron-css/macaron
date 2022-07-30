@@ -1,12 +1,9 @@
-import { addFunctionSerializer } from '@vanilla-extract/css/functionSerializer';
-import { recipe } from '@vanilla-extract/recipes';
 import {
   PatternOptions,
   VariantGroups,
   VariantSelection,
 } from '@vanilla-extract/recipes/dist/declarations/src/types';
 import { PropsWithChildren, ReactNode } from 'react';
-import { $$styled } from './runtime';
 
 type Component<TProps = {}> = (props: TProps) => ReactNode;
 type StyledComponent<
@@ -39,13 +36,16 @@ export function styled<
 >;
 
 export function styled(component: any, options: any): (props: any) => any {
-  const runtimeFn = recipe(options);
+  // const runtimeFn = recipe(options);
 
-  return addFunctionSerializer($$styled(component, runtimeFn as any), {
-    importPath: '@macaron-css/react/runtime',
-    args: [component, runtimeFn],
-    importName: '$$styled',
-  });
+  // return addFunctionSerializer($$styled(component, runtimeFn as any), {
+  //   importPath: '@macaron-css/react/runtime',
+  //   args: [component, runtimeFn],
+  //   importName: '$$styled',
+  // });
+  throw new Error(
+    "This function shouldn't be there in your final code. If you're seeing this, there is probably some issue with your build config. If you think everything looks fine, then file an issue at https://github.com/mokshit06/macaron/issues"
+  );
 }
 
 export type StyleVariants<T extends (...args: any[]) => any> = Exclude<
