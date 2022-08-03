@@ -85,7 +85,7 @@ export async function compile({
               export const template = noop;
               export const delegateEvents = noop;
 
-              export * from ${require.resolve('solid-js/web')};
+              export * from ${JSON.stringify(require.resolve('solid-js/web'))};
               `,
               resolveDir: dirname(args.path),
             };
