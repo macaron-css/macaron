@@ -141,6 +141,10 @@ function App() {
 }
 ```
 
+## Playground
+
+You can try about these above examples at https://macaron-css.vercel.app and see how macaron figures out which expressions have to be extracted and what your code would look like after being transpiled
+
 ## How it works
 
 The esbuild/vite plugin loads every `ts` and `js` file and runs `@macaron-css/babel` plugin on it.
