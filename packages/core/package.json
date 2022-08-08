@@ -17,6 +17,7 @@
     },
     "./dist/*": "./dist/*",
     "./create-runtime-fn": {
+      "types": "./dist/create-runtime-fn.d.ts",
       "import": "./dist/create-runtime-fn.mjs",
       "require": "./dist/create-runtime-fn.js"
     }

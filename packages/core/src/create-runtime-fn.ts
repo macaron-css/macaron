@@ -23,7 +23,11 @@ export const createRuntimeFn = <Variants extends VariantGroups>(
   config: PatternResult<Variants>
 ) => {
   const runtimeFn: RuntimeFn<Variants> & {
-    variants: Array<keyof Variants>;
+    macaronMeta: {
+      variants: Array<keyof Variants>;
+      defaultClassName: string;
+      variantConcat: (variants: VariantSelection<Variants>) => string;
+    };
   } = options => {
     let className = config.defaultClassName;
 
@@ -64,7 +68,36 @@ export const createRuntimeFn = <Variants extends VariantGroups>(
     return className;
   };
 
-  runtimeFn.variants = Object.keys(config.variantClassNames);
+  runtimeFn.macaronMeta = {
+    variants: Object.keys(config.variantClassNames),
+    defaultClassName: config.defaultClassName,
+    variantConcat(options) {
+      let className = config.defaultClassName;
+
+      for (const variantName in options) {
+        const variantSelection = options[variantName];
+
+        if (variantSelection != null) {
+          let selection = variantSelection;
+
+          if (typeof selection === 'boolean') {
+            // @ts-expect-error
+            selection = selection === true ? 'true' : 'false';
+          }
+
+          const selectionClassName =
+            // @ts-expect-error
+            config.variantClassNames[variantName]?.[selection];
+
+          if (selectionClassName) {
+            className += ' ' + selectionClassName;
+          }
+        }
+      }
+
+      return className;
+    },
+  };
 
   return runtimeFn;
 };

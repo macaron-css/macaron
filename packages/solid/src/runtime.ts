@@ -3,8 +3,12 @@ import { Dynamic } from 'solid-js/web';
 
 export function $$styled(
   Comp: any,
-  styles: ((options?: any) => string) & {
-    variants: Array<string>;
+  styles: ((options: any) => string) & {
+    macaronMeta: {
+      variants: string[];
+      defaultClassName: string;
+      variantConcat(options: any): string;
+    };
   }
 ) {
   function StyledComponent(props: any) {
@@ -36,16 +40,25 @@ export function $$styled(
 
   StyledComponent.toString = () => StyledComponent.selector(null);
   StyledComponent.variants = [
-    ...(styles.variants ?? []),
+    ...(styles.macaronMeta.variants ?? []),
     ...(Comp.variants ?? []),
   ];
-  StyledComponent.classes = (variants: any, merge?: string) => {
+  StyledComponent.variantConcat = styles.macaronMeta.variantConcat;
+  StyledComponent.classes = (
+    variants: any,
+    merge?: string,
+    fn: any = styles
+  ) => {
     const classes = new Set(
-      classNames(styles({ ...variants }) + (merge ? ` ${merge}` : ''))
+      classNames(fn(variants) + (merge ? ` ${merge}` : ''))
     );
 
     if (Comp.classes) {
-      for (const c of Comp.classes({ ...variants }) as string[]) {
+      for (const c of Comp.classes(
+        variants,
+        merge,
+        Comp.variantConcat
+      ) as string[]) {
         classes.add(c);
       }
     }
@@ -53,13 +66,15 @@ export function $$styled(
     return Array.from(classes);
   };
   StyledComponent.selector = (variants: any) => {
-    const classes = StyledComponent.classes(variants);
-
+    const classes = StyledComponent.classes(
+      variants,
+      undefined,
+      styles.macaronMeta.variantConcat
+    );
     // first element isn't empty
     if (classes.length > 0 && classes[0].length > 0) {
       return '.' + classes.join('.');
     }
-
     return classes.join('.');
   };
 
