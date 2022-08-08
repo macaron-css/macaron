@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@macaron-css/esbuild": "0.1.7",
-    "@macaron-css/core": "0.1.6",
+    "@macaron-css/core": "0.1.7",
     "esbuild": "^0.14.42"
   }
 }

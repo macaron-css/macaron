@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.7.1",
-    "@macaron-css/core": "0.1.6",
+    "@macaron-css/core": "0.1.7",
     "@macaron-css/vite": "0.1.10"
   },
   "devDependencies": {
