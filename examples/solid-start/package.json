@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@macaron-css/core": "0.1.7",
-    "@macaron-css/vite": "0.1.10",
+    "@macaron-css/vite": "0.1.11",
     "@macaron-css/solid": "0.1.9"
   }
 }
