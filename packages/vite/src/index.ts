@@ -17,13 +17,12 @@ export function macaronVitePlugin(): Plugin {
   let config: ResolvedConfig;
   let server: ViteDevServer;
   const cssMap = new Map<string, string>();
+  const resolverCache = new Map<string, string>();
+  const resolvers = new Map<string, string>();
+  const idToPluginData = new Map<string, Record<string, string>>();
 
-  let virtualExt: string;
+  const virtualExt = '.vanilla.css';
   let packageName: string;
-
-  let resolverCache = new Map<string, string>();
-  let resolvers = new Map<string, string>();
-  let idToPluginData = new Map<string, Record<string, string>>();
 
   return {
     name: 'macaron-css-vite',
@@ -32,14 +31,13 @@ export function macaronVitePlugin(): Plugin {
       resolvers.clear();
       idToPluginData.clear();
       resolverCache.clear();
+      cssMap.clear();
     },
     configureServer(_server) {
       server = _server;
     },
     async configResolved(resolvedConfig) {
       config = resolvedConfig;
-
-      virtualExt = `.vanilla.${config.command === 'serve' ? 'js' : 'css'}`;
     },
     resolveId(id, importer, options) {
       if (id.startsWith('\0')) return;
@@ -82,6 +80,7 @@ export function macaronVitePlugin(): Plugin {
         }
 
         idToPluginData.set(id, {
+          ...idToPluginData.get(id),
           filePath: id,
           originalPath: pluginData.mainFilePath,
         });
@@ -90,7 +89,6 @@ export function macaronVitePlugin(): Plugin {
       }
 
       if (id.endsWith(virtualExt)) {
-        // const cssFileId = id.slice(config.root.length + 1);
         const cssFileId = normalizePath(resolve(config.root, id));
         const css = cssMap.get(cssFileId);
 
@@ -98,28 +96,21 @@ export function macaronVitePlugin(): Plugin {
           return;
         }
 
-        if (!server) {
-          return css;
-        }
-
-        return outdent`
-        import { injectStyles } from '@vanilla-extract/css/injectStyles';
-        
-        const inject = (css) => injectStyles({
-          fileScope: ${JSON.stringify({ filePath: cssFileId })},
-          css
-        });
-        inject(${JSON.stringify(css)});
-        import.meta.hot.on('${styleUpdateEvent(cssFileId)}', (css) => {
-          inject(css);
-        });   
-        `;
+        return css;
       }
     },
     async transform(code, id, ssrParam) {
       if (id.startsWith('\0')) return;
 
       const moduleInfo = idToPluginData.get(id);
+
+      let ssr: boolean | undefined;
+
+      if (typeof ssrParam === 'boolean') {
+        ssr = ssrParam;
+      } else {
+        ssr = ssrParam?.ssr;
+      }
 
       // is returned from extracted_HASH.css.ts
       if (
@@ -128,26 +119,6 @@ export function macaronVitePlugin(): Plugin {
         moduleInfo.filePath &&
         extractedCssFileFilter.test(id)
       ) {
-        let ssr: boolean | undefined;
-
-        if (typeof ssrParam === 'boolean') {
-          ssr = ssrParam;
-        } else {
-          ssr = ssrParam?.ssr;
-        }
-
-        const index = id.indexOf('?');
-        const validId = index === -1 ? id : id.substring(0, index);
-
-        // if (ssr) {
-        //   return addFileScope({
-        //     source: code,
-        //     filePath: normalizePath(validId),
-        //     rootPath: config.root,
-        //     packageName,
-        //   });
-        // }
-
         const { source, watchFiles } = await compile({
           filePath: moduleInfo.filePath,
           cwd: config.root,
@@ -168,120 +139,41 @@ export function macaronVitePlugin(): Plugin {
           }
         }
 
-        return replaceCreateRuntimeFnWithMacaron(
-          await processVanillaFile({
+        try {
+          const contents = await processVanillaFile({
             source,
             filePath: moduleInfo.filePath,
             identOption:
               undefined ?? (config.mode === 'production' ? 'short' : 'debug'),
             serializeVirtualCssPath: async ({ fileScope, source }) => {
-              const id = `${fileScope.filePath}${virtualExt}`;
+              const id: string = `${fileScope.filePath}${virtualExt}`;
               const cssFileId = normalizePath(resolve(config.root, id));
 
               let cssSource = source;
 
-              if (
-                server &&
-                cssMap.has(cssFileId) &&
-                cssMap.get(cssFileId) !== source
-              ) {
+              if (server) {
                 const { moduleGraph } = server;
                 const moduleId = normalizePath(join(config.root, id));
                 const module = moduleGraph.getModuleById(moduleId);
 
                 if (module) {
-                  console.log('[1] about to invalidate');
                   moduleGraph.invalidateModule(module);
+                  module.lastHMRTimestamp =
+                    module.lastInvalidationTimestamp || Date.now();
                 }
-
-                server.ws.send({
-                  type: 'custom',
-                  event: styleUpdateEvent(id),
-                  data: cssSource,
-                });
               }
 
               cssMap.set(cssFileId, cssSource);
 
               return `import "${id}";`;
             },
-          })
-        );
-      }
-
-      if (cssFileFilter.test(id)) {
-        let ssr: boolean | undefined;
-
-        if (typeof ssrParam === 'boolean') {
-          ssr = ssrParam;
-        } else {
-          ssr = ssrParam?.ssr;
-        }
-
-        const index = id.indexOf('?');
-        const validId = index === -1 ? id : id.substring(0, index);
-
-        if (ssr) {
-          return addFileScope({
-            source: code,
-            filePath: normalizePath(validId),
-            rootPath: config.root,
-            packageName,
           });
+          const finalResult = replaceCreateRuntimeFnWithMacaron(contents);
+
+          return finalResult;
+        } catch (error) {
+          throw error;
         }
-
-        const { source, watchFiles } = await vCompile({
-          filePath: validId,
-          cwd: config.root,
-        });
-
-        for (const file of watchFiles) {
-          // In start mode, we need to prevent the file from rewatching itself.
-          // If it's a `build --watch`, it needs to watch everything.
-          if (config.command === 'build' || file !== id) {
-            this.addWatchFile(file);
-          }
-        }
-
-        return replaceCreateRuntimeFnWithMacaron(
-          await processVanillaFile({
-            source,
-            filePath: validId,
-            identOption:
-              undefined ?? (config.mode === 'production' ? 'short' : 'debug'),
-            serializeVirtualCssPath: async ({ fileScope, source }) => {
-              const id = `${fileScope.filePath}${virtualExt}`;
-              const cssFileId = normalizePath(resolve(config.root, id));
-
-              let cssSource = source;
-
-              if (
-                server &&
-                cssMap.has(cssFileId) &&
-                cssMap.get(cssFileId) !== source
-              ) {
-                const { moduleGraph } = server;
-                const moduleId = normalizePath(join(config.root, id));
-                const module = moduleGraph.getModuleById(moduleId);
-
-                if (module) {
-                  console.log('[2] about to invalidate');
-                  moduleGraph.invalidateModule(module);
-                }
-
-                server.ws.send({
-                  type: 'custom',
-                  event: styleUpdateEvent(id),
-                  data: cssSource,
-                });
-              }
-
-              cssMap.set(cssFileId, cssSource);
-
-              return `import "${id}";`;
-            },
-          })
-        );
       }
 
       if (/(j|t)sx?(\?used)?$/.test(id) && !id.endsWith('.vanilla.js')) {
@@ -295,42 +187,39 @@ export function macaronVitePlugin(): Plugin {
           result: [file, cssExtract],
         } = await babelTransform(id);
 
-        // the extracted code and original are the same -> no css extracted
-        if (file && cssExtract && cssExtract !== code) {
-          if (config.command === 'build') {
-            this.addWatchFile(id);
-          }
+        if (!cssExtract || !file) return null;
 
-          let resolvedCssPath = normalizePath(join(id, '..', file));
-
-          if (
-            server &&
-            resolvers.has(resolvedCssPath) &&
-            resolvers.get(resolvedCssPath) !== cssExtract
-          ) {
-            const { moduleGraph } = server;
-
-            const module = moduleGraph.getModuleById(resolvedCssPath);
-            if (module) {
-              moduleGraph.invalidateModule(module);
-            }
-          }
-
-          resolvers.set(resolvedCssPath, cssExtract);
-          resolverCache.delete(id);
-
-          const normalizedCssPath = customNormalize(resolvedCssPath);
-
-          idToPluginData.set(id, { mainFilePath: id });
-          idToPluginData.set(normalizedCssPath, {
-            mainFilePath: id,
-            path: resolvedCssPath,
-          });
+        if (config.command === 'build' && config.build.watch) {
+          this.addWatchFile(id);
         }
+
+        let resolvedCssPath = normalizePath(join(id, '..', file));
+
+        if (server && resolvers.has(resolvedCssPath)) {
+          const { moduleGraph } = server;
+
+          const module = moduleGraph.getModuleById(resolvedCssPath);
+          if (module) {
+            moduleGraph.invalidateModule(module);
+          }
+        }
+
+        const normalizedCssPath = customNormalize(resolvedCssPath);
+
+        resolvers.set(resolvedCssPath, cssExtract);
+        resolverCache.delete(id);
+        idToPluginData.delete(id);
+        idToPluginData.delete(normalizedCssPath);
+
+        idToPluginData.set(id, { ...idToPluginData.get(id), mainFilePath: id });
+        idToPluginData.set(normalizedCssPath, {
+          ...idToPluginData.get(normalizedCssPath),
+          mainFilePath: id,
+          path: resolvedCssPath,
+        });
 
         return {
           code,
-          meta: { mainFilePath: id, currentExtractedId: file },
         };
       }
 

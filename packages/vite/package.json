@@ -12,16 +12,16 @@
   },
   "dependencies": {
     "@emotion/hash": "^0.8.0",
+    "@macaron-css/babel": "0.1.10",
+    "@macaron-css/integration": "0.1.6",
     "@vanilla-extract/css": "^1.7.1",
     "@vanilla-extract/integration": "^4.0.1",
     "@vanilla-extract/recipes": "^0.2.5",
     "@vanilla-extract/vite-plugin": "^3.1.6",
-    "@macaron-css/babel": "0.1.10",
-    "@macaron-css/integration": "0.1.6",
     "esbuild": "^0.14.42",
     "eval": "^0.1.8",
     "outdent": "^0.8.0",
-    "vite": "^2.9.9"
+    "vite": "^3.0.7"
   },
   "files": [
     "dist",
