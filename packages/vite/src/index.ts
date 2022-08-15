@@ -168,9 +168,8 @@ export function macaronVitePlugin(): Plugin {
               return `import "${id}";`;
             },
           });
-          const finalResult = replaceCreateRuntimeFnWithMacaron(contents);
 
-          return finalResult;
+          return contents;
         } catch (error) {
           throw error;
         }
@@ -226,13 +225,6 @@ export function macaronVitePlugin(): Plugin {
       return null;
     },
   };
-}
-
-function replaceCreateRuntimeFnWithMacaron(source: string) {
-  return source.replace(
-    /("@vanilla-extract\/recipes\/createRuntimeFn"|'@vanilla-extract\/recipes\/createRuntimeFn')/g,
-    '"@macaron-css/core/create-runtime-fn"'
-  );
 }
 
 function customNormalize(path: string) {

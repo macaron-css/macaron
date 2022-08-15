@@ -68,10 +68,7 @@ export function macaronEsbuildPlugin(): Plugin {
             });
 
             return {
-              contents: contents.replace(
-                /("@vanilla-extract\/recipes\/createRuntimeFn"|'@vanilla-extract\/recipes\/createRuntimeFn')/g,
-                '"@macaron-css/core/create-runtime-fn"'
-              ),
+              contents,
               loader: 'js',
               resolveDir: dirname(path),
             };

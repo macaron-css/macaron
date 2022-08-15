@@ -1,9 +1,14 @@
-import { style } from '@macaron-css/core';
+import { style, recipe } from '@macaron-css/core';
 import { styled } from '@macaron-css/solid';
 import { vars, themeClass } from '../theme';
 
 const Heading = styled('h1', {
   base: { fontSize: '50px', fontWeight: 'bold', color: vars.colors.red },
+});
+const customClass = recipe({
+  base: {
+    color: 'red',
+  },
 });
 
 export default function Home() {
@@ -12,7 +17,7 @@ export default function Home() {
       <div class={themeClass}>
         <Heading>Hello world!</Heading>
       </div>
-      <p>
+      <p class={customClass()}>
         Visit{' '}
         <a href="https://solidjs.com" target="_blank">
           solidjs.com

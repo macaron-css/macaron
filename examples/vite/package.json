@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.7.1",
-    "@macaron-css/core": "0.1.7",
-    "@macaron-css/vite": "0.1.11"
+    "@macaron-css/core": "0.1.8",
+    "@macaron-css/vite": "0.1.12"
   },
   "devDependencies": {
     "typescript": "^4.5.4",
