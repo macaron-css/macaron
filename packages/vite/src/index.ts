@@ -1,17 +1,9 @@
-import {
-  addFileScope,
-  compile as vCompile,
-  cssFileFilter,
-  processVanillaFile,
-} from '@vanilla-extract/integration';
 import { babelTransform, compile } from '@macaron-css/integration';
-import outdent from 'outdent';
+import { processVanillaFile } from '@vanilla-extract/integration';
 import { join, resolve } from 'path';
 import { normalizePath, Plugin, ResolvedConfig, ViteDevServer } from 'vite';
 
 const extractedCssFileFilter = /extracted_(.*)\.css\.ts(\?used)?$/;
-const styleUpdateEvent = (fileId: string) =>
-  `vanilla-extract-style-update:${fileId}`;
 
 export function macaronVitePlugin(): Plugin {
   let config: ResolvedConfig;
@@ -22,7 +14,6 @@ export function macaronVitePlugin(): Plugin {
   const idToPluginData = new Map<string, Record<string, string>>();
 
   const virtualExt = '.vanilla.css';
-  let packageName: string;
 
   return {
     name: 'macaron-css-vite',
@@ -149,8 +140,6 @@ export function macaronVitePlugin(): Plugin {
               const id: string = `${fileScope.filePath}${virtualExt}`;
               const cssFileId = normalizePath(resolve(config.root, id));
 
-              let cssSource = source;
-
               if (server) {
                 const { moduleGraph } = server;
                 const moduleId = normalizePath(join(config.root, id));
@@ -163,7 +152,7 @@ export function macaronVitePlugin(): Plugin {
                 }
               }
 
-              cssMap.set(cssFileId, cssSource);
+              cssMap.set(cssFileId, source);
 
               return `import "${id}";`;
             },
