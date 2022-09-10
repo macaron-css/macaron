@@ -3,16 +3,19 @@ import { useMemo, createElement } from 'react';
 export function $$styled(
   Comp: any,
   styles: ((options?: any) => string) & {
-    variants: Array<string>;
+    macaronMeta: {
+      variants: string[];
+      defaultClassName: string;
+      variantConcat(options: any): string;
+    };
   }
 ) {
   function StyledComponent(props: any) {
-    const allVariants = StyledComponent.variants;
     const [variants, others] = useMemo(() => {
       const [classes, others]: any[] = [{}, {}];
 
       for (const [key, value] of Object.entries(props)) {
-        if (allVariants.includes(key)) {
+        if (StyledComponent.variants.includes(key)) {
           classes[key] = value;
         } else {
           others[key] = value;
@@ -36,16 +39,25 @@ export function $$styled(
   StyledComponent.displayName = `Macaron(${Comp})`;
   StyledComponent.toString = () => StyledComponent.selector(null);
   StyledComponent.variants = [
-    ...(styles.variants ?? []),
+    ...(styles.macaronMeta.variants ?? []),
     ...(Comp.variants ?? []),
   ];
-  StyledComponent.classes = (variants: any, merge?: string) => {
+  StyledComponent.variantConcat = styles.macaronMeta.variantConcat;
+  StyledComponent.classes = (
+    variants: any,
+    merge?: string,
+    fn: any = styles
+  ) => {
     const classes = new Set(
-      classNames(styles({ ...variants }) + (merge ? ` ${merge}` : ''))
+      classNames(fn(variants) + (merge ? ` ${merge}` : ''))
     );
 
     if (Comp.classes) {
-      for (const c of Comp.classes({ ...variants }) as string[]) {
+      for (const c of Comp.classes(
+        variants,
+        merge,
+        Comp.variantConcat
+      ) as string[]) {
         classes.add(c);
       }
     }
@@ -53,13 +65,15 @@ export function $$styled(
     return Array.from(classes);
   };
   StyledComponent.selector = (variants: any) => {
-    const classes = StyledComponent.classes(variants);
-
+    const classes = StyledComponent.classes(
+      variants,
+      undefined,
+      styles.macaronMeta.variantConcat
+    );
     // first element isn't empty
     if (classes.length > 0 && classes[0].length > 0) {
       return '.' + classes.join('.');
     }
-
     return classes.join('.');
   };
 
