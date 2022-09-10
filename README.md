@@ -120,7 +120,7 @@ function App() {
 
 The styling API is the same api is vanilla-extract, but allows styles to be defined in the same file, increasing the authoring experience.
 
-Check out [vanilla-extract docs](https://vanilla-extract.style/documentation/styling-api/) for the API reference.
+Check out [vanilla-extract docs](https://vanilla-extract.style/documentation/api/style/) for the API reference.
 
 These functions can also be called directly inside expressions to provide a `css` prop-like API with zero-runtime cost:-
 
