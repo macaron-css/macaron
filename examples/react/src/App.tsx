@@ -76,7 +76,7 @@ function App() {
         Click Me
       </Button>
       <Button
-        rounded="true"
+        rounded
         size="small"
         onClick={() => console.log("Clicked 4")}
       >

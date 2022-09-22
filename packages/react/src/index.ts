@@ -3,9 +3,9 @@ import {
   VariantGroups,
   VariantSelection,
 } from '@vanilla-extract/recipes/dist/declarations/src/types';
-import { PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
-type Component<TProps = {}> = (props: TProps) => ReactNode;
+type Component<TProps = {}> = (props: TProps) => ReactElement;
 type StyledComponent<
   TProps = {},
   Variants extends VariantGroups = {}

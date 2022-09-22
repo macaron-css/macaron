@@ -12,7 +12,7 @@
     "react-dom": "^18.2.0",
     "@macaron-css/core": "0.1.8",
     "@macaron-css/vite": "0.1.12",
-    "@macaron-css/react": "0.1.8"
+    "@macaron-css/react": "0.1.10"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
