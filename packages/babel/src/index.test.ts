@@ -95,6 +95,20 @@ test('extracts style function', () => {
   expect(code).toMatchSnapshot();
 });
 
+test('extracts $macaron function', () => {
+  const { result, code } = babelTransform(`
+    import { style, $macaron } from '@macaron-css/core';
+    
+    const red = $macaron(() => {
+      return style({ color: 'red' })
+    });
+    console.log(red);
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});
+
 test('multiple variable declarators in one declaration', () => {
   const { result, code } = babelTransform(`
     import { style } from '@macaron-css/core';

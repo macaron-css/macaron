@@ -37,6 +37,9 @@ export function styled<
 ): StyledComponent<TProps, Variants>;
 
 export function styled(component: any, options: any): (props: any) => any {
+  // the following doesn't work because vanilla-extract's function serializer
+  // cannot serialize complex functions like `$$styled`
+
   // const runtimeFn = recipe(options);
 
   // return addFunctionSerializer($$styled(component, runtimeFn as any), {
@@ -44,6 +47,7 @@ export function styled(component: any, options: any): (props: any) => any {
   //   args: [component, runtimeFn],
   //   importName: '$$styled',
   // });
+
   throw new Error(
     "This function shouldn't be there in your final code. If you're seeing this, there is probably some issue with your build config. If you think everything looks fine, then file an issue at https://github.com/mokshit06/macaron/issues"
   );

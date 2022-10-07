@@ -80,3 +80,7 @@ export function recipe<Variants extends VariantGroups>(
     args: [config],
   });
 }
+
+export const $macaron = <T>(block: () => T) => {
+  return block();
+};

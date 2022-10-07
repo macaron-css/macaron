@@ -61,6 +61,8 @@ export function getNearestIdentifier(path: NodePath<t.Node>) {
 }
 
 export const extractionAPIs = [
+  // @macaron-css/core
+  '$macaron',
   // @vanilla-extract/css
   'style',
   'styleVariants',
