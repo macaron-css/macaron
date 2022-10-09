@@ -2,6 +2,6 @@
 
 exports[`base component renders correctly 1`] = `"<div class=\\"default size_md color_light custom_extra_class\\"></div>"`;
 
-exports[`inherit component 1`] = `"<div class=\\"default size_sm color_light inherited\\"></div>"`;
+exports[`inherit styled component 1`] = `"<div class=\\"default size_sm color_light inherited\\"></div>"`;
 
-exports[`inherit component 2`] = `"<div class=\\"default size_lg color_light inherited custom_extra_cls\\"></div>"`;
+exports[`inherit styled component 2`] = `"<div class=\\"custom_extra_cls\\" class=\\"default size_lg color_light inherited\\"></div>"`;
