@@ -81,6 +81,6 @@ export function recipe<Variants extends VariantGroups>(
   });
 }
 
-export const $macaron = <T>(block: () => T) => {
+export const macaron$ = <T>(block: () => T) => {
   return block();
 };

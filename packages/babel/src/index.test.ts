@@ -97,9 +97,9 @@ test('extracts style function', () => {
 
 test('extracts $macaron function', () => {
   const { result, code } = babelTransform(`
-    import { style, $macaron } from '@macaron-css/core';
+    import { style, macaron$ } from '@macaron-css/core';
     
-    const red = $macaron(() => {
+    const red = macaron$(() => {
       return style({ color: 'red' })
     });
     console.log(red);
