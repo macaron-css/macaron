@@ -21,7 +21,7 @@
     "node": ">=14"
   },
   "dependencies": {
-    "@macaron-css/core": "0.1.9",
+    "@macaron-css/core": "0.1.10",
     "@macaron-css/vite": "0.1.12",
     "@macaron-css/solid": "0.1.9"
   }

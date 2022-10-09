@@ -11,7 +11,7 @@
     "@macaron-css/esbuild": "0.1.8",
     "@macaron-css/solid": "0.1.9",
     "babel-preset-solid": "^1.4.2",
-    "@macaron-css/core": "0.1.9",
+    "@macaron-css/core": "0.1.10",
     "esbuild": "^0.14.42",
     "solid-js": "^1.4.3"
   }
