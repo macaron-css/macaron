@@ -1,17 +1,23 @@
-# macaron
+<p align="center">
+<img src="https://raw.githubusercontent.com/macaron-css/macaron/main/banner.jpg" />
+</p>
 
-> comptime-css is now called **macaron**!
+<h1 align="center">macaron</h1>
 
-macaron is a zero-runtime and type-safe CSS-in-JS library made with performance in mind
+<p align="center">
+CSS-in-JS with <strong>zero runtime</strong>, <strong>type safety</strong> and <strong>colocation</strong>
+</p>
 
-- Powered by **vanilla-extract**
-- Allows defining styles in the same file as components
-- Zero runtime builds
-- Supports both styled-components API and plain styling api that returns classes.
-- Stitches-like variants
-- First class typescript support
-- Out of box support for react and solidjs
-- Supports esbuild and vite (with hmr)
+## Features
+
+- Powered by [Vanilla Extract](https://vanilla-extract.style/).
+- Allows style colocation.
+- Zero runtime builds.
+- Supports both styled-components API and vanilla styling API.
+- [Stitches](https://stitches.dev/)-like variants
+- First class Typescript support.
+- Out of box support for React and Solid.
+- Supports [esbuild](https://esbuild.github.io/) and [Vite](https://vitejs.dev/).
 
 ## Setup
 
