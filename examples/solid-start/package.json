@@ -1,5 +1,5 @@
 {
-  "name": "solid-start",
+  "name": "macaron-solid-start-example",
   "version": "0.1.0",
   "scripts": {
     "dev": "solid-start dev",
@@ -8,21 +8,21 @@
   },
   "type": "module",
   "devDependencies": {
-    "solid-app-router": "^0.4.1",
-    "solid-js": "^1.4.0",
-    "solid-meta": "^0.27.3",
-    "solid-start": "next",
-    "solid-start-node": "next",
-    "typescript": "^4.4.3",
-    "undici": "^4.12.2",
-    "vite": "^2.8.6"
-  },
-  "engines": {
-    "node": ">=14"
+    "solid-start-node": "^0.2.0",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.8",
+    "@macaron-css/vite": "0.1.12"
   },
   "dependencies": {
+    "@solidjs/meta": "^0.28.0",
+    "@solidjs/router": "^0.5.0",
+    "solid-js": "^1.6.0",
+    "solid-start": "^0.2.0",
+    "undici": "^5.11.0",
     "@macaron-css/core": "0.1.10",
-    "@macaron-css/vite": "0.1.12",
     "@macaron-css/solid": "0.1.9"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "vite-example",
+  "name": "macaron-vite-example",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -8,12 +8,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vanilla-extract/css": "^1.7.1",
     "@macaron-css/core": "0.1.10",
     "@macaron-css/vite": "0.1.12"
   },
   "devDependencies": {
     "typescript": "^4.5.4",
-    "vite": "^2.9.9"
+    "vite": "^3.1.8"
   }
 }

@@ -5,11 +5,25 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/*",
-      "examples/*"
+      "./packages/vite",
+      "./packages/solid",
+      "./packages/react",
+      "./packages/integration",
+      "./packages/esbuild",
+      "./packages/core",
+      "./packages/babel",
+      "./examples/vite",
+      "./examples/react",
+      "./examples/solid",
+      "./examples/solid-start",
+      "./examples/vanilla",
+      "./examples/react"
     ],
     "nohoist": [
-      "**/solid-start"
+      "**/solid-start",
+      "**/solid-start/**",
+      "**/vite",
+      "**/vite/**"
     ]
   },
   "scripts": {
