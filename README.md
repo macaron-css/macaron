@@ -10,14 +10,20 @@ CSS-in-JS with <strong>zero runtime</strong>, <strong>type safety</strong> and <
 
 ## Features
 
-- Powered by [Vanilla Extract](https://vanilla-extract.style/).
-- Allows style colocation.
-- Zero runtime builds.
-- Supports both styled-components API and vanilla styling API.
-- [Stitches](https://stitches.dev/)-like variants
+<!-- - Powered by [Vanilla Extract](https://vanilla-extract.style/). -->
+
+- Zero runtime bundles with build time style extraction.
+- Colocation of styles and components.
 - First class Typescript support.
+- Supports both styled-components API and vanilla styling API.
+- [Stitches](https://stitches.dev/)-like variants API.
 - Out of box support for React and Solid.
-- Supports [esbuild](https://esbuild.github.io/) and [Vite](https://vitejs.dev/).
+- Integrations for [esbuild](https://esbuild.github.io/) and [Vite](https://vitejs.dev/).
+- Uses vanilla-extract's API.
+
+## Documentation
+
+For full documentation, visit https://github.com/macaron-css/macaron/tree/main/docs.
 
 ## Setup
 
@@ -52,8 +58,6 @@ npm install @macaron-css/core @macaron-css/esbuild
 
 2. Add the esbuild plugin
 
-> If you already have `@vanilla-extract/esbuild-plugin` in your `plugins`, then change `...macaronEsbuildPlugins()` to `macaronEsbuildPlugin()`
-
 ```js
 const esbuild = require('esbuild');
 const { macaronEsbuildPlugins } = require('@macaron-css/esbuild');
@@ -72,10 +76,10 @@ esbuild.build({
 ### Styled API
 
 ```jsx
-// or import it from @macaron-css/react
-import { styled } from '@macaron-css/solid';
+// or import it from @macaron-css/solid
+import { styled } from '@macaron-css/react';
 
-const StyledButton = styled('button', {
+const Button = styled('button', {
   base: {
     borderRadius: 6,
   },
@@ -115,9 +119,9 @@ const StyledButton = styled('button', {
 // Use it like a regular solidjs/react component
 function App() {
   return (
-    <StyledButton color="accent" size="small" rounded>
+    <Button color="accent" size="small" rounded>
       Click me!
-    </StyledButton>
+    </Button>
   );
 }
 ```
@@ -169,9 +173,9 @@ For example, the plugin will transpile:
 
 ```js
 // main.ts
-import { styled } from '@macaron-css/solid';
+import { styled } from '@macaron-css/react';
 
-const StyledButton = styled('button', {
+const Button = styled('button', {
   base: {
     borderRadius: 6,
   },
@@ -192,15 +196,15 @@ To This:
 
 ```js
 // main.ts
-import { $macaron$$StyledButton } from 'extracted_1747103777.css.ts';
-import { $$styled } from '@macaron-css/solid/runtime';
+import { $macaron$$Button } from 'extracted_1747103777.css.ts';
+import { $$styled } from '@macaron-css/react/runtime';
 
-const StyledButton = $$styled('button', $macaron$$StyledButton);
+const Button = $$styled('button', $macaron$$Button);
 
 // extracted_1747103777.css.ts
 import { recipe } from '@macaron-css/core';
 
-export var $macaron$$StyledButton = recipe({
+export var $macaron$$Button = recipe({
   base: {
     borderRadius: 6,
   },
@@ -224,7 +228,7 @@ Which gets further compiled to:
 import 'extracted_1747103777.vanilla.css';
 import { createRuntimeFn } from '@macaron-css/core/create-runtime-fn';
 
-export var $macaron$$StyledButton = createRuntimeFn({
+export var $macaron$$Button = createRuntimeFn({
   defaultClassName: 'extracted_1747103777__1g7h5za0',
   variantClassNames: {
     color: {

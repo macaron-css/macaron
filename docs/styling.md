@@ -173,3 +173,17 @@ const Button = styled('button', {
 
 () => <Button color="violet">Button</Button>;
 ```
+
+### Generating styles
+
+There can be cases where you want to generate styles based on some theme config, or programmatically. Directly writing the code to transform the config into styles doesn't work since macaron's compiler only extracts the functions that are exported from macaron, not the closure surrounding it. To make it work, you can use the `macaron$` function. It evaluates the block passed to it at compile time and inlines the value returned in the bundle.
+
+```js
+import { macaron$ } from '@macaron-css/core';
+
+const colors = [...];
+
+const styles = macaron$(() => {
+  return colors.map(color => style({ backgroundColor: color }))
+});
+```
