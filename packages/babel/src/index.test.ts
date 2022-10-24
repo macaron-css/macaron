@@ -95,12 +95,12 @@ test('extracts style function', () => {
   expect(code).toMatchSnapshot();
 });
 
-test('extracts $macaron function', () => {
+test.only('extracts $macaron function', () => {
   const { result, code } = babelTransform(`
     import { style, macaron$ } from '@macaron-css/core';
     
     const red = macaron$(() => {
-      return style({ color: 'red' })
+      return 2 + 2
     });
     console.log(red);
   `);

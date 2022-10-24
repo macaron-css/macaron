@@ -89,7 +89,7 @@ test('inherit styled component', () => {
   expectRendersSnapshot(
     createElement(InheritedComponent, {
       size: 'lg',
-      class: 'custom_extra_cls',
+      className: 'custom_extra_cls',
     })
   );
 });

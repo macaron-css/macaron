@@ -159,21 +159,18 @@ export default _$macaron$$unknown2;"
 
 exports[`extracts $macaron function 1`] = `
 Array [
-  "extracted_jto26d.css.ts",
-  "import { style, macaron$ } from '@macaron-css/core';
-import { style, macaron$ } from '@macaron-css/core';
+  "extracted_1mgt78u.css.ts",
+  "import { macaron$ } from '@macaron-css/core';
 export var _$macaron$$red = macaron$(() => {
-  return style({
-    color: 'red'
-  });
+  return 2 + 2;
 });
 var _$macaron$$red2 = _$macaron$$red;",
 ]
 `;
 
 exports[`extracts $macaron function 2`] = `
-"import { _$macaron$$red as _$macaron$$red2 } from \\"extracted_jto26d.css.ts\\";
-import { style, macaron$ } from '@macaron-css/core';
+"import { _$macaron$$red as _$macaron$$red2 } from \\"extracted_1mgt78u.css.ts\\";
+import { macaron$ } from '@macaron-css/core';
 const red = _$macaron$$red2;
 console.log(red);"
 `;
