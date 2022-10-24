@@ -1,6 +1,6 @@
 {
   "name": "@macaron-css/esbuild",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -14,7 +14,7 @@
     "@vanilla-extract/esbuild-plugin": "^2.0.5",
     "@vanilla-extract/integration": "^6.0.0",
     "esbuild": "^0.14.42",
-    "@macaron-css/integration": "0.1.6"
+    "@macaron-css/integration": "0.1.7"
   },
   "files": [
     "dist",
