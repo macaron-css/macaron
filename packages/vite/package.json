@@ -1,6 +1,6 @@
 {
   "name": "@macaron-css/vite",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -11,12 +11,12 @@
     "directory": "packages/vite"
   },
   "dependencies": {
-    "@vanilla-extract/vite-plugin": "^3.1.6"
+    "@vanilla-extract/vite-plugin": "^3.1.6",
+    "@vanilla-extract/integration": "^6.0.0",
+    "@macaron-css/integration": "0.1.6"
   },
   "devDependencies": {
     "vite": "^3.0.0",
-    "@macaron-css/integration": "0.1.6",
-    "@vanilla-extract/integration": "^6.0.0",
     "@vanilla-extract/recipes": "^0.2.5"
   },
   "files": [

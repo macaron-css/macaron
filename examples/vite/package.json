@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@macaron-css/core": "0.1.10",
-    "@macaron-css/vite": "0.1.13"
+    "@macaron-css/vite": "0.1.14"
   },
   "devDependencies": {
     "typescript": "^4.5.4",
