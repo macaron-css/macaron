@@ -73,6 +73,7 @@ async function main() {
   const packagesPromises = packages.map(async p => {
     const packageDir = join('packages', p);
     await updatePackageJson(packageDir, json => {
+      if (!json.dependencies) return;
       for (const dep of Object.keys(json.dependencies)) {
         if (dep === packageName) {
           packagesToPublish.add(json.name);
