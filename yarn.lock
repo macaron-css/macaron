@@ -1319,6 +1319,34 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@macaron-css/integration@0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@macaron-css/integration/-/integration-0.1.6.tgz#9fbfda00dd6cd738a03eb042babd8a862a29f2c5"
+  integrity sha512-pkjc/AhMpI/vvE2wUdpL0sWPNRM1MjKbqIrlYKqVIY+KiV1EisJRnehoJHC8CWYkwp0inrvz02cKtIyAjqjbWQ==
+  dependencies:
+    "@babel/core" "^7.18.2"
+    "@babel/plugin-syntax-jsx" "^7.17.12"
+    "@macaron-css/babel" "0.1.10"
+    "@vanilla-extract/integration" "^4.0.1"
+    esbuild "^0.14.42"
+
+"@macaron-css/vite@0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@macaron-css/vite/-/vite-0.1.12.tgz#eec043062e1f8271ada9e1220ba6e417edd0daa6"
+  integrity sha512-INgQCu20T4u8Az7NHrF+kbb/xMO/fCdEPi18fBKD/ZGGYR3DliRjLFhUjgKs5cLdKtj0RB/argIeWpe/YNM3RA==
+  dependencies:
+    "@emotion/hash" "^0.8.0"
+    "@macaron-css/babel" "0.1.10"
+    "@macaron-css/integration" "0.1.6"
+    "@vanilla-extract/css" "^1.7.1"
+    "@vanilla-extract/integration" "^4.0.1"
+    "@vanilla-extract/recipes" "^0.2.5"
+    "@vanilla-extract/vite-plugin" "^3.1.6"
+    esbuild "^0.14.42"
+    eval "^0.1.8"
+    outdent "^0.8.0"
+    vite "^3.0.7"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -1614,7 +1642,7 @@
   dependencies:
     "@babel/core" "^7.13.10"
 
-"@vanilla-extract/css@^1.7.1", "@vanilla-extract/css@^1.7.2":
+"@vanilla-extract/css@^1.6.8", "@vanilla-extract/css@^1.7.1", "@vanilla-extract/css@^1.7.2":
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/@vanilla-extract/css/-/css-1.9.1.tgz#337b79faa5f8f98915a90c3fe3c30b54be746c09"
   integrity sha512-pu2SFiff5jRhPwvGoj8cM5l/qIyLvigOmy22ss5DGjwV5pJYezRjDLxWumi2luIwioMWvh9EozCjyfH8nq+7fQ==
@@ -1637,6 +1665,19 @@
   integrity sha512-WlnSbqD2/7OryWj1JEef9a5nLpWbv828J4cOBGqi5G1kAo0e8aKTT3+pLhFmDU0bdnpPYVw1lBz+xJrxT/FQQA==
   dependencies:
     "@vanilla-extract/integration" "^6.0.0"
+
+"@vanilla-extract/integration@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@vanilla-extract/integration/-/integration-4.0.1.tgz#27d721f81fa7c2862393d61e223a5f7e41f335e6"
+  integrity sha512-s/P7FynY2/LWMCGVgHTXOpfy4pH0+cTCtTgEZEVvmf2ErX5ZSSsFe1i9MzODCYTDuvV2MWFg7oOspwx7i70h+A==
+  dependencies:
+    "@vanilla-extract/css" "^1.6.8"
+    esbuild "^0.11.16"
+    eval "0.1.6"
+    find-up "^5.0.0"
+    javascript-stringify "^2.0.1"
+    lodash "^4.17.21"
+    outdent "^0.8.0"
 
 "@vanilla-extract/integration@^6.0.0":
   version "6.0.0"
@@ -5412,7 +5453,7 @@ vite-plugin-solid@^2.3.10:
     merge-anything "^5.0.2"
     solid-refresh "^0.4.1"
 
-vite@^3.0.0, vite@^3.1.8:
+vite@^3.0.0, vite@^3.0.7, vite@^3.1.8:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/vite/-/vite-3.1.8.tgz#fa29144167d19b773baffd65b3972ea4c12359c9"
   integrity sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==
