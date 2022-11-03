@@ -1,8 +1,8 @@
 [build]
-  publish = "dist/"
+  publish = "site/dist/"
 
 [functions]
-  directory = "dist/functions"
+  directory = "site/dist/functions"
 
 [[redirects]]
   from = "/*"
