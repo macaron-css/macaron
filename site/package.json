@@ -24,6 +24,7 @@
     "solid-js": "^1.6.0",
     "solid-mdx": "^0.0.6",
     "solid-start": "^0.2.0",
+    "solid-start-netlify": "0.1.0-alpha.37",
     "undici": "^5.11.0"
   },
   "engines": {
