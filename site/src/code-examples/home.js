@@ -24,3 +24,7 @@ const Button = styled('button', {
     color: 'accent',
   },
 });
+
+<Button color="neutral" rounded>
+  Click me
+</Button>;

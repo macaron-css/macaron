@@ -14,7 +14,7 @@ export function highlight(contents: string) {
   refractor.register(css);
   refractor.register(diff);
 
-  return toHtml(refractor.highlight(contents, 'js'));
+  return toHtml(refractor.highlight(contents, 'jsx'));
 }
 
 // export const res =

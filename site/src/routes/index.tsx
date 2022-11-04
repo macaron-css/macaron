@@ -5,6 +5,8 @@ import { Pre } from '~/components/pre';
 import fs from 'fs';
 import path from 'path';
 import { highlight } from '~/components/code-block';
+import { screens, theme } from '~/theme';
+import { Button } from '~/components/button';
 
 const code = macaron$(() => {
   const contents = fs.readFileSync(
@@ -26,36 +28,42 @@ export default function Home() {
         flexDirection: 'column',
       })}
     >
-      {/* <nav>Docs</nav> */}
       <div
         class={style({
           display: 'flex',
           alignItems: 'center',
           gap: '5vw',
-          // justifyContent: 'space-around',
-          color: 'white',
-          // maxHeight: '100%',
+          flexWrap: 'wrap',
+          '@media': {
+            [screens.lg]: {
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+            },
+          },
         })}
       >
         <div
           class={style({
+            color: 'white',
             flex: 1,
-            marginTop: '-40px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '25px',
+            '@media': {
+              [screens.lg]: { alignItems: 'center' },
+            },
           })}
         >
-          <img
-            class={style({
-              // height: '17vh',
-              width: '100%',
-              // padding: '20px 0',
-            })}
-            src="/macaron-inline.svg"
-          />
+          <img class={style({ width: '80%' })} src="/macaron-stacked.svg" />
           <p
             class={style({
               fontSize: '1.3rem',
-              margin: '35px 0',
               lineHeight: 1.5,
+              '@media': {
+                [screens.md]: { fontSize: '1.2rem' },
+                [screens.lg]: { textAlign: 'center' },
+              },
             })}
           >
             Typesafe CSS-in-JS with zero runtime, colocation, maximum safety and
@@ -64,11 +72,10 @@ export default function Home() {
           </p>
           <div
             class={style({
-              marginTop: '20px',
               borderRadius: '15px',
-              border: '2px solid #ff4089',
-              // boxShadow: '2px 2px #111630',
-              padding: '20px 25px',
+              backdropFilter: 'brightness(80%) saturate(120%)',
+              padding: '23px 25px',
+              width: '100%',
             })}
           >
             <span
@@ -84,13 +91,16 @@ export default function Home() {
             <div
               class={style({
                 margin: '15px 0',
-                fontFamily: "'IBM Plex Mono', monospace",
+                fontFamily: "'JetBrains Mono', monospace",
                 padding: '15px 20px',
-                // backgroundColor: '#343355',
-                border: '2px solid #656395',
-                backgroundColor: '#15171827',
+                fontWeight: 300,
+                border: '2px solid #7977af',
                 borderRadius: '8px',
-                fontSize: '1rem',
+                fontSize: '0.9rem',
+                lineHeight: 1.3,
+                '@media': {
+                  [screens.lg]: { fontSize: '0.9rem' },
+                },
               })}
             >
               <span
@@ -114,9 +124,17 @@ export default function Home() {
               View installation docs
             </small>
           </div>
+          <div class={style({ display: 'flex', gap: '10px' })}>
+            <Button>Documentation</Button>
+            <Button color="secondary">Playground</Button>
+          </div>
         </div>
-        <div class={style({ flex: 1 })}>
-          <Pre>
+        <div class={style({ flex: 1, width: '100%' })}>
+          <Pre
+            class={style({
+              boxShadow: '0px 10px 50px -10px #1e213c',
+            })}
+          >
             <code
               class={`language-jsx ${style({ display: 'block' })}`}
               innerHTML={code}

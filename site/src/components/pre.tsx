@@ -1,5 +1,6 @@
 import { globalStyle, macaron$ } from '@macaron-css/core';
 import { styled } from '@macaron-css/solid';
+import { screens } from '~/theme';
 
 export const Pre = styled('pre', {
   base: {
@@ -7,17 +8,21 @@ export const Pre = styled('pre', {
     borderRadius: '8px',
     padding: '20px ',
     overflow: 'auto',
-    // fontFamily: '$mono',
-    fontSize: '13px',
-    lineHeight: '21px',
+    fontSize: '15px',
+    lineHeight: '19px',
     whiteSpace: 'pre',
     position: 'relative',
     color: 'hsl(210 6.0% 93.0%)',
-    fontFamily: 'IBM Plex Mono',
-    background: '#151718b9',
+    backdropFilter: 'brightness(70%) saturate(120%)',
     maxHeight: '80vh',
-    // border: '2px solid #DC0753',
+    '@media': {
+      [screens.lg]: { fontSize: '13px' },
+    },
   },
+});
+
+globalStyle(`${Pre} code`, {
+  fontFamily: "'JetBrains Mono', monospace !important",
 });
 
 macaron$(() => {
@@ -104,8 +109,6 @@ macaron$(() => {
       //   },
       // },
     },
-
-    // Typewriter styles
     '.typewriter': {
       opacity: 0,
     },

@@ -14,6 +14,7 @@ import {
   Title,
 } from 'solid-start';
 import { style, globalStyle } from '@macaron-css/core';
+import { screens } from './theme';
 
 globalStyle('*', {
   margin: 0,
@@ -34,7 +35,7 @@ export default function Root() {
         <Link rel="preconnect" href="https://fonts.googleapis.com" />
         <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <Link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=PT+Mono&display=swap"
+          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=JetBrains+Mono:wght@300;400&display=swap"
           rel="stylesheet"
         />
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -46,7 +47,6 @@ export default function Root() {
           justifyContent: 'center',
           width: '100%',
           background: 'linear-gradient(to bottom, #131936f3 20%, #282a4ff2)',
-          padding: '0 2vw',
           fontFamily: "'Public Sans', system-ui",
         })}
       >
@@ -59,6 +59,13 @@ export default function Root() {
               class={style({
                 width: '100%',
                 maxWidth: '1200px',
+                padding: '0 3vw',
+                '@media': {
+                  [screens.lg]: {
+                    maxWidth: '700px',
+                    padding: '6vh 20px',
+                  },
+                },
               })}
             >
               <Routes>
