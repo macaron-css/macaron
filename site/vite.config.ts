@@ -1,7 +1,7 @@
 import solid from 'solid-start/vite';
 import { defineConfig } from 'vite';
 import { macaronVitePlugin } from '@macaron-css/vite';
-import netlify from 'solid-start-netlify';
+import solidStartStatic from 'solid-start-static';
 
 export default defineConfig({
   plugins: [
@@ -16,7 +16,9 @@ export default defineConfig({
     macaronVitePlugin(),
     solid({
       extensions: ['.mdx', '.md'],
-      adapter: netlify(),
+      // ssr: false,
+      adapter: solidStartStatic(),
+      // prerenderRoutes: ['/'],
     }),
   ],
 });
