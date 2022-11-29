@@ -17,6 +17,17 @@ export const [themeClass, vars] = createTheme({
 });
 ```
 
+This theme can then be used like
+
+```js
+const Button = styled('button', {
+  base: {
+    color: vars.color.brand,
+    fontFamily: vars.font.body,
+  },
+});
+```
+
 ### Creating global theme
 
 ```js
