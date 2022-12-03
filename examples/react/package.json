@@ -11,7 +11,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "@macaron-css/core": "0.1.10",
-    "@macaron-css/vite": "0.1.15",
+    "@macaron-css/vite": "0.1.16",
     "@macaron-css/react": "0.1.11"
   },
   "devDependencies": {
