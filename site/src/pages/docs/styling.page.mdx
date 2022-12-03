@@ -52,7 +52,7 @@ const Button = styled('button', {
 
 Selectors that don't take any parameters can be used at top level
 
-```js
+```js focus=4:6
 const Button = styled('button', {
   base: {
     // base styles
@@ -65,7 +65,7 @@ const Button = styled('button', {
 () => <Button>Button</Button>;
 ```
 
-```js
+```js focus=4:15
 const Button = styled('button', {
   base: {
     // base styles
@@ -91,7 +91,7 @@ const Button = styled('button', {
 
 More complex selectors can be written inside `selectors`
 
-```js
+```js focus=5:7
 const Button = styled('button', {
   base: {
     // base styles
@@ -103,6 +103,8 @@ const Button = styled('button', {
   },
 });
 
+// focus[15:35]
+// mark[15:35]
 () => <Button data-custom-attribute>Button</Button>;
 ```
 
@@ -110,7 +112,9 @@ const Button = styled('button', {
 
 macaron components implement `.toString()` which returns their base styles' classname. This can be used to target a macaron component.
 
-```js
+```js focus=13:15
+// mark[7:10]
+// focus[7:10]
 const Icon = styled('svg', {
   base: {
     display: 'inline-block',
@@ -142,7 +146,8 @@ const Button = styled('button', {
 
 macaron components also implement a `selector` method that can be used to get the css selector of the variants applied.
 
-```js
+```js focus=25:27
+// mark[7:10]
 const Icon = styled('svg', {
   base: {
     display: 'inline-block',
@@ -150,6 +155,8 @@ const Icon = styled('svg', {
   },
   variants: {
     size: {
+      // mark[7:11]
+      // focus[7:11]
       small: {
         width: '12px',
       },
