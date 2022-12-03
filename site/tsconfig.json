@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "jsxImportSource": "solid-js",
-    "jsx": "preserve",
+    "strict": true,
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "target": "ES2020",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["vite/client"],
-    "baseUrl": "./",
-    "paths": {
-      "~/*": ["./src/*"]
+    "jsx": "react",
+    "skipLibCheck": true,
+    "esModuleInterop": true
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "CommonJS"
     }
   }
 }

@@ -1,6 +1,6 @@
 import { globalStyle, macaron$ } from '@macaron-css/core';
-import { styled } from '@macaron-css/solid';
-import { screens } from '~/theme';
+import { styled } from '@macaron-css/react';
+import { screens } from '../theme';
 
 export const Pre = styled('pre', {
   base: {

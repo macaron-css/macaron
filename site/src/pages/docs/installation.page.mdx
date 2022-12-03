@@ -1,0 +1,250 @@
+import { DocsLayout as Layout } from '../../components/docs-layout';
+
+<Layout>
+# Installation
+
+```fish
+# npm
+npm install @macaron-css/core @macaron-css/solid # or @macaron-css/react
+
+# yarn
+yarn add @macaron-css/core @macaron-css/solid # or @macaron-css/react
+
+```
+
+## Setting up bundler
+
+Macaron currently supports vite and esbuild. Install and setup the plugin for your bundler :-
+
+### Vite
+
+```fish
+npm install @macaron-css/vite
+```
+
+In the `vite.config.js`, add the macaron plugin before other plugins
+
+```js vite.config.js
+import { macaronVitePlugin } from '@macaron-css/vite';
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  plugins: [
+    // mark
+    macaronVitePlugin(),
+    // other plugins
+  ],
+});
+```
+
+### esbuild
+
+```bash
+npm install @macaron-css/esbuild
+```
+
+Add macaron plugin to the esbuild config
+
+```js
+const { macaronEsbuildPlugins } = require('@macaron-css/esbuild');
+const esbuild = require('esbuild');
+
+esbuild.build({
+  entryPoints: ['src/index.tsx'],
+  // mark
+  plugins: [...macaronEsbuildPlugins()],
+  outdir: 'dist',
+  format: 'esm',
+  bundle: true,
+});
+```
+
+## Usage
+
+<CH.Scrollycoding className="f" start={2}>
+### Create a styled component
+
+Import `styled` from either `@macaron-css/solid` or `@macaron-css/react` and create a styled component.
+
+```js button.tsx focus=3
+import { styled } from '@macaron-css/solid';
+
+const Button = styled('button', {});
+```
+
+---
+
+### Add styles
+
+Add base styles that are applied to the component by default. This can include hover states, media queries, nested selectors etc.
+All styling APIs in macaron take style objects as inputs. These makes the styles type-safe and provides autocomplete via `csstype`.
+
+```js button.tsx focus=4:12
+import { styled } from '@macaron-css/solid';
+
+const Button = styled('button', {
+  base: {
+    backgroundColor: 'gainsboro',
+    borderRadius: '9999px',
+    fontSize: '13px',
+    padding: '10px 15px',
+    ':hover': {
+      backgroundColor: 'lightgray',
+    },
+  },
+});
+```
+
+---
+
+### Add variants
+
+You can add variants by using the variants key. There is no limit to how many variants you can add.
+
+A variant accepts the same style object as the base styles.
+
+```js button.tsx focus=13:29
+import { styled } from '@macaron-css/solid';
+
+const Button = styled('button', {
+  base: {
+    backgroundColor: 'gainsboro',
+    borderRadius: '9999px',
+    fontSize: '13px',
+    padding: '10px 15px',
+    ':hover': {
+      backgroundColor: 'lightgray',
+    },
+  },
+  variants: {
+    color: {
+      violet: {
+        backgroundColor: 'blueviolet',
+        color: 'white',
+        '&:hover': {
+          backgroundColor: 'darkviolet',
+        },
+      },
+      gray: {
+        backgroundColor: 'gainsboro',
+        '&:hover': {
+          backgroundColor: 'lightgray',
+        },
+      },
+    },
+  },
+});
+```
+
+---
+
+### Default variants
+
+You can use the defaultVariants feature to set a variant by default. This variants can be overriden at the time of usage.
+
+```js button.tsx focus=30:32
+import { styled } from '@macaron-css/solid';
+
+const Button = styled('button', {
+  base: {
+    backgroundColor: 'gainsboro',
+    borderRadius: '9999px',
+    fontSize: '13px',
+    padding: '10px 15px',
+    ':hover': {
+      backgroundColor: 'lightgray',
+    },
+  },
+  variants: {
+    color: {
+      violet: {
+        backgroundColor: 'blueviolet',
+        color: 'white',
+        '&:hover': {
+          backgroundColor: 'darkviolet',
+        },
+      },
+      gray: {
+        backgroundColor: 'gainsboro',
+        '&:hover': {
+          backgroundColor: 'lightgray',
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    color: 'violet',
+  },
+});
+```
+
+---
+
+### Rendering the component
+
+This component can now be used just like any regular Solid/React component with type-safe props that are derived from your variants.
+Unlike vanilla-extract that restricts style declarations to `.css.ts`, macaron allows you to declare styles in the same file providing _true_ colocation.
+
+```js button.tsx focus=35:39
+import { styled } from '@macaron-css/solid';
+
+const Button = styled('button', {
+  base: {
+    backgroundColor: 'gainsboro',
+    borderRadius: '9999px',
+    fontSize: '13px',
+    padding: '10px 15px',
+    ':hover': {
+      backgroundColor: 'lightgray',
+    },
+  },
+  variants: {
+    color: {
+      violet: {
+        backgroundColor: 'blueviolet',
+        color: 'white',
+        '&:hover': {
+          backgroundColor: 'darkviolet',
+        },
+      },
+      gray: {
+        backgroundColor: 'gainsboro',
+        '&:hover': {
+          backgroundColor: 'lightgray',
+        },
+      },
+    },
+  },
+  defaultVariants: {
+    color: 'violet',
+  },
+});
+
+() => <Button color="gray">Click me!</Button>;
+```
+
+</CH.Scrollycoding>
+
+## Available functions
+
+Other than `styled`, macaron provides the following functions:-
+
+```js focus=1[10:15],4:14
+import { styled } from '@macaron-css/solid';
+
+import {
+  style,
+  recipe,
+  createTheme,
+  createThemeContract,
+  styleVariants,
+  createVar,
+  fallbackVar,
+  assignVars,
+  keyframs,
+  fontFace,
+  createContainer,
+} from '@macaron-css/core';
+```
+
+</Layout>

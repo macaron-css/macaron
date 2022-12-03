@@ -1,4 +1,4 @@
-import { styled } from '@macaron-css/solid';
+import { styled } from '@macaron-css/react';
 
 export const Button = styled('button', {
   base: {

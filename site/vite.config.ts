@@ -1,24 +1,24 @@
-import solid from 'solid-start/vite';
-import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import ssr from 'vite-plugin-ssr/plugin';
+import { defineConfig, UserConfig } from 'vite';
 import { macaronVitePlugin } from '@macaron-css/vite';
-import solidStartStatic from 'solid-start-static';
+import { remarkCodeHike } from '@code-hike/mdx';
+import theme from 'shiki/themes/github-dark.json';
 
-export default defineConfig({
-  plugins: [
-    {
-      ...(await import('@mdx-js/rollup')).default({
-        jsx: true,
-        jsxImportSource: 'solid-js',
-        providerImportSource: 'solid-mdx',
-      }),
-      enforce: 'pre',
+export default defineConfig(async () => {
+  const mdx = await import('@mdx-js/rollup');
+
+  return {
+    optimizeDeps: {
+      include: ['react/jsx-runtime'],
     },
-    macaronVitePlugin(),
-    solid({
-      extensions: ['.mdx', '.md'],
-      // ssr: false,
-      adapter: solidStartStatic(),
-      // prerenderRoutes: ['/'],
-    }),
-  ],
+    plugins: [
+      react(),
+      macaronVitePlugin(),
+      mdx.default({
+        remarkPlugins: [[remarkCodeHike, { theme }]],
+      }),
+      ssr({ prerender: true }),
+    ],
+  };
 });
