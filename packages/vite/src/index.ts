@@ -1,5 +1,6 @@
 import { babelTransform, compile } from '@macaron-css/integration';
 import { processVanillaFile } from '@vanilla-extract/integration';
+import fs from 'fs';
 import { join, resolve } from 'path';
 import { normalizePath, Plugin, ResolvedConfig, ViteDevServer } from 'vite';
 
@@ -170,6 +171,13 @@ export function macaronVitePlugin(): Plugin {
         // gets handled by @vanilla-extract/vite-plugin
         if (id.endsWith('.css.ts')) return;
 
+        try {
+          await fs.promises.access(id, fs.constants.F_OK);
+        } catch {
+          // probably a virtual file, to be handled by other plugin
+          return;
+        }
+
         const {
           code,
           result: [file, cssExtract],
@@ -199,7 +207,10 @@ export function macaronVitePlugin(): Plugin {
         idToPluginData.delete(id);
         idToPluginData.delete(normalizedCssPath);
 
-        idToPluginData.set(id, { ...idToPluginData.get(id), mainFilePath: id });
+        idToPluginData.set(id, {
+          ...idToPluginData.get(id),
+          mainFilePath: id,
+        });
         idToPluginData.set(normalizedCssPath, {
           ...idToPluginData.get(normalizedCssPath),
           mainFilePath: id,
