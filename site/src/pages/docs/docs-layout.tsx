@@ -25,6 +25,14 @@ globalStyle('.ch-scrollycoding-step-content[data-selected]', {
   backdropFilter: 'brightness(80%) saturate(120%) !important',
 });
 
+globalStyle('.ch-codegroup .ch-editor-button, .ch-codeblock .ch-code-button', {
+  display: "none",
+});
+
+globalStyle('.ch-codegroup:hover .ch-editor-button, .ch-codeblock:hover .ch-code-button', {
+  display: "block",
+});
+
 const MarkdownView = styled('div', {
   base: {
     width: '100%',
