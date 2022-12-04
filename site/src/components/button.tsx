@@ -1,4 +1,5 @@
 import { styled } from '@macaron-css/react';
+import { screens } from '../theme';
 
 export const Button = styled('button', {
   base: {
@@ -8,6 +9,7 @@ export const Button = styled('button', {
     fontSize: '1.2rem',
     cursor: 'pointer',
     border: 'none',
+    '@media': { [screens.sm]: { fontSize: '1rem' } },
   },
   variants: {
     color: {
