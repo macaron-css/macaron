@@ -11,18 +11,18 @@ globalStyle('#docs p code, #docs p a', {
 });
 
 globalStyle('.ch-scrollycoding-step-content', {
-  padding: '1rem',
-  margin: '0.5rem 0',
-  border: '1px solid #7977af2b',
+  padding: '1rem !important',
+  margin: '0.5rem 0 !important',
+  border: '1px solid #7977af2b !important',
 });
 
 globalStyle('.ch-codeblock, .ch-codegroup', {
-  border: '1px solid #3f3e63',
+  border: '1px solid #3f3e63 !important',
 });
 
 globalStyle('.ch-scrollycoding-step-content[data-selected]', {
-  border: '2px solid #ff4089',
-  backdropFilter: 'brightness(80%) saturate(120%)',
+  border: '2px solid #ff4089 !important',
+  backdropFilter: 'brightness(80%) saturate(120%) !important',
 });
 
 const MarkdownView = styled('div', {
