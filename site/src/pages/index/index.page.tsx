@@ -143,19 +143,10 @@ export function Page() {
               </a>
             </div>
             <div className={style({ display: 'flex', gap: '10px' })}>
-              <Button
-                onClick={() => {
-                  navigate('/docs/installation');
-                }}
-              >
+              <Button as="a" href="/docs/installation">
                 Documentation
               </Button>
-              <Button
-                color="secondary"
-                onClick={() => {
-                  navigate('/playground');
-                }}
-              >
+              <Button color="secondary" as="a" href="/playground">
                 Playground
               </Button>
             </div>

@@ -455,10 +455,10 @@
     "@vanilla-extract/integration" "^6.0.0"
     esbuild "^0.14.42"
 
-"@macaron-css/react@^0.1.11":
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/@macaron-css/react/-/react-0.1.11.tgz#2d83eebc974e94cf543dc14067f0176aec8f0614"
-  integrity sha512-Nw/dSGG4gaVc1Vi3s2pDnYQkc5R4BP6eh45SiSAX4yoz9oFwZC7/w2eS5MkOwi0lMUHMh3uVqOfo6tvjhLbJcw==
+"@macaron-css/react@^0.1.12":
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/@macaron-css/react/-/react-0.1.12.tgz#3787122c3074a4378acacbf8e2e28e472775c610"
+  integrity sha512-mTwuFBGeN68BqRUIA5dinsULR6JwIujnwIKI7BOsGAN3Lba1THy0wPfphyvoASYly4Z7P9n7mZNmVt5vCbDpjw==
 
 "@macaron-css/vite@^0.1.16":
   version "0.1.16"

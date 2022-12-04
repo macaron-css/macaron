@@ -1,9 +1,11 @@
 import Buffer from 'buffer';
 
-globalThis.process = {
-  env: {
-    BABEL_TYPES_8_BREAKING: false,
-  },
-};
+if (typeof document !== 'undefined') {
+  globalThis.process = {
+    env: {
+      BABEL_TYPES_8_BREAKING: false,
+    },
+  };
 
-globalThis.Buffer = Buffer.Buffer;
+  globalThis.Buffer = Buffer.Buffer;
+}
