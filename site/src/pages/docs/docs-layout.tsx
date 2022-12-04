@@ -27,13 +27,13 @@ globalStyle('.ch-scrollycoding-step-content[data-selected]', {
 
 const MarkdownView = styled('div', {
   base: {
-    maxWidth: '100%',
+    width: '100%',
     position: 'relative',
     padding: '2rem',
     fontFamily: 'system-ui',
     color: 'white',
     lineHeight: '1.75rem',
-    overflowX: 'auto',
+    right: '5px',
   },
 });
 
