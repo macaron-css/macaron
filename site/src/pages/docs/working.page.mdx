@@ -1,0 +1,234 @@
+import { DocsLayout as Layout } from './docs-layout';
+
+export const documentProps = {
+  title: 'Working — macaron',
+};
+
+<Layout>
+
+# How macaron works
+
+<CH.Scrollycoding start={4}>
+### File resolution
+
+The esbuild/vite plugin loads every typescript and javascript file and runs `@macaron-css/babel` plugin on it.
+
+```js main.tsx
+import { styled } from '@macaron-css/react';
+
+const borderRadius = 6;
+
+const Button = styled('button', {
+  base: {
+    borderRadius: borderRadius,
+  },
+  variants: {
+    color: {
+      neutral: { background: 'whitesmoke' },
+      brand: { background: 'blueviolet' },
+      accent: { background: 'slateblue' },
+    },
+  },
+  defaultVariants: {
+    color: 'accent',
+  },
+});
+```
+
+---
+
+### Babel transform
+
+The babel plugin looks for call expressions in your code and checks if the callee is a macarons API like `styled` or `recipe` etc.
+
+```js main.tsx focus=5:19
+import { styled } from '@macaron-css/react';
+
+const borderRadius = 6;
+
+// mark[16:21]
+const Button = styled('button', {
+  base: {
+    borderRadius: borderRadius,
+  },
+  variants: {
+    color: {
+      neutral: { background: 'whitesmoke' },
+      brand: { background: 'blueviolet' },
+      accent: { background: 'slateblue' },
+    },
+  },
+  defaultVariants: {
+    color: 'accent',
+  },
+});
+```
+
+---
+
+### Finding references
+
+It traverses the call expressions and finds all the referenced identifiers, gets all their declarations and repeats this cycle until no more are found.
+
+```js main.tsx focus=3,7
+import { styled } from '@macaron-css/react';
+
+// mark[7:18]
+const borderRadius = 6;
+
+const Button = styled('button', {
+  base: {
+    // mark[19:30]
+    borderRadius: borderRadius,
+  },
+  variants: {
+    color: {
+      neutral: { background: 'whitesmoke' },
+      brand: { background: 'blueviolet' },
+      accent: { background: 'slateblue' },
+    },
+  },
+  defaultVariants: {
+    color: 'accent',
+  },
+});
+```
+
+---
+
+### Extract styles
+
+The babel plugin then extracts all these references and the styles into a seperate file.
+
+<CH.Code>
+```js extracted_rxrhwu.css.ts
+import { recipe as _recipe } from "@macaron-css/core";
+const borderRadius = 6;
+// mark[12:28]
+export var _$macaron$$Button = _recipe({
+  base: {
+    borderRadius: borderRadius
+  },
+  variants: {
+    color: {
+      neutral: {
+        background: 'whitesmoke'
+      },
+      brand: {
+        background: 'blueviolet'
+      },
+      accent: {
+        background: 'slateblue'
+      }
+    }
+  },
+  defaultVariants: {
+    color: 'accent'
+  }
+});
+var _$macaron$$Button2 = _$macaron$$Button;
+````
+
+</CH.Code>
+
+---
+
+### Evaluating to static css
+
+The plugin then evaluates this file in isolation and generates static css with hashed classes, removing all the runtime styles.
+
+<CH.Code>
+```js extracted_rxrhwu.css.ts
+// mark
+import 'extracted_rxrhwu.vanilla.css';
+import { createRuntimeFn } from '@macaron-css/core/create-runtime-fn';
+
+export var $macaron$$Button = createRuntimeFn({
+  defaultClassName: 'extracted_rxrhwu__1g7h5za0',
+  variantClassNames: {
+    color: {
+      neutral: 'extracted_rxrhwu_color_neutral__1g7h5za1',
+      brand: 'extracted_rxrhwu_color_brand__1g7h5za2',
+      accent: 'extracted_rxrhwu_color_accent__1g7h5za3',
+    },
+  },
+  defaultVariants: {
+    color: 'accent',
+  },
+});
+```
+---
+```css extracted_rxrhwu.vanilla.css
+.extracted_rxrhwu__1g7h5za0 {
+  border-radius: 6px;
+}
+.extracted_rxrhwu_color_neutral__1g7h5za1 {
+  background: whitesmoke;
+}
+.extracted_rxrhwu_color_brand__1g7h5za2 {
+  background: blueviolet;
+}
+.extracted_rxrhwu_color_accent__1g7h5za3 {
+  background: slateblue;
+}
+```
+
+</CH.Code>
+
+---
+
+### Replacing initial content
+
+Finally the plugin removes the code from the initial `main.tsx` file and replaces that with imports from `extracted_rxrhwu.css.ts`;
+
+<CH.Code>
+```js main.tsx
+import { $macaron$$Button } from 'extracted_rxrhwu.css.ts';
+import { $$styled } from '@macaron-css/react/runtime';
+
+// mark[35:50]
+const Button = $$styled('button', $macaron$$Button);
+
+````
+
+```js extracted_rxrhwu.css.ts
+import 'extracted_rxrhwu.vanilla.css';
+import { createRuntimeFn } from '@macaron-css/core/create-runtime-fn';
+
+// mark[12:17]
+export var $macaron$$Button = createRuntimeFn({
+  defaultClassName: 'extracted_rxrhwu__1g7h5za0',
+  variantClassNames: {
+    color: {
+      neutral: 'extracted_rxrhwu_color_neutral__1g7h5za1',
+      brand: 'extracted_rxrhwu_color_brand__1g7h5za2',
+      accent: 'extracted_rxrhwu_color_accent__1g7h5za3',
+    },
+  },
+  defaultVariants: {
+    color: 'accent',
+  },
+});
+````
+
+```css extracted_rxrhwu.vanilla.css
+.extracted_rxrhwu__1g7h5za0 {
+  border-radius: 6px;
+}
+.extracted_rxrhwu_color_neutral__1g7h5za1 {
+  background: whitesmoke;
+}
+.extracted_rxrhwu_color_brand__1g7h5za2 {
+  background: blueviolet;
+}
+.extracted_rxrhwu_color_accent__1g7h5za3 {
+  background: slateblue;
+}
+```
+
+</CH.Code>
+
+</CH.Scrollycoding>
+
+</Layout>
+```

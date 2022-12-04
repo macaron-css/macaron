@@ -19,11 +19,10 @@ CSS-in-JS with <strong>zero runtime</strong>, <strong>type safety</strong> and <
 - [Stitches](https://stitches.dev/)-like variants API.
 - Out of box support for React and Solid.
 - Integrations for [esbuild](https://esbuild.github.io/) and [Vite](https://vitejs.dev/).
-- Uses vanilla-extract's API.
 
 ## Documentation
 
-For full documentation, visit https://github.com/macaron-css/macaron/tree/main/docs.
+For full documentation, visit [https://macaron.js.org](https://macaron.js.org).
 
 ## Setup
 
@@ -153,110 +152,8 @@ function App() {
 
 ## Playground
 
-You can try about these above examples at https://macaron-css.vercel.app and see how macaron figures out which expressions have to be extracted and what your code would look like after being transpiled
+You can try about these above examples at https://macaron.js.org/playground and see how macaron figures out which expressions have to be extracted and what your code would look like after being transpiled
 
 ## How it works
 
-The esbuild/vite plugin loads every `ts` and `js` file and runs `@macaron-css/babel` plugin on it.
-
-The babel plugin looks for call expressions in your code and checks if the callee is a macarons API like `styled` or `recipe` etc.
-
-It traverses the call expressions and finds all the referenced identifiers, gets all their declarations and repeats this cycle until no more are found and constructs a new babel program of these statements.
-
-It then converts that AST to string and generates a virtual file from it and returns the contents of this virtual file along with the metadata and adds imports for those extracted styles in the current file.
-
-It also generates unique filename for these css files based on `murmurhash`.
-
-It tags all these extracted files in a namespace and pre evaluates them at build time using vanilla-extract
-
-For example, the plugin will transpile:
-
-```js
-// main.ts
-import { styled } from '@macaron-css/react';
-
-const Button = styled('button', {
-  base: {
-    borderRadius: 6,
-  },
-  variants: {
-    color: {
-      neutral: { background: 'whitesmoke' },
-      brand: { background: 'blueviolet' },
-      accent: { background: 'slateblue' },
-    },
-  },
-  defaultVariants: {
-    color: 'accent',
-  },
-});
-```
-
-To This:
-
-```js
-// main.ts
-import { $macaron$$Button } from 'extracted_1747103777.css.ts';
-import { $$styled } from '@macaron-css/react/runtime';
-
-const Button = $$styled('button', $macaron$$Button);
-
-// extracted_1747103777.css.ts
-import { recipe } from '@macaron-css/core';
-
-export var $macaron$$Button = recipe({
-  base: {
-    borderRadius: 6,
-  },
-  variants: {
-    color: {
-      neutral: { background: 'whitesmoke' },
-      brand: { background: 'blueviolet' },
-      accent: { background: 'slateblue' },
-    },
-  },
-  defaultVariants: {
-    color: 'accent',
-  },
-});
-```
-
-Which gets further compiled to:
-
-```js
-// extracted_1747103777.css.ts
-import 'extracted_1747103777.vanilla.css';
-import { createRuntimeFn } from '@macaron-css/core/create-runtime-fn';
-
-export var $macaron$$Button = createRuntimeFn({
-  defaultClassName: 'extracted_1747103777__1g7h5za0',
-  variantClassNames: {
-    color: {
-      neutral: 'extracted_1747103777_color_neutral__1g7h5za1',
-      brand: 'extracted_1747103777_color_brand__1g7h5za2',
-      accent: 'extracted_1747103777_color_accent__1g7h5za3',
-    },
-  },
-  defaultVariants: {
-    color: 'accent',
-  },
-});
-```
-
-The extracted css will look something like this:
-
-```css
-/* extracted_1747103777.vanilla.css */
-.extracted_1747103777__1g7h5za0 {
-  border-radius: 6px;
-}
-.extracted_1747103777_color_neutral__1g7h5za1 {
-  background: whitesmoke;
-}
-.extracted_1747103777_color_brand__1g7h5za2 {
-  background: blueviolet;
-}
-.extracted_1747103777_color_accent__1g7h5za3 {
-  background: slateblue;
-}
-```
+[https://macaron.js.org/docs/installation/](https://macaron.js.org/docs/installation/)

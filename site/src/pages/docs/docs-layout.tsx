@@ -255,6 +255,7 @@ export function DocsLayout(props: PropsWithChildren) {
           <SidebarLink href="/docs/installation">Installation</SidebarLink>
           <SidebarLink href="/docs/styling">Styling</SidebarLink>
           <SidebarLink href="/docs/theming">Theming</SidebarLink>
+          <SidebarLink href="/docs/working">How it works</SidebarLink>
           {/* <SidebarLink href="/docs/working">How it works</SidebarLink> */}
         </Sidebar>
         <MarkdownView>{props.children}</MarkdownView>
