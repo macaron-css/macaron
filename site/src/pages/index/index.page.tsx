@@ -84,8 +84,8 @@ export function Page() {
               })}
             >
               Typesafe CSS-in-JS with zero runtime, colocation, maximum safety
-              and productivity. Macaron is a new compile time CSS-in-JS library
-              with type safety.
+              and productivity. Macaron is a compile time CSS-in-JS library with
+              type safety.
             </p>
             <div
               className={style({

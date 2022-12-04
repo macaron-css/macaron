@@ -18,10 +18,10 @@ async function render(pageContext: PageContextServer) {
 
   // See https://vite-plugin-ssr.com/head
   const { documentProps } = pageContext.exports;
-  const title = (documentProps && documentProps.title) || 'Vite SSR app';
+  const title = (documentProps && documentProps.title) || 'macaron';
   const desc =
     (documentProps && documentProps.description) ||
-    'App using Vite + vite-plugin-ssr';
+    'Typesafe CSS-in-JS with zero runtime, colocation, maximum safety and productivity.';
 
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html lang="en">
@@ -29,6 +29,7 @@ async function render(pageContext: PageContextServer) {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${desc}" />
+        <link rel="icon" href="/macaron-symbol.svg" />
         <link
           href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
