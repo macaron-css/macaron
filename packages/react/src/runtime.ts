@@ -10,7 +10,8 @@ export function $$styled(
     };
   }
 ) {
-  function StyledComponent(props: any) {
+  function StyledComponent({ as, ...props }: any) {
+    let CompToRender = as ?? Comp;
     const [variants, others] = useMemo(() => {
       const [classes, others]: any[] = [{}, {}];
 
@@ -29,11 +30,11 @@ export function $$styled(
       return classes.join(' ');
     }, [variants, props.className]);
 
-    if (typeof Comp === 'string') {
-      return createElement(Comp, { ...others, className });
+    if (typeof CompToRender === 'string') {
+      return createElement(CompToRender, { ...others, className });
     }
 
-    return createElement(Comp, { ...props, className });
+    return createElement(CompToRender, { ...props, className });
   }
 
   StyledComponent.displayName = `Macaron(${Comp})`;

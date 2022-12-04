@@ -9,7 +9,7 @@ type Component<TProps = {}> = (props: TProps) => ReactElement;
 type StyledComponent<
   TProps = {},
   Variants extends VariantGroups = {}
-> = Component<PropsWithChildren<TProps>> & {
+> = Component<PropsWithChildren<TProps & { as?: string }>> & {
   variants: Array<keyof Variants>;
   selector: (variants: VariantSelection<Variants>) => string;
 };
