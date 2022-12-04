@@ -24,6 +24,8 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "refractor": "^4.8.0",
+    "rehype-autolink-headings": "^6.1.1",
+    "rehype-slug": "^5.1.0",
     "shiki": "^0.11.1",
     "sirv": "^2.0.2",
     "ts-node": "^10.7.0",
