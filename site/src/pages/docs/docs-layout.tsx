@@ -33,6 +33,7 @@ const MarkdownView = styled('div', {
     fontFamily: 'system-ui',
     color: 'white',
     lineHeight: '1.75rem',
+    overflowX: 'auto',
   },
 });
 

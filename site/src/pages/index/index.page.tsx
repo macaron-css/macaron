@@ -28,7 +28,7 @@ export function Page() {
         '@media': {
           [screens.lg]: {
             maxWidth: '700px',
-            padding: '6vh 20px',
+            padding: '6vh 10px',
           },
         },
       })}

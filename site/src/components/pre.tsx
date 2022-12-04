@@ -7,7 +7,7 @@ export const Pre = styled('pre', {
     boxSizing: 'border-box',
     borderRadius: '8px',
     padding: '20px ',
-    overflow: 'auto',
+    // overflow: 'auto',
     fontSize: '15px',
     lineHeight: '19px',
     whiteSpace: 'pre',
