@@ -20,7 +20,7 @@ export default defineConfig(async () => {
       react(),
       macaronVitePlugin(),
       mdx.default({
-        remarkPlugins: [[remarkCodeHike, { theme }]],
+        remarkPlugins: [[remarkCodeHike, { theme, showCopyButton: true }]],
         rehypePlugins: [
           // esm packages, so can't import directly
           await import('rehype-slug').then(r => r.default),
