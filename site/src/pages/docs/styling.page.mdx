@@ -95,7 +95,7 @@ const Button = styled('button', {
 
 More complex selectors can be written inside `selectors`
 
-```js focus=5:7
+```js focus=4:8
 const Button = styled('button', {
   base: {
     // base styles
@@ -116,28 +116,28 @@ const Button = styled('button', {
 
 macaron components implement `.toString()` which returns their base styles' classname. This can be used to target a macaron component.
 
-```js focus=13:15
-// mark[7:10]
-// focus[7:10]
-const Icon = styled('svg', {
+```js focus=14:16
+// mark[7:12]
+// focus[7:12]
+const Button = styled('button', {
   base: {
-    display: 'inline-block',
-    marginLeft: '5px',
-    width: '16px',
+    backgroundColor: 'gainsboro',
+    borderRadius: '9999px',
+    fontSize: '13px',
+    border: '0',
   },
 });
 
-const Button = styled('button', {
+const Icon = styled('svg', {
   base: {
     // base styles
     selectors: {
-      [`& ${Icon}`]: {
+      [`${Button} &`]: {
         marginLeft: '5px',
       },
     },
   },
 });
-
 () => (
   <Button>
     Button
@@ -178,7 +178,7 @@ const Button = styled('button', {
   base: {
     // base styles
     selectors: {
-      [`& ${Icon.selector({ size: 'small' })}`]: {
+      [`${Icon.selector({ size: 'small' })} &`]: {
         marginLeft: '5px',
       },
     },
