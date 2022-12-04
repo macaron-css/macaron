@@ -10,6 +10,7 @@ export default defineConfig(async () => {
 
   return {
     define: {
+      BABEL_TYPES_8_BREAKING: 'false',
       'process.env.BABEL_TYPES_8_BREAKING': 'false',
     },
     optimizeDeps: {
