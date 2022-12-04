@@ -9,6 +9,9 @@ export default defineConfig(async () => {
   const mdx = await import('@mdx-js/rollup');
 
   return {
+    define: {
+      'process.env.BABEL_TYPES_8_BREAKING': 'false',
+    },
     optimizeDeps: {
       include: ['react/jsx-runtime'],
     },

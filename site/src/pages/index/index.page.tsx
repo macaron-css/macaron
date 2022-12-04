@@ -3,11 +3,9 @@ import React from 'react';
 import { Button } from '../../components/button';
 import { Pre } from '../../components/pre';
 import { screens } from '../../theme';
-import { Counter } from './Counter';
 import fs from 'fs';
 import path from 'path';
 import { highlight } from '../../components/code-block';
-import { Link } from '../../../renderer/Link';
 import { navigate } from 'vite-plugin-ssr/client/router';
 
 const code = macaron$(() => {
@@ -152,7 +150,14 @@ export function Page() {
               >
                 Documentation
               </Button>
-              <Button color="secondary">Playground</Button>
+              <Button
+                color="secondary"
+                onClick={() => {
+                  navigate('/playground');
+                }}
+              >
+                Playground
+              </Button>
             </div>
           </div>
           <div className={style({ flex: 1, width: '100%' })}>

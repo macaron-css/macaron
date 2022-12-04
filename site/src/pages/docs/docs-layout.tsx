@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useState } from 'react';
 import { globalStyle, style } from '@macaron-css/core';
 import { styled } from '@macaron-css/react';
-import { Link } from '../../renderer/Link';
+import { Link } from '../../../renderer/Link';
 
 globalStyle('#docs p code, #docs p a', {
   background: 'rgba(255,255,255, 0.2)',
