@@ -98,9 +98,19 @@ const Button = styled('button', {
 
 ### Extract styles
 
-The babel plugin then extracts all these references and the styles into a seperate file.
+The babel plugin then extracts all these references and the styles into a seperate file and replaces the code with imports.
 
 <CH.Code>
+```js main.tsx
+// mark[10:25]
+import { $macaron$$Button } from 'extracted_rxrhwu.css.ts';
+import { $$styled } from '@macaron-css/react/runtime';
+
+// mark[35:50]
+const Button = $$styled('button', $macaron$$Button);
+
+````
+---
 ```js extracted_rxrhwu.css.ts
 import { recipe as _recipe } from "@macaron-css/core";
 const borderRadius = 6;
@@ -175,60 +185,6 @@ export var $macaron$$Button = createRuntimeFn({
 
 </CH.Code>
 
----
-
-### Replacing initial content
-
-Finally the plugin removes the code from the initial `main.tsx` file and replaces that with imports from `extracted_rxrhwu.css.ts`;
-
-<CH.Code>
-```js main.tsx
-import { $macaron$$Button } from 'extracted_rxrhwu.css.ts';
-import { $$styled } from '@macaron-css/react/runtime';
-
-// mark[35:50]
-const Button = $$styled('button', $macaron$$Button);
-
-````
-
-```js extracted_rxrhwu.css.ts
-import 'extracted_rxrhwu.vanilla.css';
-import { createRuntimeFn } from '@macaron-css/core/create-runtime-fn';
-
-// mark[12:17]
-export var $macaron$$Button = createRuntimeFn({
-  defaultClassName: 'extracted_rxrhwu__1g7h5za0',
-  variantClassNames: {
-    color: {
-      neutral: 'extracted_rxrhwu_color_neutral__1g7h5za1',
-      brand: 'extracted_rxrhwu_color_brand__1g7h5za2',
-      accent: 'extracted_rxrhwu_color_accent__1g7h5za3',
-    },
-  },
-  defaultVariants: {
-    color: 'accent',
-  },
-});
-````
-
-```css extracted_rxrhwu.vanilla.css
-.extracted_rxrhwu__1g7h5za0 {
-  border-radius: 6px;
-}
-.extracted_rxrhwu_color_neutral__1g7h5za1 {
-  background: whitesmoke;
-}
-.extracted_rxrhwu_color_brand__1g7h5za2 {
-  background: blueviolet;
-}
-.extracted_rxrhwu_color_accent__1g7h5za3 {
-  background: slateblue;
-}
-```
-
-</CH.Code>
-
 </CH.Scrollycoding>
 
 </Layout>
-```
