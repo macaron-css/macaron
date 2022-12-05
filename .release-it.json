@@ -6,14 +6,20 @@
   "plugins": {
     "@release-it-plugins/workspaces": {
       "workspaces": [
-        "./packages/vite",
-        "./packages/solid",
-        "./packages/react",
-        "./packages/integration",
-        "./packages/esbuild",
-        "./packages/core",
-        "./packages/babel"
-      ]
+        "packages/vite",
+        "packages/solid",
+        "packages/react",
+        "packages/integration",
+        "packages/esbuild",
+        "packages/core",
+        "packages/babel"
+      ],
+      "additionalManifests": {
+        "dependencyUpdates": [
+          "examples/*/package.json"
+        ]
+      },
+      "publish": true
     }
   }
 }
