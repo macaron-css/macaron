@@ -81,7 +81,7 @@ function App() {
 
 ### Styling API
 
-The styling API is the same api is vanilla-extract, but allows styles to be defined in the same file, increasing the authoring experience.
+The styling API is the same api is vanilla-extract, but allows styles to be defined in the same file, improving the DX.
 
 Check out [vanilla-extract docs](https://vanilla-extract.style/documentation/api/style/) for the API reference.
 
