@@ -22,53 +22,7 @@ CSS-in-JS with <strong>zero runtime</strong>, <strong>type safety</strong> and <
 
 ## Documentation
 
-For full documentation, visit [https://macaron.js.org](https://macaron.js.org).
-
-## Setup
-
-macaron currently supports esbuild and vite with the following setup:-
-
-### vite
-
-1. Install the dependencies
-
-```
-npm install @macaron-css/core @macaron-css/vite
-```
-
-2. Add the vite plugin
-
-```js
-import { macaronVitePlugin } from '@macaron-css/vite';
-import { defineConfig } from 'vite';
-
-export default defineConfig({
-  plugins: [macaronVitePlugin()],
-});
-```
-
-### esbuild
-
-1. Install the dependencies
-
-```
-npm install @macaron-css/core @macaron-css/esbuild
-```
-
-2. Add the esbuild plugin
-
-```js
-const esbuild = require('esbuild');
-const { macaronEsbuildPlugins } = require('@macaron-css/esbuild');
-
-esbuild.build({
-  entryPoints: ['src/index.ts'],
-  plugins: [...macaronEsbuildPlugins()],
-  outdir: 'dist',
-  format: 'esm',
-  bundle: true,
-});
-```
+For full documentation, visit [https://macaron.js.org](https://macaron.js.org)
 
 ## Example
 
