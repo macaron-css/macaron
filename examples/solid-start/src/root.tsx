@@ -14,9 +14,10 @@ import {
 } from 'solid-start';
 import { globalStyle } from '@macaron-css/core';
 
-globalStyle('body', {
-  fontFamily:
-    "Gordita, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+globalStyle('*', {
+  padding: 0,
+  margin: 0,
+  boxSizing: 'border-box',
 });
 
 export default function Root() {

@@ -1,19 +1,18 @@
 import { styled } from '@macaron-css/solid';
 
-const DefaultButton = (props: { class?: string }) => (
-  <button {...props} onClick={() => console.log('click')} />
-);
-
-export const color = 'red';
-
-export const Button = styled(DefaultButton, {
+const Button = styled('button', {
   base: {
-    borderRadius: 6,
+    borderRadius: 4,
+    border: 0,
+    margin: 12,
+    cursor: 'pointer',
+    color: 'white',
+    textTransform: 'uppercase',
+    fontSize: 12,
   },
-
   variants: {
     color: {
-      neutral: { background: 'whitesmoke' },
+      neutral: { background: 'whitesmoke', color: '#333' },
       brand: { background: 'blueviolet' },
       accent: { background: 'slateblue' },
     },
@@ -45,3 +44,19 @@ export const Button = styled(DefaultButton, {
     size: 'medium',
   },
 });
+
+function App() {
+  return (
+    <div>
+      <Button
+        color="brand"
+        size="medium"
+        onClick={() => console.log('Clicked')}
+      >
+        Click Me
+      </Button>
+    </div>
+  );
+}
+
+export default App;

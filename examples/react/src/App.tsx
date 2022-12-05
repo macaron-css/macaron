@@ -1,25 +1,20 @@
-import { styled, StyleVariants } from "@macaron-css/react";
-import { style } from "@macaron-css/core";
+import { styled } from '@macaron-css/react';
 
-const color = "red";
-const fontFamily = "sans-serif";
-
-const Button = styled("button", {
+const Button = styled('button', {
   base: {
     borderRadius: 4,
     border: 0,
     margin: 12,
-    cursor: "pointer",
-    color: "white",
-    textTransform: "uppercase",
+    cursor: 'pointer',
+    color: 'white',
+    textTransform: 'uppercase',
     fontSize: 12,
   },
-
   variants: {
     color: {
-      neutral: { background: "whitesmoke", color: "#333" },
-      brand: { background: "blueviolet" },
-      accent: { background: "slateblue" },
+      neutral: { background: 'whitesmoke', color: '#333' },
+      brand: { background: 'blueviolet' },
+      accent: { background: 'slateblue' },
     },
     size: {
       small: { padding: 12 },
@@ -35,65 +30,30 @@ const Button = styled("button", {
   compoundVariants: [
     {
       variants: {
-        color: "neutral",
-        size: "large",
+        color: 'neutral',
+        size: 'large',
       },
       style: {
-        background: "ghostwhite",
+        background: 'ghostwhite',
       },
     },
   ],
 
   defaultVariants: {
-    color: "accent",
-    size: "medium",
+    color: 'accent',
+    size: 'medium',
   },
 });
 
 function App() {
   return (
-    <div className={style({ color, fontFamily })}>
-      <p>Hello World!</p>
-      <Button
-        color="neutral"
-        size="small"
-        onClick={() => console.log("Clicked 1")}
-      >
-        Click Me
-      </Button>
+    <div>
       <Button
         color="brand"
         size="medium"
-        onClick={() => console.log("Clicked 2")}
+        onClick={() => console.log('Clicked')}
       >
         Click Me
-      </Button>
-      <Button
-        color="accent"
-        size="large"
-        onClick={() => console.log("Clicked 3")}
-      >
-        Click Me
-      </Button>
-      <Button
-        rounded
-        size="small"
-        onClick={() => console.log("Clicked 4")}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className={style({ width: "1.5rem", height: "1.5rem" })}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M12 4.5v15m7.5-7.5h-15"
-          />
-        </svg>
       </Button>
     </div>
   );

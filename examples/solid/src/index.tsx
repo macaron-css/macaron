@@ -1,19 +1,11 @@
 import { render } from 'solid-js/web';
-import { styled, StyleVariants } from '@macaron-css/solid';
-import { style } from '@macaron-css/core';
-import { Button, color } from './button';
+import App from './App';
+import { globalStyle } from '@macaron-css/core';
 
-type Variants = StyleVariants<typeof Button>;
-
-function App() {
-  return (
-    // inline styles with zero-runtime cost
-    <div class={style({ color })}>
-      <Button color="brand" size="medium">
-        Click Me
-      </Button>
-    </div>
-  );
-}
+globalStyle('*', {
+  padding: 0,
+  margin: 0,
+  boxSizing: 'border-box',
+});
 
 render(() => <App />, document.getElementById('app')!);
