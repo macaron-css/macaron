@@ -8,8 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@macaron-css/core": "0.1.10",
-    "@macaron-css/vite": "0.1.16"
+    "@macaron-css/core": "1.0.0",
+    "@macaron-css/vite": "1.0.0"
   },
   "devDependencies": {
     "typescript": "^4.5.4",

@@ -11,7 +11,7 @@
     "solid-start-node": "^0.2.0",
     "typescript": "^4.8.4",
     "vite": "^3.1.8",
-    "@macaron-css/vite": "0.1.12"
+    "@macaron-css/vite": "1.0.0"
   },
   "dependencies": {
     "@solidjs/meta": "^0.28.0",
@@ -19,8 +19,8 @@
     "solid-js": "^1.6.0",
     "solid-start": "^0.2.0",
     "undici": "^5.11.0",
-    "@macaron-css/core": "0.1.10",
-    "@macaron-css/solid": "0.1.10"
+    "@macaron-css/core": "1.0.0",
+    "@macaron-css/solid": "1.0.0"
   },
   "engines": {
     "node": ">=16"

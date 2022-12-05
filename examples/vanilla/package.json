@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@macaron-css/esbuild": "0.1.11",
-    "@macaron-css/core": "0.1.10",
+    "@macaron-css/esbuild": "1.0.0",
+    "@macaron-css/core": "1.0.0",
     "esbuild": "^0.14.42"
   }
 }
