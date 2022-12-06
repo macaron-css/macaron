@@ -1,5 +1,9 @@
 <p align="center">
-<img src="https://macaron.js.org/share.jpg" />
+<img src="https://raw.githubusercontent.com/macaron-css/macaron/main/banner.png" />
+</p>
+
+<p align="center">
+CSS-in-JS with <strong>zero runtime</strong>, <strong>type safety</strong> and <strong>colocation</strong>
 </p>
 
 ## Features
