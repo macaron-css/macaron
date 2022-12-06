@@ -10,7 +10,7 @@ globalStyle('blockquote', {
 });
 
 globalStyle('blockquote p', {
-  fontSize: '0.8rem !important',
+  fontSize: '1rem !important',
 });
 
 globalStyle('#docs p code, #docs p a', {
