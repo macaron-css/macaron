@@ -3,6 +3,16 @@ import { globalStyle, style } from '@macaron-css/core';
 import { styled } from '@macaron-css/react';
 import { Link } from '../../../renderer/Link';
 
+globalStyle('blockquote', {
+  padding: '0.8rem',
+  borderLeft: '2px solid #ff4089',
+  background: '#ffffff10',
+});
+
+globalStyle('blockquote p', {
+  fontSize: '0.8rem !important',
+});
+
 globalStyle('#docs p code, #docs p a', {
   background: 'rgba(255,255,255, 0.2)',
   padding: '2px 4px',

@@ -30,14 +30,21 @@ yarn add @macaron-css/core @macaron-css/react
 
 Macaron currently supports vite and esbuild. Install and setup the plugin for your bundler :-
 
-### Vite
+### Installation
 
-```fish
+<CH.Code>
+```fish vite
 npm install @macaron-css/vite
 ```
 
-In the `vite.config.js`, add the macaron plugin before other plugins
+```fish esbuild
+npm install @macaron-css/esbuild
+```
+</CH.Code>
 
+### Configuration
+
+<CH.Code>
 ```js vite.config.js
 import { macaronVitePlugin } from '@macaron-css/vite';
 import { defineConfig } from 'vite';
@@ -51,15 +58,7 @@ export default defineConfig({
 });
 ```
 
-### esbuild
-
-```fish
-npm install @macaron-css/esbuild
-```
-
-Add macaron plugin to the esbuild config
-
-```js
+```js esbuild
 const { macaronEsbuildPlugins } = require('@macaron-css/esbuild');
 const esbuild = require('esbuild');
 
@@ -72,6 +71,9 @@ esbuild.build({
   bundle: true,
 });
 ```
+</CH.Code>
+
+> In the `vite.config.js`, add the macaron plugin before other plugins
 
 ## Usage
 
@@ -262,3 +264,4 @@ import {
 ```
 
 </Layout>
+
