@@ -43,6 +43,32 @@ globalStyle('.ch-codegroup:hover .ch-editor-button, .ch-codeblock:hover .ch-code
   display: "block",
 });
 
+globalStyle('.bundler.ch-spotlight', {
+  flexDirection: 'column',
+  alignItems: 'stretch',
+})
+
+globalStyle('.bundler.ch-spotlight .ch-spotlight-tabs', {
+  flexFlow: 'row',
+});
+
+globalStyle('.bundler.ch-spotlight .ch-spotlight-tabs .ch-spotlight-tab', {
+  border: '0 !important',
+  borderBottom: '1px solid #EFEFEF !important',
+  borderRadius: '0 !important',
+  marginRight: '1rem',
+  cursor: 'pointer',
+});
+
+globalStyle('.bundler.ch-spotlight .ch-spotlight-tabs .ch-spotlight-tab:hover, .bundler.ch-spotlight .ch-spotlight-tabs .ch-spotlight-tab[data-selected]', {
+  color: '#ff4089 !important',
+  borderColor: '#ff4089 !important',
+})
+
+globalStyle('.bundler.ch-spotlight .ch-spotlight-sticker, .bundler.ch-spotlight .ch-spotlight-sticker .ch-code-parent', {
+  width: "auto",
+})
+
 const MarkdownView = styled('div', {
   base: {
     width: '100%',
