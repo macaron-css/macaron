@@ -45,8 +45,8 @@ const button = recipe({
   },
 });
 
-document.write(`
-<button class=${button({ color: 'brand', size: 'medium' })}>
-  Click me!
-</button>
-`);
+const el = document.createElement('button');
+el.className = button({ color: 'brand', size: 'medium' });
+el.innerText = 'Click me!';
+
+document.body.appendChild(el);
