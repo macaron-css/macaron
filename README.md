@@ -108,4 +108,12 @@ You can try about these above examples at https://macaron.js.org/playground and 
 
 ## How it works
 
-[https://macaron.js.org/docs/installation/](https://macaron.js.org/docs/installation/)
+[https://macaron.js.org/docs/working/](https://macaron.js.org/docs/working/)
+
+## Acknowledgements
+
+- [Vanilla Extract](https://vanilla-extract.style)
+  Thanks to the vanilla-extract team for their work on VE, which macaron uses for evaluating files.
+
+- [Dax Raad](https://twitter.com/thdxr)
+  Thanks to Dax for helping me with this and thoroughly testing it outß, helping me find numerous bugs and improving macaron.
