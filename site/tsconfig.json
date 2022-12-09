@@ -8,7 +8,8 @@
     "types": ["vite/client"],
     "jsx": "react",
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "ts-node": {
     "transpileOnly": true,

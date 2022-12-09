@@ -24,7 +24,7 @@ export function Page() {
         // width: '100%',
         maxWidth: '1200px',
         padding: '0 3vw',
-        margin: '0 auto',
+        margin: 'auto',
         '@media': {
           [screens.lg]: {
             maxWidth: '700px',

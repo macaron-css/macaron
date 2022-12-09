@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useState } from 'react';
 import { globalStyle, style } from '@macaron-css/core';
 import { styled } from '@macaron-css/react';
 import { Link } from '../../../renderer/Link';
+import examplesMeta from './examples/meta.json';
 
 globalStyle('blockquote', {
   padding: '0.8rem',
@@ -36,17 +37,20 @@ globalStyle('.ch-scrollycoding-step-content[data-selected]', {
 });
 
 globalStyle('.ch-codegroup .ch-editor-button, .ch-codeblock .ch-code-button', {
-  display: "none",
+  display: 'none',
 });
 
-globalStyle('.ch-codegroup:hover .ch-editor-button, .ch-codeblock:hover .ch-code-button', {
-  display: "block",
-});
+globalStyle(
+  '.ch-codegroup:hover .ch-editor-button, .ch-codeblock:hover .ch-code-button',
+  {
+    display: 'block',
+  }
+);
 
 globalStyle('.bundler.ch-spotlight', {
   flexDirection: 'column',
   alignItems: 'stretch',
-})
+});
 
 globalStyle('.bundler.ch-spotlight .ch-spotlight-tabs', {
   flexFlow: 'row',
@@ -60,14 +64,20 @@ globalStyle('.bundler.ch-spotlight .ch-spotlight-tabs .ch-spotlight-tab', {
   cursor: 'pointer',
 });
 
-globalStyle('.bundler.ch-spotlight .ch-spotlight-tabs .ch-spotlight-tab:hover, .bundler.ch-spotlight .ch-spotlight-tabs .ch-spotlight-tab[data-selected]', {
-  color: '#ff4089 !important',
-  borderColor: '#ff4089 !important',
-})
+globalStyle(
+  '.bundler.ch-spotlight .ch-spotlight-tabs .ch-spotlight-tab:hover, .bundler.ch-spotlight .ch-spotlight-tabs .ch-spotlight-tab[data-selected]',
+  {
+    color: '#ff4089 !important',
+    borderColor: '#ff4089 !important',
+  }
+);
 
-globalStyle('.bundler.ch-spotlight .ch-spotlight-sticker, .bundler.ch-spotlight .ch-spotlight-sticker .ch-code-parent', {
-  width: "auto",
-})
+globalStyle(
+  '.bundler.ch-spotlight .ch-spotlight-sticker, .bundler.ch-spotlight .ch-spotlight-sticker .ch-code-parent',
+  {
+    width: 'auto',
+  }
+);
 
 const MarkdownView = styled('div', {
   base: {
@@ -127,7 +137,7 @@ const Sidebar = styled('aside', {
     flexDirection: 'column',
     color: 'white',
     gap: '0.2rem',
-    fontSize: '1.1rem',
+    fontSize: '1rem',
     transform: 'translateY(-100%)',
     top: '4rem',
     '@media': {
@@ -163,9 +173,10 @@ globalStyle(`${Sidebar} a.is-active`, {
 
 const SidebarLink = styled(Link, {
   base: {
-    color: 'white',
-    padding: '0.5rem',
+    marginLeft: '0.2rem',
+    padding: '0.4rem',
     borderRadius: '5px',
+    color: '#bcbcd2',
     background: 'transparent',
     transition: 'background 100ms ease-in-out ',
   },
@@ -192,6 +203,10 @@ const MenuIcon = styled('button', {
       },
     },
   },
+});
+
+const SidebarHeader = styled('p', {
+  base: { padding: '8px 0', fontSize: '1.1rem' },
 });
 
 export function DocsLayout(props: PropsWithChildren) {
@@ -297,11 +312,19 @@ export function DocsLayout(props: PropsWithChildren) {
         })}
       >
         <Sidebar isOpen={isNavOpen}>
+          <SidebarHeader>Docs</SidebarHeader>
           <SidebarLink href="/docs/installation">Installation</SidebarLink>
           <SidebarLink href="/docs/styling">Styling</SidebarLink>
           <SidebarLink href="/docs/theming">Theming</SidebarLink>
           <SidebarLink href="/docs/working">How it works</SidebarLink>
-          {/* <SidebarLink href="/docs/working">How it works</SidebarLink> */}
+          <SidebarHeader className={style({ marginTop: '10px' })}>
+            Examples
+          </SidebarHeader>
+          {Object.entries(examplesMeta).map(([path, name]) => (
+            <SidebarLink key={path} href={`/docs/examples/${path}`}>
+              {name}
+            </SidebarLink>
+          ))}
         </Sidebar>
         <MarkdownView>{props.children}</MarkdownView>
       </div>

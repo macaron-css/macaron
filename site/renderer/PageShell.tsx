@@ -26,7 +26,7 @@ globalStyle('#page-view', {
   width: '100%',
   flexDirection: 'column',
   minHeight: '100vh',
-  justifyContent: 'center',
+  // justifyContent: 'center',
   // alignContent: 'center',
   fontFamily: "'Public Sans', system-ui",
 });
