@@ -14,11 +14,18 @@ globalStyle('blockquote p', {
   fontSize: '1rem !important',
 });
 
-globalStyle('#docs p code, #docs p a', {
+globalStyle('#docs p code', {
   background: 'rgba(255,255,255, 0.2)',
   padding: '2px 4px',
   borderRadius: '5px',
   color: 'white',
+});
+
+globalStyle('#docs p a', {
+  color: 'white',
+  textDecoration: 'underline',
+  textUnderlineOffset: 3,
+  fontWeight: 500,
 });
 
 globalStyle('.ch-scrollycoding-step-content', {

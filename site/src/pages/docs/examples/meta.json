@@ -3,5 +3,6 @@
   "solid-start": "Solid Start",
   "vite": "Vite",
   "react": "React",
-  "solid": "Solid"
+  "solid": "Solid",
+  "webpack": "Webpack (Coming soon)"
 }
