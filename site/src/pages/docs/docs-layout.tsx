@@ -86,8 +86,8 @@ const MarkdownView = styled('div', {
     padding: '2rem',
     fontFamily: 'system-ui',
     color: 'white',
-    lineHeight: '1.75rem',
     right: '5px',
+    lineHeight: 1,
   },
 });
 
@@ -100,6 +100,7 @@ globalStyle(`${MarkdownView} h1`, {
   color: 'transparent',
   margin: '0.5rem 0 2rem',
   paddingBottom: '10px',
+  lineHeight: '2rem',
 });
 
 globalStyle(`${MarkdownView} h2`, {
@@ -116,6 +117,7 @@ globalStyle(`${MarkdownView} h2`, {
 globalStyle(`${MarkdownView} p`, {
   fontSize: '1.1rem',
   fontWeight: 300,
+  lineHeight: 1.5,
 });
 
 globalStyle(`${MarkdownView} h3`, {
@@ -316,6 +318,7 @@ export function DocsLayout(props: PropsWithChildren) {
           <SidebarLink href="/docs/installation">Installation</SidebarLink>
           <SidebarLink href="/docs/styling">Styling</SidebarLink>
           <SidebarLink href="/docs/theming">Theming</SidebarLink>
+          <SidebarLink href="/docs/macro">Macro API</SidebarLink>
           <SidebarLink href="/docs/working">How it works</SidebarLink>
           <SidebarHeader className={style({ marginTop: '10px' })}>
             Examples

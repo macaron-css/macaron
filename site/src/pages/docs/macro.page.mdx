@@ -1,0 +1,42 @@
+import { DocsLayout as Layout } from './docs-layout';
+
+export const documentProps = {
+  title: 'Macros — macaron',
+};
+
+<Layout>
+# Build time macros
+
+Even though macaron's main aim is to be a compile time CSS-in-JS library, it's sophisticated compiler can be used for purposes _other_ than styling.
+
+<br />
+It can also be used as a smart **compile time macro** system where you can execute
+functions at build time, similar to `comptime` in zig, or `babel-plugin-macros` while
+authoring the macros in the same file, as if they were regular functions.
+
+This can be useful to read config files, doing complex calculations or processing files (for eg. optimizing images without needing a seperate plugin) right inside your application code.
+
+<br />
+
+You can wrap your functions at usage site in the `macaron$` function and they will act as a _macro_, be executed at build time and their return value will be inlined in the final bundle.
+
+<br />
+
+This can be used to do things like reading file system, using any Node API and even executing requests at build time (like `getStaticProps` in NextJS), all in a **client side** project.
+
+## Example
+
+```js
+import { macaron$ } from '@macaron-css/core';
+import { readFileSync } from 'fs';
+
+const files = macaron$(() => readFileSync('file.txt', 'utf8'));
+```
+
+The code above gets compiled into :-
+
+```js
+const files = '__CONTENTS_OF_FILE_HERE__';
+```
+
+</Layout>
