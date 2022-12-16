@@ -48,7 +48,7 @@ export function styled(component: any, options: any): (props: any) => any {
   );
 }
 
-export type StyleVariants<T extends (...args: any[]) => any> = Exclude<
-  Parameters<T>[0]['variants'],
-  undefined
->;
+export type StyleVariants<T extends StyledComponent<any, any>> =
+  T extends StyledComponent<any, infer TVariants>
+    ? VariantSelection<TVariants>
+    : unknown;
