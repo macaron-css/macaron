@@ -546,7 +546,7 @@ async function run() {
     console.info(
       `  Publishing ${pkg.name}@${version} to npm with tag "${npmTag}"...`
     );
-    execSync(`${cmd} --token ${process.env.NPM_TOKEN}`);
+    console.log(`${cmd}`);
   });
 
   // TODO: currently, the package registry isn't fast enough for us to do
