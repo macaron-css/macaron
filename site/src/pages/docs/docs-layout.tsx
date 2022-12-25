@@ -323,10 +323,13 @@ export function DocsLayout(props: PropsWithChildren) {
         <Sidebar isOpen={isNavOpen}>
           <SidebarHeader>Docs</SidebarHeader>
           <SidebarLink href="/docs/installation">Installation</SidebarLink>
+          <SidebarLink href="/docs/working">How it works</SidebarLink>
           <SidebarLink href="/docs/styling">Styling</SidebarLink>
           <SidebarLink href="/docs/theming">Theming</SidebarLink>
+          <SidebarLink href="/docs/dynamic-styling">
+            Dynamic Styling
+          </SidebarLink>
           <SidebarLink href="/docs/macro">Macro API</SidebarLink>
-          <SidebarLink href="/docs/working">How it works</SidebarLink>
           <SidebarHeader className={style({ marginTop: '10px' })}>
             Examples
           </SidebarHeader>

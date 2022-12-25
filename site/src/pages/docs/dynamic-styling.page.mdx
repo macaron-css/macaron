@@ -1,0 +1,67 @@
+import { DocsLayout as Layout } from './docs-layout';
+
+export const documentProps = {
+  title: 'Dynamic Styling — macaron',
+};
+
+<Layout>
+# Dynamic Styling
+
+Since macaron compiles the styles to static stylesheets at build time, you can't generate new styles dynamically.
+
+<br />
+But you can use **CSS variables** to dynamically update properties. Macaron also
+provides APIs to hash and scope css variables to your app.
+
+## Example
+
+### Styled API
+
+```jsx
+import { createVar, fallbackVar } from '@macaron-css/core';
+import { styled } from '@macaron-css/solid';
+
+const colorVar = createVar();
+
+const Button = styled('button', {
+  base: {
+    color: fallbackVar(colorVar, 'red'),
+    border: 'none',
+  },
+});
+
+function MyButton(props) {
+  return (
+    <Button
+      style={{
+        [colorVar]: props.color,
+      }}
+    >
+      Click me
+    </Button>
+  );
+}
+```
+
+### Vanilla API
+
+```jsx
+import { createVar } from '@macaron-css/core';
+
+const colorVar = createVar();
+
+function MyButton(props) {
+  return (
+    <button
+      className={style({ color: colorVar, border: 'none' })}
+      style={{
+        [colorVar]: props.color,
+      }}
+    >
+      Click me
+    </button>
+  );
+}
+```
+
+</Layout>
