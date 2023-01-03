@@ -1,6 +1,6 @@
 {
   "name": "@macaron-css/integration",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
   "dependencies": {
     "@babel/core": "^7.18.2",
     "@babel/plugin-syntax-jsx": "^7.17.12",
-    "@macaron-css/babel": "1.0.0",
+    "@macaron-css/babel": "1.1.0",
     "@vanilla-extract/integration": "^6.0.0",
     "esbuild": "^0.14.42"
   },
