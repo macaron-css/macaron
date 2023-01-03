@@ -95,7 +95,7 @@ test('extracts style function', () => {
   expect(code).toMatchSnapshot();
 });
 
-test.only('extracts $macaron function', () => {
+test('extracts $macaron function', () => {
   const { result, code } = babelTransform(`
     import { style, macaron$ } from '@macaron-css/core';
     
@@ -331,4 +331,16 @@ test('function declaration bindings', () => {
     expect(result).toMatchSnapshot();
     expect(code).toMatchSnapshot();
   }
+});
+
+test("macaron-ignore doesn't extract expression", () => {
+  const { result, code } = babelTransform(`
+    import { style } from '@macaron-css/core';
+    
+    const red = /* macaron-ignore */ style({ color: "red" });
+    console.log(red);
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
 });

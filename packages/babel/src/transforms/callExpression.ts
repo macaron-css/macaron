@@ -19,6 +19,13 @@ export function transformCallExpression(
     return;
   }
 
+  if (
+    callPath.node.leadingComments?.some(
+      comment => comment.value.trim() === 'macaron-ignore'
+    )
+  )
+    return;
+
   const programParent = callPath.scope.getProgramParent() as ProgramScope;
   const nearestIdentifier = getNearestIdentifier(callPath);
   const ident = nearestIdentifier
