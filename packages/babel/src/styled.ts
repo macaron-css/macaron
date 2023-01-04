@@ -44,12 +44,20 @@ export function styledComponentsPlugin(): PluginObj<PluginState> {
                 '@macaron-css/core'
               );
 
+              const recipeCallExpression = t.callExpression(recipeIdent, [
+                t.cloneNode(styles),
+              ]);
               const callExpression = t.callExpression(styledIdent, [
                 t.cloneNode(tag),
-                t.callExpression(recipeIdent, [t.cloneNode(styles)]),
+                recipeCallExpression,
                 ...args,
               ]);
               t.addComment(callExpression, 'leading', ' @__PURE__ ');
+              t.addComments(
+                recipeCallExpression,
+                'leading',
+                callPath.node.leadingComments ?? []
+              );
 
               callPath.replaceWith(callExpression);
 

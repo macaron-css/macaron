@@ -1,11 +1,11 @@
 import { transformSync } from '@babel/core';
-import { macaronBabelPlugin } from './index';
+import { macaronBabelPlugin, macaronStyledComponentsPlugin } from './index';
 import { PluginOptions } from './types';
 
 function babelTransform(code: string) {
   const options: PluginOptions = { result: ['', ''] };
   const result = transformSync(code, {
-    plugins: [[macaronBabelPlugin(), options]],
+    plugins: [[macaronBabelPlugin(), options], macaronStyledComponentsPlugin()],
     presets: ['@babel/preset-typescript'],
     filename: 'test.tsx',
   });
@@ -339,6 +339,48 @@ test("macaron-ignore doesn't extract expression", () => {
     
     const red = /* macaron-ignore */ style({ color: "red" });
     console.log(red);
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});
+
+test('react styled components get converted to recipe', () => {
+  const { result, code } = babelTransform(`
+    import { styled } from '@macaron-css/react';
+    
+    const Button = styled("button", {
+      base: { color: 'red' }
+    })
+    console.log(Button)
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});
+
+test('solid styled components get converted to recipe', () => {
+  const { result, code } = babelTransform(`
+    import { styled } from '@macaron-css/solid';
+    
+    const Button = styled("button", {
+      base: { color: 'red' }
+    })
+    console.log(Button)
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});
+
+test.only('leading comments of `styled` get passed to recipe', () => {
+  const { result, code } = babelTransform(`
+    import { styled } from '@macaron-css/solid';
+    
+    const Button = /* macaron-ignore */ styled("button", {
+      base: { color: 'red' }
+    })
+    console.log(Button)
   `);
 
   expect(result).toMatchSnapshot();

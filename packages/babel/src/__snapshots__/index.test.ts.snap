@@ -395,6 +395,30 @@ function App() {
 console.log(red);"
 `;
 
+exports[`leading comments of \`styled\` get passed to recipe 1`] = `
+Array [
+  "extracted_bnplgn.css.ts",
+  "import { recipe as _recipe } from \\"@macaron-css/core\\";
+export var _$macaron$$Button = _recipe({
+  base: {
+    color: 'red'
+  }
+});
+var _$macaron$$Button2 = _$macaron$$Button;",
+]
+`;
+
+exports[`leading comments of \`styled\` get passed to recipe 2`] = `
+"import { _$macaron$$Button as _$macaron$$Button2 } from \\"extracted_bnplgn.css.ts\\";
+import { recipe as _recipe } from \\"@macaron-css/core\\";
+import { $$styled as _$$styled } from \\"@macaron-css/solid/runtime\\";
+const Button =
+/* macaron-ignore */
+/* @__PURE__ */
+_$$styled(\\"button\\", _$macaron$$Button2);
+console.log(Button);"
+`;
+
 exports[`macaron-ignore doesn't extract expression 1`] = `
 Array [
   "extracted_10ccc6g.css.ts",
@@ -488,6 +512,27 @@ const red = _$macaron$$red2;
 console.log(red);"
 `;
 
+exports[`react styled components get converted to recipe 1`] = `
+Array [
+  "extracted_5dzqko.css.ts",
+  "import { recipe as _recipe } from \\"@macaron-css/core\\";
+export var _$macaron$$Button = _recipe({
+  base: {
+    color: 'red'
+  }
+});
+var _$macaron$$Button2 = _$macaron$$Button;",
+]
+`;
+
+exports[`react styled components get converted to recipe 2`] = `
+"import { _$macaron$$Button as _$macaron$$Button2 } from \\"extracted_5dzqko.css.ts\\";
+import { recipe as _recipe } from \\"@macaron-css/core\\";
+import { $$styled as _$$styled } from \\"@macaron-css/react/runtime\\";
+const Button = /* @__PURE__ */_$$styled(\\"button\\", _$macaron$$Button2);
+console.log(Button);"
+`;
+
 exports[`same binding in multiple declarations 1`] = `
 Array [
   "extracted_s8bnpw.css.ts",
@@ -512,4 +557,25 @@ const color = 'red';
 const foreground = _$macaron$$foreground2;
 const background = _$macaron$$background2;
 console.log(foreground, background);"
+`;
+
+exports[`solid styled components get converted to recipe 1`] = `
+Array [
+  "extracted_304vki.css.ts",
+  "import { recipe as _recipe } from \\"@macaron-css/core\\";
+export var _$macaron$$Button = _recipe({
+  base: {
+    color: 'red'
+  }
+});
+var _$macaron$$Button2 = _$macaron$$Button;",
+]
+`;
+
+exports[`solid styled components get converted to recipe 2`] = `
+"import { _$macaron$$Button as _$macaron$$Button2 } from \\"extracted_304vki.css.ts\\";
+import { recipe as _recipe } from \\"@macaron-css/core\\";
+import { $$styled as _$$styled } from \\"@macaron-css/solid/runtime\\";
+const Button = /* @__PURE__ */_$$styled(\\"button\\", _$macaron$$Button2);
+console.log(Button);"
 `;
