@@ -447,10 +447,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@macaron-css/babel@1.1.2", "@macaron-css/babel@^1.1.0":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@macaron-css/babel/-/babel-1.1.2.tgz#647e45d3be39d1335f19ea3e08bae1fcaddd14a6"
-  integrity sha512-ki1N8FoyeGYpV+t5dGFFzg7VTLskFs3HGyvhAyWxYjH4uKMnQQhvNLB0AMasagBRBCuuYCaDvZ3qbm2pbyIEwQ==
+"@macaron-css/babel@1.1.3", "@macaron-css/babel@^1.1.0":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@macaron-css/babel/-/babel-1.1.3.tgz#9367d16e95bbb0b4094b9e1db11040005574fa4e"
+  integrity sha512-KTmNqWcwe9Az9+sHrhX8ASOJpmXmEnUnsXkHImbLVTq93kn/33u751trUyi3oCktMs+P2GoQ2eI+qZVrSX+ZxA==
   dependencies:
     "@babel/core" "^7.18.2"
     "@babel/generator" "^7.18.2"
@@ -467,14 +467,14 @@
     "@vanilla-extract/css" "^1.7.1"
     "@vanilla-extract/recipes" "^0.2.5"
 
-"@macaron-css/integration@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@macaron-css/integration/-/integration-1.1.2.tgz#ddd692a36d9b1e897d6c11b356fbcb31030423c0"
-  integrity sha512-u5cQA9ZeBaANixNwslolnQpXRizB1dmP/zRkyNcTb+JK87LNERmh8x/hDbVe6giOWhkI725coLW6O9KdXQ1FRQ==
+"@macaron-css/integration@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@macaron-css/integration/-/integration-1.1.3.tgz#5ec429196772923c95e7647ab012d94d0b242dd7"
+  integrity sha512-2mINpiufJ9z8yn+F1Y/HJLA+mbSDMDK0tJLf9uek3uL0szbdvJyalK/J21vayfIDMXr5DvCDLjFS2V7TFOWloQ==
   dependencies:
     "@babel/core" "^7.18.2"
     "@babel/plugin-syntax-jsx" "^7.17.12"
-    "@macaron-css/babel" "1.1.2"
+    "@macaron-css/babel" "1.1.3"
     "@vanilla-extract/integration" "^6.0.0"
     esbuild "^0.14.42"
 
@@ -484,11 +484,11 @@
   integrity sha512-Iai/lkQlH6l13/CY/oQO8RrR6nGK8Lv0YReqGNiyEGB5I2GAUoSSjoJDu2iR9RymvhOgZZqaRln4SanSO76MXA==
 
 "@macaron-css/vite@^1.1.0":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@macaron-css/vite/-/vite-1.1.2.tgz#7f5183663de2fc92cd84ab02f78102620ef19f0f"
-  integrity sha512-byHr3s+1fJGshQrkesEjPu/tyU48+Cv1RgarlzvLVo/F1+u9UqSNbzwlrTl9wA3Cmo0509Q+pAIcE7lfn2tlZw==
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@macaron-css/vite/-/vite-1.1.3.tgz#a90c5e66279eb7cd8066acad8b95992258292f61"
+  integrity sha512-bnnHZSuY0dDqqmB24sc57TLFMGPTK8/PdSjG5WMJjKznsaDIyaEnK5lDKYvvN1Ay0o3VSVVC4mFvyfAY7wPiRw==
   dependencies:
-    "@macaron-css/integration" "1.1.2"
+    "@macaron-css/integration" "1.1.3"
     "@vanilla-extract/integration" "^6.0.0"
     "@vanilla-extract/vite-plugin" "^3.1.6"
 
