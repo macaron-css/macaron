@@ -397,32 +397,53 @@ console.log(red);"
 
 exports[`leading comments of \`styled\` get passed to recipe 1`] = `
 Array [
-  "extracted_bnplgn.css.ts",
+  "extracted_eopvgo.css.ts",
   "import { recipe as _recipe } from \\"@macaron-css/core\\";
-export var _$macaron$$Button = _recipe({
-  base: {
-    color: 'red'
-  }
+import { macaron$ } from '@macaron-css/core';
+import { $$styled as _$$styled } from \\"@macaron-css/solid/runtime\\";
+const fn = () => {
+  const Button =
+  /* @__PURE__ */
+  /* macaron-ignore */
+  _$$styled(\\"button\\", _recipe({
+    base: {
+      color: 'red'
+    }
+  }));
+  return Button;
+};
+export var _$macaron$$test = macaron$(() => {
+  console.log(fn());
+  return \\"test\\";
 });
-var _$macaron$$Button2 = _$macaron$$Button;",
+var _$macaron$$test2 = _$macaron$$test;",
 ]
 `;
 
 exports[`leading comments of \`styled\` get passed to recipe 2`] = `
-"import { _$macaron$$Button as _$macaron$$Button2 } from \\"extracted_bnplgn.css.ts\\";
+"import { _$macaron$$test as _$macaron$$test2 } from \\"extracted_eopvgo.css.ts\\";
 import { recipe as _recipe } from \\"@macaron-css/core\\";
 import { $$styled as _$$styled } from \\"@macaron-css/solid/runtime\\";
-const Button =
-/* macaron-ignore */
-/* @__PURE__ */
-_$$styled(\\"button\\", _$macaron$$Button2);
-console.log(Button);"
+import { macaron$ } from '@macaron-css/core';
+const fn = () => {
+  const Button =
+  /* @__PURE__ */
+  /* macaron-ignore */
+  _$$styled(\\"button\\", _recipe({
+    base: {
+      color: 'red'
+    }
+  }));
+  return Button;
+};
+const test = _$macaron$$test2;
+console.log(test);"
 `;
 
 exports[`macaron-ignore doesn't extract expression 1`] = `
 Array [
   "extracted_10ccc6g.css.ts",
-  "",
+  "import { style } from '@macaron-css/core';",
 ]
 `;
 

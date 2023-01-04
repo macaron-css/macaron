@@ -373,14 +373,22 @@ test('solid styled components get converted to recipe', () => {
   expect(code).toMatchSnapshot();
 });
 
-test.only('leading comments of `styled` get passed to recipe', () => {
+test('leading comments of `styled` get passed to recipe', () => {
   const { result, code } = babelTransform(`
     import { styled } from '@macaron-css/solid';
-    
-    const Button = /* macaron-ignore */ styled("button", {
-      base: { color: 'red' }
+    import {macaron$} from '@macaron-css/core';
+
+    const fn = () => {
+      const Button = /* macaron-ignore */ styled("button", {
+        base: { color: 'red' }
+      })
+      return Button;
+    }
+    const test = macaron$(() => {
+      console.log(fn())
+      return "test"
     })
-    console.log(Button)
+    console.log(test)
   `);
 
   expect(result).toMatchSnapshot();

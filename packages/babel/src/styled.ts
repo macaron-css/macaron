@@ -1,7 +1,7 @@
 import { types as t, type PluginObj } from '@babel/core';
-import type { PluginState } from './types';
+import type { PluginState, ProgramScope } from './types';
 import { registerImportMethod } from './utils';
-
+import * as generator from '@babel/generator';
 export function styledComponentsPlugin(): PluginObj<PluginState> {
   return {
     name: 'macaron-css-babel:styled',
@@ -27,11 +27,6 @@ export function styledComponentsPlugin(): PluginObj<PluginState> {
                 ? '@macaron-css/solid/runtime'
                 : '@macaron-css/react/runtime';
 
-              // invariant(
-              //   callPath.node.arguments.length === 2,
-              //   'Wrong arguments to `styled`'
-              // );
-
               const [tag, styles, ...args] = callPath.node.arguments;
               const styledIdent = registerImportMethod(
                 callPath,
@@ -47,23 +42,23 @@ export function styledComponentsPlugin(): PluginObj<PluginState> {
               const recipeCallExpression = t.callExpression(recipeIdent, [
                 t.cloneNode(styles),
               ]);
+              t.addComments(
+                recipeCallExpression,
+                'leading',
+                callPath.node.leadingComments ?? []
+              );
               const callExpression = t.callExpression(styledIdent, [
                 t.cloneNode(tag),
                 recipeCallExpression,
                 ...args,
               ]);
               t.addComment(callExpression, 'leading', ' @__PURE__ ');
-              t.addComments(
-                recipeCallExpression,
-                'leading',
-                callPath.node.leadingComments ?? []
-              );
 
               callPath.replaceWith(callExpression);
 
               // recompute the references
-              // later used in `referencesImports` to check if imported from vanilla-extract
-              callPath.scope.crawl();
+              // later used in `referencesImports` to check if imported from macaron
+              path.scope.crawl();
             },
           });
         },

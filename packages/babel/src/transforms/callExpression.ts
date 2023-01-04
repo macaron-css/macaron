@@ -5,6 +5,7 @@ import {
   getNearestIdentifier,
   registerImportMethod,
 } from '../utils';
+import * as generator from '@babel/generator';
 
 export function transformCallExpression(
   callPath: NodePath<t.CallExpression>,
@@ -19,14 +20,24 @@ export function transformCallExpression(
     return;
   }
 
+  const programParent = callPath.scope.getProgramParent() as ProgramScope;
+
   if (
     callPath.node.leadingComments?.some(
       comment => comment.value.trim() === 'macaron-ignore'
+    ) ||
+    callPath.parent?.leadingComments?.some(
+      comment => comment.value.trim() === 'macaron-ignore'
     )
-  )
-    return;
+  ) {
+    const bindings = getBindings(callPath);
+    for (const binding of bindings) {
+      programParent.macaronData.nodes.push(findRootBinding(binding).node);
+    }
 
-  const programParent = callPath.scope.getProgramParent() as ProgramScope;
+    return;
+  }
+
   const nearestIdentifier = getNearestIdentifier(callPath);
   const ident = nearestIdentifier
     ? programParent.generateUidIdentifier(
