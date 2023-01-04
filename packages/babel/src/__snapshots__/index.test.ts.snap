@@ -397,19 +397,22 @@ console.log(red);"
 
 exports[`leading comments of \`styled\` get passed to recipe 1`] = `
 Array [
-  "extracted_eopvgo.css.ts",
-  "import { recipe as _recipe } from \\"@macaron-css/core\\";
-import { macaron$ } from '@macaron-css/core';
+  "extracted_1aibn3u.css.ts",
+  "import { macaron$ } from '@macaron-css/core';
 import { $$styled as _$$styled } from \\"@macaron-css/solid/runtime\\";
+import { recipe as _recipe } from \\"@macaron-css/core\\";
 const fn = () => {
-  const Button =
-  /* @__PURE__ */
-  /* macaron-ignore */
-  _$$styled(\\"button\\", _recipe({
-    base: {
-      color: 'red'
-    }
-  }));
+  const arr = [1, 2];
+  for (const _ of arr) {
+    const Button =
+    /* @__PURE__ */
+    /* macaron-ignore */
+    _$$styled(\\"button\\", _recipe({
+      base: {
+        color: _
+      }
+    }));
+  }
   return Button;
 };
 export var _$macaron$$test = macaron$(() => {
@@ -421,19 +424,22 @@ var _$macaron$$test2 = _$macaron$$test;",
 `;
 
 exports[`leading comments of \`styled\` get passed to recipe 2`] = `
-"import { _$macaron$$test as _$macaron$$test2 } from \\"extracted_eopvgo.css.ts\\";
+"import { _$macaron$$test as _$macaron$$test2 } from \\"extracted_1aibn3u.css.ts\\";
 import { recipe as _recipe } from \\"@macaron-css/core\\";
 import { $$styled as _$$styled } from \\"@macaron-css/solid/runtime\\";
 import { macaron$ } from '@macaron-css/core';
 const fn = () => {
-  const Button =
-  /* @__PURE__ */
-  /* macaron-ignore */
-  _$$styled(\\"button\\", _recipe({
-    base: {
-      color: 'red'
-    }
-  }));
+  const arr = [1, 2];
+  for (const _ of arr) {
+    const Button =
+    /* @__PURE__ */
+    /* macaron-ignore */
+    _$$styled(\\"button\\", _recipe({
+      base: {
+        color: _
+      }
+    }));
+  }
   return Button;
 };
 const test = _$macaron$$test2;
@@ -443,7 +449,7 @@ console.log(test);"
 exports[`macaron-ignore doesn't extract expression 1`] = `
 Array [
   "extracted_10ccc6g.css.ts",
-  "import { style } from '@macaron-css/core';",
+  "",
 ]
 `;
 
@@ -453,6 +459,22 @@ const red = /* macaron-ignore */style({
   color: \\"red\\"
 });
 console.log(red);"
+`;
+
+exports[`macaron-ignore on parent node 1`] = `
+Array [
+  "extracted_d3cr0p.css.ts",
+  "",
+]
+`;
+
+exports[`macaron-ignore on parent node 2`] = `
+"import { globalStyle } from '@macaron-css/core';
+
+/* macaron-ignore */
+globalStyle(\\"html\\", {
+  color: 'red'
+});"
 `;
 
 exports[`move bindings along with extracted style 1`] = `

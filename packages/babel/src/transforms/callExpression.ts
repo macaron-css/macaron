@@ -30,7 +30,7 @@ export function transformCallExpression(
       comment => comment.value.trim() === 'macaron-ignore'
     )
   ) {
-    const bindings = getBindings(callPath);
+    const bindings = getBindings(callPath.get('callee'));
     for (const binding of bindings) {
       programParent.macaronData.nodes.push(findRootBinding(binding).node);
     }

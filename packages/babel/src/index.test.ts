@@ -379,9 +379,12 @@ test('leading comments of `styled` get passed to recipe', () => {
     import {macaron$} from '@macaron-css/core';
 
     const fn = () => {
-      const Button = /* macaron-ignore */ styled("button", {
-        base: { color: 'red' }
-      })
+      const arr = [1,2]
+      for (const _ of arr) {
+        const Button = /* macaron-ignore */ styled("button", {
+          base: { color: _ }
+        })
+      }
       return Button;
     }
     const test = macaron$(() => {
@@ -389,6 +392,17 @@ test('leading comments of `styled` get passed to recipe', () => {
       return "test"
     })
     console.log(test)
+  `);
+
+  expect(result).toMatchSnapshot();
+  expect(code).toMatchSnapshot();
+});
+
+test('macaron-ignore on parent node', () => {
+  const { result, code } = babelTransform(`
+    import { globalStyle } from '@macaron-css/core';
+
+    /* macaron-ignore */ globalStyle("html", { color: 'red' })
   `);
 
   expect(result).toMatchSnapshot();
