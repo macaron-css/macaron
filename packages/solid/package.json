@@ -22,12 +22,12 @@
     }
   },
   "devDependencies": {
-    "solid-js": "^1.4.3",
-    "@vanilla-extract/recipes": "^0.2.5"
+    "@vanilla-extract/recipes": "^0.2.5",
+    "solid-js": "^1.4.3"
   },
   "peerDependencies": {
-    "solid-js": "^1.4.3",
-    "@vanilla-extract/recipes": "^0.2.5"
+    "@vanilla-extract/recipes": "^0.2.5",
+    "solid-js": "^1.4.3"
   },
   "files": [
     "dist",
