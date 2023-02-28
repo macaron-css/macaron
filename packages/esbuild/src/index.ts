@@ -1,6 +1,5 @@
-import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import { processVanillaFile } from '@vanilla-extract/integration';
-import { Plugin } from 'esbuild';
+import { Plugin as EsbuildPlugin } from 'esbuild';
 import { dirname, join } from 'path';
 import { babelTransform, compile } from '@macaron-css/integration';
 
@@ -15,7 +14,7 @@ import { babelTransform, compile } from '@macaron-css/integration';
     -> process the file with vanilla-extract
     -> resolve with js loader
 */
-export function macaronEsbuildPlugin(): Plugin {
+export function macaronEsbuildPlugin(): EsbuildPlugin {
   return {
     name: 'macaron-css-esbuild',
     setup(build) {
@@ -121,5 +120,5 @@ export function macaronEsbuildPlugin(): Plugin {
 
 export const macaronEsbuildPlugins = () => [
   macaronEsbuildPlugin(),
-  vanillaExtractPlugin(),
+  require('@vanilla-extract/esbuild-plugin').vanillaExtractPlugin(),
 ];
