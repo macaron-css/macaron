@@ -10,6 +10,7 @@
     "url": "https://github.com/mokshit06/macaron.git",
     "directory": "packages/core"
   },
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
