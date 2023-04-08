@@ -21,10 +21,16 @@
       "types": "./dist/create-runtime-fn.d.ts",
       "import": "./dist/create-runtime-fn.mjs",
       "require": "./dist/create-runtime-fn.js"
+    },
+    "./dynamic": {
+      "types": "./dist/dynamic.d.ts",
+      "import": "./dist/dynamic.mjs",
+      "require": "./dist/dynamic.js"
     }
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.7.1",
+    "@vanilla-extract/dynamic": "^2.0.3",
     "@vanilla-extract/recipes": "^0.2.5"
   },
   "files": [
