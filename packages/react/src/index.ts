@@ -3,13 +3,12 @@ import {
   VariantGroups,
   VariantSelection,
 } from '@vanilla-extract/recipes/dist/declarations/src/types';
-import { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ComponentType } from 'react';
 
-type Component<TProps = {}> = (props: TProps) => ReactElement;
 type StyledComponent<
   TProps = {},
   Variants extends VariantGroups = {}
-> = Component<PropsWithChildren<TProps & { as?: string }>> & {
+> = ComponentType<PropsWithChildren<TProps & { as?: string }>> & {
   variants: Array<keyof Variants>;
   selector: (variants: VariantSelection<Variants>) => string;
 };
@@ -19,7 +18,7 @@ type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
   : any;
 
 export function styled<TProps, Variants extends VariantGroups = {}>(
-  component: Component<TProps>,
+  component: ComponentType<TProps>,
   options: PatternOptions<Variants>
 ): StyledComponent<TProps & VariantSelection<Variants>, Variants>;
 
@@ -35,7 +34,7 @@ export function styled<
   Variants
 >;
 
-export function styled(component: any, options: any): (props: any) => any {
+export function styled(component: any, options: any): any {
   // const runtimeFn = recipe(options);
 
   // return addFunctionSerializer($$styled(component, runtimeFn as any), {
