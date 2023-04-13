@@ -1,2 +1,2 @@
-export { babelTransform } from './babel';
+export { babelTransform, BabelOptions } from './babel';
 export { compile } from './compile';

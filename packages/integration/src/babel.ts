@@ -1,15 +1,25 @@
-import { transformFileAsync } from '@babel/core';
+import { TransformOptions, transformFileAsync } from '@babel/core';
 import {
   macaronBabelPlugin,
   PluginOptions,
   macaronStyledComponentsPlugin,
 } from '@macaron-css/babel';
 
-export async function babelTransform(path: string) {
+export type BabelOptions = Omit<TransformOptions, 'ast' | 'filename' | 'root' | 'sourceFileName' | 'sourceMaps' | 'inputSourceMap'>;
+
+export async function babelTransform(path: string, babel: BabelOptions = {}) {
   const options: PluginOptions = { result: ['', ''], path };
   const result = await transformFileAsync(path, {
-    plugins: [macaronStyledComponentsPlugin(), [macaronBabelPlugin(), options]],
-    presets: ['@babel/preset-typescript'],
+    ...babel,
+    plugins: [
+      ...(Array.isArray(babel.plugins) ? babel.plugins : []), 
+      macaronStyledComponentsPlugin(), 
+      [macaronBabelPlugin(), options]
+    ],
+    presets: [
+      ...(Array.isArray(babel.presets) ? babel.presets : []), 
+      '@babel/preset-typescript'
+    ],
     sourceMaps: false,
   });
 
