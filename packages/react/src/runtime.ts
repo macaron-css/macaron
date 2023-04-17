@@ -1,4 +1,4 @@
-import { useMemo, createElement } from 'react';
+import { useMemo, createElement, forwardRef, FC } from 'react';
 
 export function $$styled(
   Comp: any,
@@ -10,7 +10,7 @@ export function $$styled(
     };
   }
 ) {
-  function StyledComponent({ as, ...props }: any) {
+  const StyledComponent: any = forwardRef(({ as, ...props }: any, ref) => {
     let CompToRender = as ?? Comp;
     const [variants, others] = useMemo(() => {
       const [classes, others]: any[] = [{}, {}];
@@ -31,11 +31,11 @@ export function $$styled(
     }, [variants, props.className]);
 
     if (typeof CompToRender === 'string') {
-      return createElement(CompToRender, { ...others, className });
+      return createElement(CompToRender, { ...others, className, ref });
     }
 
-    return createElement(CompToRender, { ...props, className });
-  }
+    return createElement(CompToRender, { ...props, className, ref });
+  });
 
   StyledComponent.displayName = `Macaron(${Comp})`;
   StyledComponent.toString = () => StyledComponent.selector(null);
