@@ -1,12 +1,23 @@
-import { babelTransform, compile, BabelOptions } from '@macaron-css/integration';
+import {
+  babelTransform,
+  compile,
+  BabelOptions,
+} from '@macaron-css/integration';
 import { processVanillaFile } from '@vanilla-extract/integration';
 import fs from 'fs';
 import { join, resolve } from 'path';
-import { normalizePath, PluginOption, ResolvedConfig, ViteDevServer } from 'vite';
+import {
+  normalizePath,
+  PluginOption,
+  ResolvedConfig,
+  ViteDevServer,
+} from 'vite';
 
 const extractedCssFileFilter = /extracted_(.*)\.css\.ts(\?used)?$/;
 
-export function macaronVitePlugin(options?: { babel?: BabelOptions }): PluginOption {
+export function macaronVitePlugin(options?: {
+  babel?: BabelOptions;
+}): PluginOption {
   let config: ResolvedConfig;
   let server: ViteDevServer;
   const cssMap = new Map<string, string>();
@@ -219,6 +230,7 @@ export function macaronVitePlugin(options?: { babel?: BabelOptions }): PluginOpt
 
         return {
           code,
+          map: { mappings: '' },
         };
       }
 
