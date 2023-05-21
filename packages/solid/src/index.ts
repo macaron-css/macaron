@@ -12,9 +12,7 @@ type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
 type StyledComponent<
   TProps = {},
   Variants extends VariantGroups = {}
-> = ParentComponent<
-  TProps & VariantSelection<Variants> & { class?: string }
-> & {
+> = ParentComponent<TProps & { class?: string }> & {
   variants: Array<keyof Variants>;
   selector: (variants: VariantSelection<Variants>) => string;
 };
@@ -26,15 +24,15 @@ export function styled<
 >(
   component: TComponent,
   options: PatternOptions<Variants>
-): StyledComponent<IntrinsicProps<TComponent>, Variants>;
+): StyledComponent<
+  IntrinsicProps<TComponent> & VariantSelection<Variants>,
+  Variants
+>;
 
-export function styled<
-  TProps extends { class?: string },
-  Variants extends VariantGroups = {}
->(
+export function styled<TProps, Variants extends VariantGroups = {}>(
   component: Component<TProps>,
   options: PatternOptions<Variants>
-): StyledComponent<TProps, Variants>;
+): StyledComponent<TProps & VariantSelection<Variants>, Variants>;
 
 export function styled(component: any, options: any): (props: any) => any {
   // the following doesn't work because vanilla-extract's function serializer
