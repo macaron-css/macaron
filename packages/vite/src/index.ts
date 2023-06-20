@@ -31,10 +31,10 @@ export function macaronVitePlugin(options?: {
     name: 'macaron-css-vite',
     enforce: 'pre',
     buildStart() {
-      resolvers.clear();
-      idToPluginData.clear();
-      resolverCache.clear();
-      cssMap.clear();
+      // resolvers.clear();
+      // idToPluginData.clear();
+      // resolverCache.clear();
+      // cssMap.clear();
     },
     configureServer(_server) {
       server = _server;
