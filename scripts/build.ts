@@ -10,6 +10,7 @@ const packages: Array<[string, string[]]> = [
     'packages/core',
     ['src/index.ts', 'src/create-runtime-fn.ts', 'src/dynamic.ts'],
   ],
+  ['packages/qwik', ['src/index.ts', 'src/runtime.ts']],
   ['packages/react', ['src/index.ts', 'src/runtime.ts']],
   ['packages/solid', ['src/index.ts', 'src/runtime.ts']],
 ];

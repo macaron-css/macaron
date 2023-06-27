@@ -15,7 +15,7 @@ CSS-in-JS with <strong>zero runtime</strong>, <strong>type safety</strong> and <
 - First class Typescript support.
 - Supports both styled-components API and vanilla styling API.
 - [Stitches](https://stitches.dev/)-like variants API.
-- Out of box support for React and Solid.
+- Out of box support for React, Solid and Qwik.
 - Integrations for [esbuild](https://esbuild.github.io/) and [Vite](https://vitejs.dev/).
 
 ## Documentation

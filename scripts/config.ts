@@ -14,6 +14,11 @@ export const packages: Package[] = [
     srcDir: 'src',
   },
   {
+    name: '@macaron-css/qwik',
+    packageDir: 'qwik',
+    srcDir: 'src',
+  },
+  {
     name: '@macaron-css/solid',
     packageDir: 'solid',
     srcDir: 'src',

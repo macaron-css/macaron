@@ -13,6 +13,7 @@
       "./packages/vite",
       "./packages/solid",
       "./packages/react",
+      "./packages/qwik",
       "./packages/integration",
       "./packages/esbuild",
       "./packages/core",

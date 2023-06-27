@@ -1,0 +1,36 @@
+{
+  "name": "@macaron-css/qwik",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mokshit06/macaron.git",
+    "directory": "packages/qwik"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./runtime": {
+      "import": "./dist/runtime.mjs",
+      "require": "./dist/runtime.js"
+    }
+  },
+  "devDependencies": {
+    "@builder.io/qwik": "^1.1.5",
+    "@vanilla-extract/recipes": "^0.2.5"
+  },
+  "peerDependencies": {
+    "@builder.io/qwik": "^1.1.5",
+    "@vanilla-extract/recipes": "^0.2.5"
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
+}
