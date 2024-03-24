@@ -8,10 +8,10 @@
     "start": "npx serve ."
   },
   "dependencies": {
-    "@macaron-css/esbuild": "1.1.4",
-    "@macaron-css/solid": "1.4.1",
+    "@macaron-css/esbuild": "1.5.1",
+    "@macaron-css/solid": "1.5.1",
     "babel-preset-solid": "^1.4.2",
-    "@macaron-css/core": "1.2.0",
+    "@macaron-css/core": "1.5.1",
     "esbuild": "^0.14.42",
     "solid-js": "^1.4.3"
   }

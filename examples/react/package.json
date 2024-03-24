@@ -10,9 +10,9 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@macaron-css/core": "1.2.0",
-    "@macaron-css/vite": "1.4.3",
-    "@macaron-css/react": "1.4.0"
+    "@macaron-css/core": "1.5.1",
+    "@macaron-css/vite": "1.5.1",
+    "@macaron-css/react": "1.5.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
