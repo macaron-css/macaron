@@ -53,10 +53,11 @@ const colorVar = createVar();
 function MyButton(props) {
   return (
     <button
-      className={style({ color: colorVar, border: 'none' })}
-      style={{
-        [colorVar]: props.color,
-      }}
+      class={style({
+        vars: { [colorVar]: props.color },
+        color: colorVar,
+        border: 'none'
+      })}
     >
       Click me
     </button>
