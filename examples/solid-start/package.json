@@ -19,8 +19,8 @@
     "solid-js": "^1.6.0",
     "solid-start": "^0.2.0",
     "undici": "^5.11.0",
-    "@macaron-css/core": "1.5.1",
-    "@macaron-css/solid": "1.5.1"
+    "@macaron-css/core": "1.5.2",
+    "@macaron-css/solid": "1.5.2"
   },
   "engines": {
     "node": ">=16"
