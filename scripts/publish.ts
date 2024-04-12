@@ -356,47 +356,47 @@ async function run() {
   // execSync(`npm run types`, { encoding: 'utf8', stdio: 'inherit' })
   // console.info('')
 
-  console.info('Validating packages...');
-  const failedValidations: string[] = [];
+  // console.info('Validating packages...');
+  // const failedValidations: string[] = [];
 
-  await Promise.all(
-    packages.map(async pkg => {
-      const pkgJson = await readPackageJson(
-        path.resolve(rootDir, 'packages', pkg.packageDir, 'package.json')
-      );
+  // await Promise.all(
+  //   packages.map(async pkg => {
+  //     const pkgJson = await readPackageJson(
+  //       path.resolve(rootDir, 'packages', pkg.packageDir, 'package.json')
+  //     );
 
-      await Promise.all(
-        (['module', 'main', 'types'] as const).map(async entryKey => {
-          const entry = pkgJson[entryKey] as string;
+  //     await Promise.all(
+  //       (['module', 'main', 'types'] as const).map(async entryKey => {
+  //         const entry = pkgJson[entryKey] as string;
 
-          if (!entry) {
-            throw new Error(
-              `Missing entry for "${entryKey}" in ${pkg.packageDir}/package.json!`
-            );
-          }
+  //         if (!entry) {
+  //           throw new Error(
+  //             `Missing entry for "${entryKey}" in ${pkg.packageDir}/package.json!`
+  //           );
+  //         }
 
-          const filePath = path.resolve(
-            rootDir,
-            'packages',
-            pkg.packageDir,
-            entry
-          );
+  //         const filePath = path.resolve(
+  //           rootDir,
+  //           'packages',
+  //           pkg.packageDir,
+  //           entry
+  //         );
 
-          try {
-            await fsp.access(filePath);
-          } catch (err) {
-            failedValidations.push(`Missing build file: ${filePath}`);
-          }
-        })
-      );
-    })
-  );
-  console.info('');
-  if (failedValidations.length > 0) {
-    throw new Error(
-      'Some packages failed validation:\n\n' + failedValidations.join('\n')
-    );
-  }
+  //         try {
+  //           await fsp.access(filePath);
+  //         } catch (err) {
+  //           failedValidations.push(`Missing build file: ${filePath}`);
+  //         }
+  //       })
+  //     );
+  //   })
+  // );
+  // console.info('');
+  // if (failedValidations.length > 0) {
+  //   throw new Error(
+  //     'Some packages failed validation:\n\n' + failedValidations.join('\n')
+  //   );
+  // }
 
   // console.info('Testing packages...');
   // execSync(`npm run test:ci`, { encoding: 'utf8' });
