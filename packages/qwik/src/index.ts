@@ -1,8 +1,8 @@
-import {
+import type {
   PatternOptions,
   VariantGroups,
   VariantSelection,
-} from '@vanilla-extract/recipes/dist/declarations/src/types';
+} from '@macaron-css/core/types';
 import {
   Component,
   JSXChildren,

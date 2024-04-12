@@ -26,6 +26,11 @@
       "types": "./dist/dynamic.d.ts",
       "import": "./dist/dynamic.mjs",
       "require": "./dist/dynamic.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.mjs",
+      "require": "./dist/types.js"
     }
   },
   "dependencies": {

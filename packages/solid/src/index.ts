@@ -1,9 +1,10 @@
+import { Component, JSX, ParentComponent } from 'solid-js';
 import {
   PatternOptions,
   VariantGroups,
   VariantSelection,
-} from '@vanilla-extract/recipes/dist/declarations/src/types';
-import { Component, JSX, ParentComponent } from 'solid-js';
+  RuntimeFn,
+} from '@macaron-css/core/types';
 
 type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements
   ? JSX.IntrinsicElements[TComponent]
@@ -14,12 +15,12 @@ type StyledComponent<
   Variants extends VariantGroups = {}
 > = ParentComponent<TProps & { class?: string }> & {
   variants: Array<keyof Variants>;
-  selector: (variants: VariantSelection<Variants>) => string;
+  selector: RuntimeFn<Variants>;
 };
 
 export function styled<
   TProps,
-  TComponent extends string | keyof JSX.IntrinsicElements,
+  TComponent extends keyof JSX.IntrinsicElements | string,
   Variants extends VariantGroups = {}
 >(
   component: TComponent,

@@ -21,7 +21,9 @@
       "require": "./dist/runtime.js"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "@macaron-css/core": "1.5.1"
+  },
   "files": [
     "dist",
     "src"
