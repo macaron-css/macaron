@@ -1,9 +1,9 @@
-import {
+import type {
   PatternResult,
   RuntimeFn,
   VariantGroups,
   VariantSelection,
-} from '@vanilla-extract/recipes/dist/declarations/src/types';
+} from './types';
 
 const shouldApplyCompound = <Variants extends VariantGroups>(
   compoundCheck: VariantSelection<Variants>,

@@ -1,16 +1,17 @@
+import { PropsWithChildren, ComponentType } from 'react';
 import {
   PatternOptions,
+  RuntimeFn,
   VariantGroups,
   VariantSelection,
-} from '@vanilla-extract/recipes/dist/declarations/src/types';
-import { PropsWithChildren, ComponentType } from 'react';
+} from '@macaron-css/core/types';
 
 type StyledComponent<
   TProps = {},
   Variants extends VariantGroups = {}
 > = ComponentType<PropsWithChildren<TProps & { as?: string }>> & {
   variants: Array<keyof Variants>;
-  selector: (variants: VariantSelection<Variants>) => string;
+  selector: RuntimeFn<Variants>;
 };
 
 type IntrinsicProps<TComponent> = TComponent extends keyof JSX.IntrinsicElements

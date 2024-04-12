@@ -10,11 +10,11 @@ import { createRuntimeFn } from './create-runtime-fn';
 import type {
   PatternOptions,
   PatternResult,
+  RecipeVariants,
   RuntimeFn,
   VariantGroups,
   VariantSelection,
-  RecipeVariants,
-} from '@vanilla-extract/recipes/dist/declarations/src/types';
+} from './types';
 
 export type { RecipeVariants };
 
