@@ -1,6 +1,6 @@
 {
   "name": "@macaron-css/react",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
