@@ -22,7 +22,7 @@
     }
   },
   "dependencies": {
-    "@macaron-css/core": "1.5.1"
+    "@macaron-css/core": "1.5.2"
   },
   "files": [
     "dist",
