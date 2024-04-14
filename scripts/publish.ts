@@ -168,6 +168,10 @@ async function run() {
 
   const changedPackages = RELEASE_ALL
     ? packages
+    : process.env.RELEASE_PACKAGES
+    ? packages.filter(p =>
+        (process.env.RELEASE_PACKAGES as string).split(',').includes(p.name)
+      )
     : changedFiles.reduce((changedPackages, file) => {
         const pkg = packages.find(p =>
           file.startsWith(path.join('packages', p.packageDir, p.srcDir))
