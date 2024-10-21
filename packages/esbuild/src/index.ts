@@ -98,9 +98,8 @@ export function macaronEsbuildPlugin({
 
       build.onLoad({ filter: /\.(j|t)sx?$/ }, async args => {
         if (args.path.includes('node_modules')) {
-          if(includeNodeModulesPattern && !includeNodeModulesPattern.test(args.path)) {
-            return;
-          }
+          if(!includeNodeModulesPattern) return;
+          if(!includeNodeModulesPattern.test(args.path)) return;
         };
 
         // gets handled by @vanilla-extract/esbuild-plugin
