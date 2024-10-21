@@ -14,9 +14,14 @@ import { babelTransform, compile } from '@macaron-css/integration';
     -> process the file with vanilla-extract
     -> resolve with js loader
 */
+
+interface MacaronEsbuildPluginOptions {
+  includeNodeModulesPattern?: RegExp;
+}
+
 export function macaronEsbuildPlugin({
-  includeNodeModules = false,
-} = {}): EsbuildPlugin {
+  includeNodeModulesPattern,
+}: MacaronEsbuildPluginOptions = {}): EsbuildPlugin {
   return {
     name: 'macaron-css-esbuild',
     setup(build) {
@@ -92,7 +97,11 @@ export function macaronEsbuildPlugin({
       );
 
       build.onLoad({ filter: /\.(j|t)sx?$/ }, async args => {
-        if (!includeNodeModules && args.path.includes('node_modules')) return;
+        if (args.path.includes('node_modules')) {
+          if(includeNodeModulesPattern && !includeNodeModulesPattern.test(args.path)) {
+            return;
+          }
+        };
 
         // gets handled by @vanilla-extract/esbuild-plugin
         if (args.path.endsWith('.css.ts')) return;
