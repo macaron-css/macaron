@@ -128,7 +128,7 @@ export function macaronEsbuildPlugin({
   };
 }
 
-export const macaronEsbuildPlugins = () => [
-  macaronEsbuildPlugin(),
+export const macaronEsbuildPlugins = (options: MacaronEsbuildPluginOptions = {}) => [
+  macaronEsbuildPlugin(options),
   require('@vanilla-extract/esbuild-plugin').vanillaExtractPlugin(),
 ];
