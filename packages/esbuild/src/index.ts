@@ -108,7 +108,9 @@ export function macaronEsbuildPlugin({
         const {
           code,
           result: [file, cssExtract],
-        } = await babelTransform(args.path);
+        } = await babelTransform(args.path, {
+          sourceMaps: build.initialOptions.sourcemap ? "inline" : false,
+        });
 
         // the extracted code and original are the same -> no css extracted
         if (file && cssExtract && cssExtract !== code) {

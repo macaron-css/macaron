@@ -5,7 +5,7 @@ import {
   macaronStyledComponentsPlugin,
 } from '@macaron-css/babel';
 
-export type BabelOptions = Omit<TransformOptions, 'ast' | 'filename' | 'root' | 'sourceFileName' | 'sourceMaps' | 'inputSourceMap'>;
+export type BabelOptions = Omit<TransformOptions, 'ast' | 'filename' | 'root' | 'sourceFileName' | 'inputSourceMap'>;
 
 export async function babelTransform(path: string, babel: BabelOptions = {}) {
   const options: PluginOptions = { result: ['', ''], path };
@@ -20,7 +20,6 @@ export async function babelTransform(path: string, babel: BabelOptions = {}) {
       ...(Array.isArray(babel.presets) ? babel.presets : []), 
       '@babel/preset-typescript'
     ],
-    sourceMaps: false,
   });
 
   if (result === null || result.code === null)
