@@ -18,6 +18,15 @@ CSS-in-JS with <strong>zero runtime</strong>, <strong>type safety</strong> and <
 - Out of box support for React, Solid and Qwik.
 - Integrations for [esbuild](https://esbuild.github.io/) and [Vite](https://vitejs.dev/).
 
+## Framework support
+
+Macaron currently supports two bundlers:
+
+- [Vite](https://vitejs.dev/)
+- [esbuild](https://esbuild.github.io/)
+
+See the [installation docs](https://macaron.js.org/docs/installation/) for setup instructions.
+
 ## Documentation
 
 For full documentation, visit [https://macaron.js.org](https://macaron.js.org)
